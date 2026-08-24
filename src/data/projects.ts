@@ -1,3 +1,18 @@
+export interface GalleryItem {
+  /** Resolves to `${project.id}-{variant|action}-{key}[-mobile].gif` in src/assets/screenshots. */
+  key: string;
+  label: string;
+}
+
+export interface ProjectGallery {
+  /** Auto-rotating ambient stills — e.g. the same screen across castings/themes. */
+  variants: GalleryItem[];
+  /** Click-to-play action clips shown on desktop. */
+  actions: GalleryItem[];
+  /** Overrides `actions` on narrow viewports, if the mobile capture set differs. */
+  mobileActions?: GalleryItem[];
+}
+
 export interface Project {
   id: string;
   num: string;
@@ -11,6 +26,7 @@ export interface Project {
   tags: string[];
   learned: string;
   shots: string[];
+  gallery?: ProjectGallery;
 }
 
 export const PROJECTS: Project[] = [
@@ -59,6 +75,25 @@ export const PROJECTS: Project[] = [
       'detail — a single casting',
       'shelf — my collection',
     ],
+    gallery: {
+      variants: [
+        { key: 'cruz-light', label: 'Cruz Ramirez — light' },
+        { key: 'cruz-dark', label: 'Cruz Ramirez — dark' },
+        { key: 'dinoco-light', label: 'Dinoco — light' },
+        { key: 'dinoco-dark', label: 'Dinoco — dark' },
+        { key: 'mcqueen-light', label: 'Lightning McQueen — light' },
+        { key: 'mcqueen-dark', label: 'Lightning McQueen — dark' },
+      ],
+      actions: [
+        { key: 'search-filter-sort', label: 'Search, filter, sort' },
+        { key: 'wishlist-toggle', label: 'Own / want toggle' },
+        { key: 'theme-switching', label: 'Theme switching' },
+      ],
+      mobileActions: [
+        { key: 'wishlist-toggle', label: 'Own / want toggle' },
+        { key: 'theme-switching', label: 'Theme switching' },
+      ],
+    },
   },
   {
     id: 'ag',

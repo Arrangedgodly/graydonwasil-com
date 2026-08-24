@@ -1,10 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FILTERS, PROJECTS } from '../data/projects';
+import { FILTERS, PROJECTS, type Project } from '../data/projects';
 import { Shot } from '../components/Shot';
+import { useIsMobile } from '../lib/useIsMobile';
+
+function cardThumb(p: Project, isMobile: boolean) {
+  const first = p.gallery?.variants[0];
+  if (first) {
+    return {
+      imageKey: `${p.id}-variant-${first.key}${isMobile ? '-mobile' : ''}`,
+      label: first.label,
+      alt: first.label,
+    };
+  }
+  return { imageKey: `${p.id}-1`, label: p.shots[0].split(' — ')[0], alt: p.shots[0] };
+}
 
 export function Work() {
   const [filter, setFilter] = useState('All');
+  const isMobile = useIsMobile();
   const visible = PROJECTS.filter((p) => filter === 'All' || p.tags.includes(filter));
 
   const resultNote =
@@ -43,9 +57,10 @@ export function Work() {
       <div className="grid3">
         {PROJECTS.map((p) => {
           const shown = visible.includes(p);
+          const thumb = cardThumb(p, isMobile);
           return (
             <Link key={p.id} to={`/work/${p.id}`} className="pcard" style={{ opacity: shown ? 1 : 0.3 }}>
-              <Shot imageKey={`${p.id}-1`} label={p.shots[0].split(' — ')[0]} alt={p.shots[0]} style={{ borderBottom: '1px solid var(--color-divider)' }} />
+              <Shot imageKey={thumb.imageKey} label={thumb.label} alt={thumb.alt} style={{ borderBottom: '1px solid var(--color-divider)' }} />
               <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: 10, flex: 'none' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <span className="mono" style={{ color: 'var(--color-accent-700)' }}>{p.num}</span>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
 import { Shot } from '../components/Shot';
+import { ProjectGallery } from '../components/ProjectGallery';
 import { useStep } from '../lib/useStep';
 
 export function ProjectDetail() {
@@ -17,24 +18,28 @@ export function ProjectDetail() {
   return (
     <section className="pane">
       <div className="dsplit">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minHeight: 0 }}>
-          <div className="duotone detailshot" style={{ border: '1px solid var(--color-divider)' }}>
-            <Shot imageKey={`${project.id}-${shot + 1}`} label={project.shots[shot]} style={{ height: '100%' }} />
+        {project.gallery ? (
+          <ProjectGallery key={project.id} project={project} />
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minHeight: 0 }}>
+            <div className="duotone detailshot" style={{ border: '1px solid var(--color-divider)' }}>
+              <Shot imageKey={`${project.id}-${shot + 1}`} label={project.shots[shot]} style={{ height: '100%' }} />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: 10, flex: 'none' }}>
+              {project.shots.map((s, i) => (
+                <button
+                  key={s}
+                  type="button"
+                  className="thumb"
+                  onClick={() => setShot(i)}
+                  style={{ borderColor: i === shot ? 'var(--color-accent)' : 'var(--color-divider)' }}
+                >
+                  <Shot imageKey={`${project.id}-${i + 1}`} label={s.split(' — ')[0]} alt={s} style={{ aspectRatio: '16/9' }} />
+                </button>
+              ))}
+            </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, flex: 'none' }}>
-            {project.shots.map((s, i) => (
-              <button
-                key={s}
-                type="button"
-                className="thumb"
-                onClick={() => setShot(i)}
-                style={{ borderColor: i === shot ? 'var(--color-accent)' : 'var(--color-divider)' }}
-              >
-                <Shot imageKey={`${project.id}-${i + 1}`} label={s.split(' — ')[0]} alt={s} style={{ aspectRatio: '16/9' }} />
-              </button>
-            ))}
-          </div>
-        </div>
+        )}
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(7px,1.3vh,14px)', minHeight: 0 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
