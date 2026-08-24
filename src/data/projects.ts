@@ -52,6 +52,21 @@ export const PROJECTS: Project[] = [
       'playback — teleprompter running',
       'rhyme panel — live API results',
     ],
+    gallery: {
+      variants: [
+        { key: 'pastel', label: 'Pastel' },
+        { key: 'retro', label: 'Retro' },
+        { key: 'winter', label: 'Winter' },
+        { key: 'forest', label: 'Forest' },
+        { key: 'corporate', label: 'Corporate' },
+        { key: 'business', label: 'Business' },
+      ],
+      actions: [
+        { key: 'rhyme-suggestions', label: 'Live rhyme suggestions' },
+        { key: 'theme-switching', label: 'Theme switching' },
+        { key: 'sync-playback', label: 'Sync + teleprompter playback' },
+      ],
+    },
   },
   {
     id: 'cars',
@@ -117,6 +132,21 @@ export const PROJECTS: Project[] = [
       'devices — Max for Live downloads',
       'magic gunden — title screen',
     ],
+    gallery: {
+      variants: [
+        { key: 'home-light', label: 'Home — light' },
+        { key: 'home-dark', label: 'Home — dark' },
+        { key: 'max-light', label: 'Max for Live — light' },
+        { key: 'max-dark', label: 'Max for Live — dark' },
+        { key: 'gunden-light', label: 'Magic Gunden — light' },
+        { key: 'gunden-dark', label: 'Magic Gunden — dark' },
+      ],
+      actions: [
+        { key: 'album-browse', label: 'Browsing the album shelf' },
+        { key: 'devices-scroll', label: 'Max for Live device cards' },
+        { key: 'game-launch', label: 'Launching Magic Gunden' },
+      ],
+    },
   },
 ];
 
