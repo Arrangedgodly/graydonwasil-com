@@ -1,4 +1,4 @@
-import { Placeholder } from '../components/Placeholder';
+import { Shot } from '../components/Shot';
 
 const CURRENTLY = [
   'Improving Rhymepage',
@@ -13,7 +13,7 @@ export function About() {
       <div className="split">
         <figure className="blueprint duotone" style={{ margin: 0, height: '100%', minHeight: 0 }}>
           <i className="corner tl" /><i className="corner tr" /><i className="corner bl" /><i className="corner br" />
-          <Placeholder label={'photo — graydon\ndrop an image here'} style={{ height: '100%', minHeight: 220 }} />
+          <Shot imageKey="about" label={'photo — graydon\ndrop an image here'} alt="Graydon Wasil" style={{ height: '100%', minHeight: 220 }} />
         </figure>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1.4vh,16px)' }}>
           <h2 className="disp" style={{ fontSize: 'clamp(21px,min(3.2vw,4.8vh),42px)' }}>

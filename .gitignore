@@ -15,6 +15,9 @@ dist-ssr
 .env.*
 !.env.example
 
+# Claude Code session state, not project config
+.claude/*.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

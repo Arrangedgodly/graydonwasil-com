@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
-import { Placeholder } from '../components/Placeholder';
+import { Shot } from '../components/Shot';
 import { useStep } from '../lib/useStep';
 
 export function ProjectDetail() {
@@ -19,7 +19,7 @@ export function ProjectDetail() {
       <div className="dsplit">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minHeight: 0 }}>
           <div className="duotone detailshot" style={{ border: '1px solid var(--color-divider)' }}>
-            <Placeholder label={project.shots[shot]} style={{ height: '100%' }} />
+            <Shot imageKey={`${project.id}-${shot + 1}`} label={project.shots[shot]} style={{ height: '100%' }} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, flex: 'none' }}>
             {project.shots.map((s, i) => (
@@ -30,7 +30,7 @@ export function ProjectDetail() {
                 onClick={() => setShot(i)}
                 style={{ borderColor: i === shot ? 'var(--color-accent)' : 'var(--color-divider)' }}
               >
-                <Placeholder label={s.split(' — ')[0]} style={{ aspectRatio: '16/9' }} />
+                <Shot imageKey={`${project.id}-${i + 1}`} label={s.split(' — ')[0]} alt={s} style={{ aspectRatio: '16/9' }} />
               </button>
             ))}
           </div>

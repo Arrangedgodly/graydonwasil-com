@@ -18,8 +18,12 @@ npm run dev
   Cars DB, Arranged Godly). Add a project here and it appears in Work, gets a
   detail route, and is included in the filters automatically.
 - `src/components/Placeholder.tsx` — the diagonal-hatch `.ph` block standing
-  in for real screenshots. Swap these for `<img>` tags once photography exists
-  for the three projects and the About section.
+  in for a screenshot that doesn't exist yet.
+- `src/components/Shot.tsx` — renders a real photo when one exists at the
+  matching key, falling back to `Placeholder` otherwise. See
+  `src/assets/screenshots/README.md` for the file-naming convention — drop a
+  correctly-named image in that folder and it appears on the next build, no
+  code changes needed.
 - `src/pages/` — one file per route (`Intro`, `Work`, `ProjectDetail`,
   `Toolkit`, `About`, `Contact`).
 - `src/components/Shell.tsx` — the rail/header/footer chrome and the
@@ -51,7 +55,7 @@ environment variables before deploying.
 
 ## Not done yet
 
-- Real screenshots for the three projects and a photo for About — the site
-  ships with placeholders until those exist.
+- Real screenshots for the three projects and a photo for About — see
+  `src/assets/screenshots/README.md`.
 - Open Graph / Twitter card images (currently text-only cards).
 - `robots.txt` / sitemap.

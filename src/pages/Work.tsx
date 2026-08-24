@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FILTERS, PROJECTS } from '../data/projects';
-import { Placeholder } from '../components/Placeholder';
+import { Shot } from '../components/Shot';
 
 export function Work() {
   const [filter, setFilter] = useState('All');
@@ -45,7 +45,7 @@ export function Work() {
           const shown = visible.includes(p);
           return (
             <Link key={p.id} to={`/work/${p.id}`} className="pcard" style={{ opacity: shown ? 1 : 0.3 }}>
-              <Placeholder label={p.shots[0].split(' — ')[0]} style={{ borderBottom: '1px solid var(--color-divider)' }} />
+              <Shot imageKey={`${p.id}-1`} label={p.shots[0].split(' — ')[0]} alt={p.shots[0]} style={{ borderBottom: '1px solid var(--color-divider)' }} />
               <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: 10, flex: 'none' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <span className="mono" style={{ color: 'var(--color-accent-700)' }}>{p.num}</span>
