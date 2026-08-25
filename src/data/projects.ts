@@ -1,16 +1,10 @@
-export interface GalleryItem {
-  /** Resolves to `${project.id}-{variant|action}-{key}[-mobile].gif` in src/assets/screenshots. */
-  key: string;
+/** A slot in a project's gallery. `key` is the capture slot — it becomes part
+ *  of the filename as `{project.id}-{key}-{light|dark}[-mobile]`, so it has to
+ *  match what the shot list asks for. `hero` does double duty: it is the image
+ *  on the home page exhibit and the one that opens into this detail page. */
+export interface ProjectShot {
+  key: 'hero' | 'shot-2' | 'shot-3';
   label: string;
-}
-
-export interface ProjectGallery {
-  /** Auto-rotating ambient stills — e.g. the same screen across castings/themes. */
-  variants: GalleryItem[];
-  /** Click-to-play action clips shown on desktop. */
-  actions: GalleryItem[];
-  /** Overrides `actions` on narrow viewports, if the mobile capture set differs. */
-  mobileActions?: GalleryItem[];
 }
 
 export interface Project {
@@ -25,8 +19,7 @@ export interface Project {
   stack: string[];
   tags: string[];
   learned: string;
-  shots: string[];
-  gallery?: ProjectGallery;
+  shots: ProjectShot[];
 }
 
 export const PROJECTS: Project[] = [
@@ -36,8 +29,9 @@ export const PROJECTS: Project[] = [
     title: 'Rhymepage',
     url: 'rhymepage.com',
     year: '2025',
-    tagline: "Write the verse, sync it to the track, run it back as a teleprompter.",
-    blurb: "A lyric-writing app that knows what time it is. Draft the verse, mark each line against the audio, then hit play and watch it scroll in time — the way it will actually be performed. Rhyme, near-rhyme and syllable tooling comes from a live API underneath the editor.",
+    tagline: 'Write the verse, sync it to the track, run it back as a teleprompter.',
+    blurb:
+      "A lyric-writing app that knows what time it is. Draft the verse, mark each line against the audio, then hit play and watch it scroll in time — the way it will actually be performed. Rhyme, near-rhyme and syllable tooling comes from a live API underneath the editor.",
     bullets: [
       'Line-level time sync against the track',
       'Teleprompter playback that follows the beat',
@@ -48,25 +42,10 @@ export const PROJECTS: Project[] = [
     tags: ['Web app', 'Audio'],
     learned: 'Timing is a data problem long before it is an audio problem.',
     shots: [
-      'editor — lyric sheet with sync marks',
-      'playback — teleprompter running',
-      'rhyme panel — live API results',
+      { key: 'hero', label: 'The write screen' },
+      { key: 'shot-2', label: 'Teleprompter playback' },
+      { key: 'shot-3', label: 'Sync marks against the track' },
     ],
-    gallery: {
-      variants: [
-        { key: 'pastel', label: 'Pastel' },
-        { key: 'retro', label: 'Retro' },
-        { key: 'winter', label: 'Winter' },
-        { key: 'forest', label: 'Forest' },
-        { key: 'corporate', label: 'Corporate' },
-        { key: 'business', label: 'Business' },
-      ],
-      actions: [
-        { key: 'rhyme-suggestions', label: 'Live rhyme suggestions' },
-        { key: 'theme-switching', label: 'Theme switching' },
-        { key: 'sync-playback', label: 'Sync + teleprompter playback' },
-      ],
-    },
   },
   {
     id: 'collectible-cars',
@@ -75,7 +54,8 @@ export const PROJECTS: Project[] = [
     url: 'cars.arrangedgodly.com',
     year: '2026',
     tagline: 'Every Mattel Pixar Cars casting in one place: own it, want it, rate it.',
-    blurb: "A database for the Mattel Pixar Cars line, built because a collection had outgrown a notes app. Catalog what you own, build a wishlist you can actually shop from, rate castings, and see the whole run laid out — including the holes in it.",
+    blurb:
+      "A database for the Mattel Pixar Cars line, built because a collection had outgrown a notes app. Catalog what you own, build a wishlist you can actually shop from, rate castings, and see the whole run laid out — including the holes in it.",
     bullets: [
       'Full casting catalog with search and filters',
       'Own / want / rated state on every casting',
@@ -86,29 +66,10 @@ export const PROJECTS: Project[] = [
     tags: ['Web app', 'Data'],
     learned: 'Collectors are power users. Give them real filters or they leave.',
     shots: [
-      'catalog — grid with own/want state',
-      'detail — a single casting',
-      'shelf — my collection',
+      { key: 'hero', label: 'The catalog' },
+      { key: 'shot-2', label: 'A single casting' },
+      { key: 'shot-3', label: 'My shelf' },
     ],
-    gallery: {
-      variants: [
-        { key: 'cruz-light', label: 'Cruz Ramirez — light' },
-        { key: 'cruz-dark', label: 'Cruz Ramirez — dark' },
-        { key: 'dinoco-light', label: 'Dinoco — light' },
-        { key: 'dinoco-dark', label: 'Dinoco — dark' },
-        { key: 'mcqueen-light', label: 'Lightning McQueen — light' },
-        { key: 'mcqueen-dark', label: 'Lightning McQueen — dark' },
-      ],
-      actions: [
-        { key: 'search-filter-sort', label: 'Search, filter, sort' },
-        { key: 'wishlist-toggle', label: 'Own / want toggle' },
-        { key: 'theme-switching', label: 'Theme switching' },
-      ],
-      mobileActions: [
-        { key: 'wishlist-toggle', label: 'Own / want toggle' },
-        { key: 'theme-switching', label: 'Theme switching' },
-      ],
-    },
   },
   {
     id: 'arranged-godly',
@@ -117,7 +78,8 @@ export const PROJECTS: Project[] = [
     url: 'arrangedgodly.com',
     year: 'ongoing',
     tagline: 'Music, the Max for Live devices I wrote for myself, and my first finished game.',
-    blurb: "The home shelf. Original music, the Max for Live devices I built because my own sessions needed them, and Magic Gunden — the first video game I ever finished, playable right there in the page. One site holding three very different kinds of thing without apologising for it.",
+    blurb:
+      "The home shelf. Original music, the Max for Live devices I built because my own sessions needed them, and Magic Gunden — the first video game I ever finished, playable right there in the page. One site holding three very different kinds of thing without apologising for it.",
     bullets: [
       'Music releases with in-page players',
       'Max for Live devices, free to download',
@@ -128,26 +90,9 @@ export const PROJECTS: Project[] = [
     tags: ['Audio', 'Games'],
     learned: 'A personal site is allowed to be more than one thing.',
     shots: [
-      'home — the shelf',
-      'devices — Max for Live downloads',
-      'magic gunden — title screen',
+      { key: 'hero', label: 'The home shelf' },
+      { key: 'shot-2', label: 'Max for Live devices' },
+      { key: 'shot-3', label: 'Magic Gunden' },
     ],
-    gallery: {
-      variants: [
-        { key: 'home-light', label: 'Home — light' },
-        { key: 'home-dark', label: 'Home — dark' },
-        { key: 'max-light', label: 'Max for Live — light' },
-        { key: 'max-dark', label: 'Max for Live — dark' },
-        { key: 'gunden-light', label: 'Magic Gunden — light' },
-        { key: 'gunden-dark', label: 'Magic Gunden — dark' },
-      ],
-      actions: [
-        { key: 'album-browse', label: 'Browsing the album shelf' },
-        { key: 'devices-scroll', label: 'Max for Live device cards' },
-        { key: 'game-launch', label: 'Launching Magic Gunden' },
-      ],
-    },
   },
 ];
-
-export const FILTERS = ['All', 'Web app', 'Audio', 'Data', 'Games'];

@@ -1,138 +1,62 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { Project } from '../data/projects';
 import { Shot } from './Shot';
+import { resolveShot } from '../lib/images';
+import { useTheme } from '../lib/useTheme';
 import { useIsMobile } from '../lib/useIsMobile';
-import { usePrefersReducedMotion } from '../lib/usePrefersReducedMotion';
 
-const ROTATE_MS = 2800;
-
-function resolveKey(projectId: string, kind: 'variant' | 'action', itemKey: string, mobile: boolean) {
-  return `${projectId}-${kind}-${itemKey}${mobile ? '-mobile' : ''}`;
-}
+/* No auto-rotation. The old version cycled six captures on a 2.8s timer,
+ * which fought the quiet ground and moved the page under the reader; the
+ * theme-paired captures now follow the site's own theme toggle instead. */
 
 export function ProjectGallery({ project }: { project: Project }) {
-  const gallery = project.gallery!;
+  const { theme } = useTheme();
   const isMobile = useIsMobile();
-  const reducedMotion = usePrefersReducedMotion();
+  // ProjectDetail passes key={project.id}, so switching projects remounts this
+  // component and useState resets on its own — no effect needed.
+  const [active, setActive] = useState(0);
 
-  const actions = (isMobile && gallery.mobileActions) || gallery.actions;
-
-  const [mode, setMode] = useState<'variant' | 'action'>('variant');
-  const [variantIndex, setVariantIndex] = useState(0);
-  const [actionIndex, setActionIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  // A shorter action list on mobile can leave actionIndex pointing past the
-  // end, or mid-action-viewing when the viewport crosses the breakpoint.
-  useEffect(() => {
-    setMode('variant');
-    setActionIndex(0);
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (mode !== 'variant' || reducedMotion || paused) return;
-    const id = setInterval(() => {
-      setVariantIndex((i) => (i + 1) % gallery.variants.length);
-    }, ROTATE_MS);
-    return () => clearInterval(id);
-  }, [mode, reducedMotion, paused, gallery.variants.length]);
-
-  const active = mode === 'variant' ? gallery.variants[variantIndex] : actions[actionIndex];
-  const heroKey = resolveKey(project.id, mode, active.key, isMobile);
+  const shot = project.shots[active] ?? project.shots[0];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minHeight: 0 }}>
-      <div
-        className="duotone detailshot"
-        style={{ border: '1px solid var(--color-divider)', position: 'relative' }}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
-        <Shot imageKey={heroKey} label={active.label} alt={active.label} style={{ height: '100%' }} />
+    <div className="gallery">
+      <figure className="gallery-hero blueprint duotone">
+        <i className="corner tl" />
+        <i className="corner tr" />
+        <i className="corner bl" />
+        <i className="corner br" />
+        <Shot
+          imageKey={resolveShot(project, shot.key, theme, isMobile)}
+          label={`${project.title} — ${shot.label}`}
+          alt={`${project.title} — ${shot.label}`}
+          natural
+          loading="eager"
+        />
+        <figcaption className="mono gallery-caption">{shot.label}</figcaption>
+      </figure>
 
-        <span
-          className="mono"
-          style={{
-            position: 'absolute',
-            left: 10,
-            bottom: 10,
-            background: 'var(--color-bg)',
-            color: 'var(--color-accent-700)',
-            padding: '4px 9px',
-            border: '1px solid var(--color-divider)',
-          }}
-        >
-          {active.label}
-        </span>
-
-        {mode === 'variant' ? (
-          <div style={{ position: 'absolute', right: 2, bottom: 2, display: 'flex', gap: 8 }}>
-            {gallery.variants.map((v, i) => (
-              <button
-                key={v.key}
-                type="button"
-                aria-label={`Show ${v.label}`}
-                onClick={() => setVariantIndex(i)}
-                style={{
-                  width: 32,
-                  height: 32,
-                  padding: 0,
-                  border: 0,
-                  background: 'transparent',
-                  display: 'grid',
-                  placeItems: 'center',
-                  cursor: 'pointer',
-                }}
-              >
-                <span
-                  style={{
-                    width: 8,
-                    height: 8,
-                    borderRadius: '50%',
-                    border: '1px solid var(--color-bg)',
-                    background: i === variantIndex ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-bg) 55%, var(--color-text))',
-                  }}
-                />
-              </button>
-            ))}
-          </div>
-        ) : (
-          <button
-            type="button"
-            className="mono"
-            onClick={() => setMode('variant')}
-            style={{
-              position: 'absolute',
-              right: 10,
-              bottom: 10,
-              background: 'var(--color-bg)',
-              color: 'var(--color-accent-700)',
-              padding: '4px 9px',
-              border: '1px solid var(--color-divider)',
-              cursor: 'pointer',
-            }}
-          >
-            ← back to overview
-          </button>
-        )}
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: 10, flex: 'none' }}>
-        {actions.map((a, i) => (
-          <button
-            key={a.key}
-            type="button"
-            className="thumb"
-            onClick={() => {
-              setMode('action');
-              setActionIndex(i);
-            }}
-            style={{ borderColor: mode === 'action' && i === actionIndex ? 'var(--color-accent)' : 'var(--color-divider)' }}
-          >
-            <Shot imageKey={resolveKey(project.id, 'action', a.key, isMobile)} label={a.label} alt={a.label} style={{ aspectRatio: '16/9' }} />
-          </button>
-        ))}
-      </div>
+      {project.shots.length > 1 && (
+        <div className="gallery-thumbs" role="group" aria-label={`${project.title} screenshots`}>
+          {project.shots.map((s, i) => (
+            <button
+              key={s.key}
+              type="button"
+              className="thumb"
+              data-on={i === active ? '1' : '0'}
+              aria-current={i === active ? 'true' : undefined}
+              onClick={() => setActive(i)}
+            >
+              <Shot
+                imageKey={resolveShot(project, s.key, theme, isMobile)}
+                label={s.label}
+                alt=""
+                natural
+              />
+              <span className="mono thumb-label">{s.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

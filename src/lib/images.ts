@@ -1,4 +1,4 @@
-import type { Project } from '../data/projects';
+import type { Project, ProjectShot } from '../data/projects';
 import type { Theme } from './useTheme';
 
 const files = import.meta.glob<{ default: string }>(
@@ -16,28 +16,46 @@ export function getShotImage(key: string): string | undefined {
   return byKey[key];
 }
 
-/* Resolves the image for a project's exhibit, preferring the new theme-paired
- * hero capture and degrading gracefully while the reshoot is outstanding:
- *
- *   {id}-hero-{theme}-mobile  ->  {id}-hero-{theme}  ->  first gallery variant
- *
- * That ordering means a correctly-named capture dropped into the screenshots
- * folder takes over on the next build with no code change, and the site keeps
- * showing something in the meantime. */
-export function heroKey(project: Project, theme: Theme, mobile: boolean): string {
-  const candidates = [
-    mobile ? `${project.id}-hero-${theme}-mobile` : null,
-    `${project.id}-hero-${theme}`,
-  ].filter((k): k is string => k !== null);
+/* The pre-reshoot captures are discovered from the filesystem rather than
+ * listed in projects.ts, so the data file only ever describes the shots the
+ * site actually wants. When a capture whose theme is spelled into its name
+ * exists, the fallback still follows the theme toggle — which previews the
+ * real behaviour before the new files land. */
+function legacyKeys(projectId: string, theme: Theme, mobile: boolean): string[] {
+  const all = Object.keys(byKey).filter((k) => k.startsWith(`${projectId}-variant-`));
+  const isMobile = (k: string) => k.endsWith('-mobile');
+  const pool = mobile && all.some(isMobile) ? all.filter(isMobile) : all.filter((k) => !isMobile(k));
+  const themed = pool.filter((k) => k.replace(/-mobile$/, '').endsWith(`-${theme}`));
+  return (themed.length ? themed : pool).sort();
+}
 
+/* Resolves one gallery slot to a filename key:
+ *
+ *   {id}-{slot}-{theme}-mobile  ->  {id}-{slot}-{theme}  ->  a legacy capture
+ *
+ * A correctly-named capture dropped into src/assets/screenshots therefore
+ * takes over on the next build with no code change. When nothing resolves,
+ * the canonical name is returned so Shot renders its placeholder and the
+ * missing file is obvious rather than silent. */
+export function resolveShot(
+  project: Project,
+  slot: ProjectShot['key'],
+  theme: Theme,
+  mobile: boolean,
+): string {
+  const canonical = `${project.id}-${slot}-${theme}`;
+  const candidates = mobile ? [`${canonical}-mobile`, canonical] : [canonical];
   for (const key of candidates) {
     if (byKey[key]) return key;
   }
 
-  const first = project.gallery?.variants[0];
-  if (first) {
-    const variant = `${project.id}-variant-${first.key}${mobile ? '-mobile' : ''}`;
-    return byKey[variant] ? variant : `${project.id}-variant-${first.key}`;
-  }
-  return `${project.id}-1`;
+  const legacy = legacyKeys(project.id, theme, mobile);
+  if (!legacy.length) return canonical;
+
+  const index = Math.max(0, project.shots.findIndex((s) => s.key === slot));
+  return legacy[index % legacy.length];
+}
+
+export function heroKey(project: Project, theme: Theme, mobile: boolean): string {
+  return resolveShot(project, 'hero', theme, mobile);
 }
