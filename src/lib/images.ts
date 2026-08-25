@@ -59,3 +59,9 @@ export function resolveShot(
 export function heroKey(project: Project, theme: Theme, mobile: boolean): string {
   return resolveShot(project, 'hero', theme, mobile);
 }
+
+/** Shared layout id linking a project's home-page exhibit to its detail hero.
+ *  Both ends must agree, so it lives here rather than being spelled twice. */
+export function sharedShotId(project: Project): string {
+  return `shot-${project.id}`;
+}

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
+import { m, useReducedMotion } from 'motion/react';
 import { PROJECTS, type Project } from '../data/projects';
 import { Shot } from '../components/Shot';
-import { heroKey } from '../lib/images';
+import { heroKey, sharedShotId } from '../lib/images';
 import { useTheme } from '../lib/useTheme';
 import { useIsMobile } from '../lib/useIsMobile';
+import { SPRING_OPEN, INSTANT } from '../lib/motion';
 
 export function Home() {
   return (
@@ -32,11 +34,21 @@ export function Home() {
 function Exhibit({ project, eager }: { project: Project; eager: boolean }) {
   const { theme } = useTheme();
   const isMobile = useIsMobile();
+  const reduce = useReducedMotion();
   const key = heroKey(project, theme, isMobile);
 
   return (
     <Link to={`/projects/${project.id}`} className="exhibit">
-      <figure className="exhibit-frame blueprint duotone">
+      {/* Shares a layoutId with the detail page hero, so this frame is the
+          element that travels when the project opens. The hover lift lives on
+          Motion rather than in CSS — a CSS transform on a layout-animated
+          element skews the measurements the morph depends on. */}
+      <m.figure
+        layoutId={sharedShotId(project)}
+        className="exhibit-frame blueprint duotone"
+        whileHover={reduce ? undefined : { y: -4 }}
+        transition={reduce ? INSTANT : SPRING_OPEN}
+      >
         <i className="corner tl" />
         <i className="corner tr" />
         <i className="corner bl" />
@@ -48,7 +60,7 @@ function Exhibit({ project, eager }: { project: Project; eager: boolean }) {
           natural
           loading={eager ? 'eager' : 'lazy'}
         />
-      </figure>
+      </m.figure>
 
       <div className="exhibit-meta">
         <div className="exhibit-lead">

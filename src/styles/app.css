@@ -121,19 +121,12 @@ body { text-wrap: pretty; }
 }
 .navpill-ind {
   position: absolute;
-  top: 5px;
-  bottom: 5px;
-  left: 0;
-  width: 0;
-  opacity: 0;
+  inset: 0;
   pointer-events: none;
   background: color-mix(in srgb, var(--color-accent) 16%, transparent);
   border: 1px solid var(--color-accent);
-  transition:
-    left 0.36s var(--ease),
-    width 0.36s var(--ease),
-    opacity 0.2s ease;
 }
+.navpill-label { position: relative; z-index: 1; }
 .navpill-item {
   position: relative;
   z-index: 1;
@@ -231,11 +224,13 @@ body { text-wrap: pretty; }
   display: flex;
   flex-direction: column;
   gap: clamp(40px, 7vh, 84px);
-  animation: fadeUp 0.32s var(--ease) both;
+  animation: fadeIn 0.3s var(--ease) both;
 }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: none; }
+/* Opacity only, deliberately: a transform here would become an animating
+   ancestor of the shared-element frame and skew its layout measurements. */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* ---------- shared blocks ---------- */
@@ -293,15 +288,11 @@ body { text-wrap: pretty; }
 .exhibit-frame {
   margin: 0;
   position: relative;
-  transition:
-    border-color 0.25s ease,
-    transform 0.35s var(--ease),
-    box-shadow 0.35s ease;
+  transition: border-color 0.25s ease, box-shadow 0.35s ease;
 }
 .exhibit:hover .exhibit-frame,
 .exhibit:focus-visible .exhibit-frame {
   border-color: var(--color-accent);
-  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -454,10 +445,25 @@ body { text-wrap: pretty; }
   .detail-back { margin-left: 0; }
 }
 
+/* ---------- theme wipe ----------
+   The circular reveal is driven from useTheme via the View Transitions API.
+   Suppress the default cross-fade so the new palette clips over the old one
+   instead of dissolving into it. */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
 @media (prefers-reduced-motion: reduce) {
   .pane { animation: none; }
-  .navpill-ind,
   .footbar,
   .exhibit-frame { transition: none; }
-  .exhibit:hover .exhibit-frame { transform: none; }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
 }

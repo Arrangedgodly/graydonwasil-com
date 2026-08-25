@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { useViewMeta } from '../lib/useViewMeta';
 import { useStep } from '../lib/useStep';
-import { useTheme } from '../lib/useTheme';
+import { useTheme, type WipeOrigin } from '../lib/useTheme';
 
 /* Fixed chrome costs vertical space permanently, which matters most on short
  * laptop windows — so the bar retreats while you are reading downward and
@@ -35,6 +35,15 @@ function useHideOnScrollDown(threshold = 120) {
   }, [threshold]);
 
   return hidden;
+}
+
+/* The theme wipe expands from wherever the toggle was activated. Keyboard
+ * activation reports 0,0 for the pointer, so fall back to the button's own
+ * centre and the circle still starts somewhere meaningful. */
+function wipeOrigin(e: MouseEvent<HTMLButtonElement>): WipeOrigin {
+  if (e.clientX || e.clientY) return { x: e.clientX, y: e.clientY };
+  const r = e.currentTarget.getBoundingClientRect();
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
 }
 
 export function Footer() {
@@ -73,7 +82,7 @@ export function Footer() {
             className="mono"
             data-on={theme === 'dark' ? '1' : '0'}
             aria-pressed={theme === 'dark'}
-            onClick={() => setTheme('dark')}
+            onClick={(e) => setTheme('dark', wipeOrigin(e))}
           >
             Dark
           </button>
@@ -82,7 +91,7 @@ export function Footer() {
             className="mono"
             data-on={theme === 'light' ? '1' : '0'}
             aria-pressed={theme === 'light'}
-            onClick={() => setTheme('light')}
+            onClick={(e) => setTheme('light', wipeOrigin(e))}
           >
             Light
           </button>
