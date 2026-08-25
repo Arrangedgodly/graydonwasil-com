@@ -40,14 +40,37 @@ height** — that was what stretched the media in the previous design.
   `About` (with the toolkit folded in), `Contact`.
 - `src/components/Shell.tsx` — fixed chrome: name mark, nav pill, footer,
   plus the ← / → / Esc keyboard navigation.
-- `src/components/NavPill.tsx` — the floating nav. Its active indicator is
-  measured off the live DOM, so it stays aligned through font swaps and
-  resizes.
+- `src/components/NavPill.tsx` — the floating nav. Its active indicator is a
+  shared `layoutId`, so Motion morphs it between items rather than anything
+  measuring positions by hand.
 - `src/lib/images.ts` — `resolveShot` maps a project and slot to a filename,
   preferring the theme-paired capture and degrading to older ones. See
   `src/assets/screenshots/README.md`.
 - `src/lib/useTheme.ts` — reads `data-theme` off `<html>` as its source of
-  truth rather than keeping a second copy.
+  truth rather than keeping a second copy. Switching themes runs a circular
+  wipe through the View Transitions API, and flushes React synchronously
+  inside it so the screenshots swap to their twins within the same snapshot.
+- `src/components/SwipeArea.tsx` — touch-only swipe between sections and
+  projects, with an axis lock so a scroll that drifts sideways is ignored.
+- `src/components/Lightbox.tsx` — tap to view a screenshot full height and
+  scroll it sideways, which is the only way an ultrawide capture is legible
+  on a phone.
+
+## Motion
+
+`motion` (v13) via `LazyMotion` with the `domMax` feature set, in `strict`
+mode — so every call site uses `m`, not `motion`. `domMax` is required because
+`layoutId` is a layout animation and `domAnimation` omits those. Springs live
+in `src/lib/motion.ts`.
+
+Two shared `layoutId`s: the nav indicator, and the frame linking a home-page
+exhibit to its detail hero. Note that Motion measures layout in document
+space, and opening a project also resets the scroll — so the frame travels the
+distance between the two document positions rather than staying under the
+cursor. True in-place continuity would need a fixed-overlay FLIP.
+
+Everything respects `prefers-reduced-motion`: springs collapse to zero
+duration and the theme wipe is skipped.
 
 ## Routes
 
@@ -78,8 +101,5 @@ variables.
 - The reshoot — see `src/assets/screenshots/SHOT-LIST.md`. Until it lands,
   Rhymepage and Arranged Godly have no phone captures and render as thin
   strips on mobile, and the About photo is a placeholder.
-- Motion: the shared-element open from exhibit to detail, the theme wipe,
-  page transitions.
-- Touch swipe between projects and sections.
 - Open Graph / Twitter card images (currently text-only).
 - `robots.txt` / sitemap.
