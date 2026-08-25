@@ -353,6 +353,11 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .detail-media {
   --side-h: clamp(96px, 14vh, 136px);
   grid-column: 1; grid-row: 1;
+  /* The browser claims horizontal drags for scrolling unless told otherwise,
+     which cancels the pan session before it can commit — this is why the swipe
+     did nothing while the deck's own swipe worked. Nothing here scrolls, so
+     the gesture belongs to us. */
+  touch-action: pinch-zoom;
   /* Size to the image, not to the grid row, so the frame hugs the capture
      instead of drawing a border around empty space. */
   align-self: center; justify-self: center;

@@ -9,6 +9,9 @@ import { detailSlug } from '../lib/deck';
 import { useTheme } from '../lib/useTheme';
 import { SPRING_OPEN, INSTANT } from '../lib/motion';
 
+/** Slow enough to read the caption before it moves on. */
+const CYCLE_MS = 4200;
+
 /* The deeper view is a layer over the deck, not another place to be. The deck
  * stays parked on this project underneath, so closing puts you back exactly
  * where you were with nothing to re-find. */
@@ -21,6 +24,9 @@ export function DetailOverlay() {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  // Cycling stops for good once you choose a shot yourself — an explicit pick
+  // should not be overwritten a few seconds later.
+  const [userPicked, setUserPicked] = useState(false);
 
   const project = PROJECTS.find((p) => p.id === slug);
 
@@ -46,10 +52,17 @@ export function DetailOverlay() {
       axis.current === 'x' && (Math.abs(info.offset.x) > 50 || Math.abs(info.velocity.x) > 400);
     if (committed && shotCount > 1) {
       const step = info.offset.x < 0 ? 1 : -1;
+      setUserPicked(true);
       setActive((i) => (i + step + shotCount) % shotCount);
     }
     axis.current = 'none';
   };
+
+  useEffect(() => {
+    if (reduce || userPicked || shotCount < 2) return;
+    const id = setInterval(() => setActive((i) => (i + 1) % shotCount), CYCLE_MS);
+    return () => clearInterval(id);
+  }, [reduce, userPicked, shotCount]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -109,7 +122,10 @@ export function DetailOverlay() {
                     type="button"
                     data-on={i === active ? '1' : '0'}
                     aria-current={i === active ? 'true' : undefined}
-                    onClick={() => setActive(i)}
+                    onClick={() => {
+                      setUserPicked(true);
+                      setActive(i);
+                    }}
                   >
                     <span className="sr-only">{s.label}</span>
                   </button>
@@ -178,7 +194,10 @@ export function DetailOverlay() {
                 className="thumb"
                 data-on={i === active ? '1' : '0'}
                 aria-current={i === active ? 'true' : undefined}
-                onClick={() => setActive(i)}
+                onClick={() => {
+                  setUserPicked(true);
+                  setActive(i);
+                }}
               >
                 <Shot
                   imageKey={resolveShot(project, s.key, theme, false)}
