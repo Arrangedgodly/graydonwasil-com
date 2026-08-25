@@ -118,10 +118,20 @@ pre-filled — functional either way, but a real endpoint (e.g. a
 4. Add `VITE_CONTACT_ENDPOINT` if you are using a form backend.
 5. Deploy, then add `graydonwasil.com` as a custom domain.
 
+## Captures
+
+All 25 are in: three projects × three slots × two themes, a phone twin for each
+hero, and the About photo. ~5.7 MB, replacing 39 MB of GIFs that carried almost
+no motion.
+
+Re-take any of them with `npm run capture` — see
+`src/assets/screenshots/SHOT-LIST.md`. Shots that already exist are skipped, so
+a second run only fills gaps.
+
 ## Not done yet
 
-- The reshoot — see `src/assets/screenshots/SHOT-LIST.md`. Until it lands,
-  Rhymepage and Arranged Godly have no phone captures and render as thin strips
-  on mobile, and the About photo is a placeholder.
-- Open Graph / Twitter card images (currently text-only).
+- Open Graph / Twitter card images (currently text-only). The project captures
+  would make good source material now that they exist.
 - `robots.txt` / sitemap.
+- `VITE_CONTACT_ENDPOINT` is unset, so the contact form opens the visitor's
+  mail client rather than delivering in-page.
