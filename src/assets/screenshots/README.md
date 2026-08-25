@@ -1,89 +1,55 @@
 # Screenshots
 
-Drop image files in here named to match a key below. Any file matching a key
-is picked up automatically on the next build — no code changes needed.
+Drop a correctly-named image in here and it appears on the next build — no
+code changes needed. **[SHOT-LIST.md](SHOT-LIST.md) is the document to work
+from when capturing**; this file just explains how the naming resolves.
 
-## Simple projects (none currently — pattern still available for new projects)
-
-Three shots each, plus one About photo. Any of `.png` / `.jpg` / `.jpeg` /
-`.webp` / `.gif`.
-
-| File | Where it shows up |
-| --- | --- |
-| `{project.id}-1` / `-2` / `-3` | Detail page — main image + two thumbnails (also the Work card thumbnail) |
-| `about` | The About page photo |
-
-Example: `about.jpg`. Aim for roughly 1600px on the long edge — these render
-inside boxes with `object-fit: cover`, so exact aspect ratio doesn't matter
-much, but very large source files slow the site down for no visual benefit.
-Every current project (Rhymepage, Collectible Cars DB, Arranged Godly) has
-graduated to a `gallery` below.
-
-## Richer projects with a `gallery` in `src/data/projects.ts` (Rhymepage, Collectible Cars DB, Arranged Godly)
-
-A project with a `gallery` entry gets an auto-rotating hero (ambient stills —
-e.g. the same screen across castings/color themes) plus click-to-play action
-clips, instead of the simple 3-shot pattern above. Files are keyed as:
+## Naming
 
 ```
-{project.id}-variant-{key}[-mobile].{ext}
-{project.id}-action-{key}[-mobile].{ext}
+{project.id}-{slot}-{light|dark}[-mobile].{ext}
+about.{ext}
 ```
 
-`key` values come from the `gallery.variants` / `gallery.actions` /
-`gallery.mobileActions` arrays in `projects.ts`. The `-mobile` suffix is
-optional per file — add it for a viewport-specific capture (the site swaps
-to it automatically under the ~1000px breakpoint); omit it and the same file
-serves both.
+`project.id` is the slug from `src/data/projects.ts` — `rhymepage`,
+`collectible-cars`, `arranged-godly` — which is also the URL segment, so the
+two cannot drift apart.
 
-For Rhymepage — variants are the Write screen across its six built-in themes
-(no mobile captures yet, desktop files serve both):
+`slot` is one of `hero`, `shot-2`, `shot-3`, declared per project in the
+`shots` array. `hero` does double duty: it is the image on the home page
+exhibit *and* the one that opens into the detail page.
 
-| File | Shows |
-| --- | --- |
-| `rhymepage-variant-pastel` / `-retro` / `-winter` / `-forest` / `-corporate` / `-business` | Write screen + rhyme panel, one per theme |
-| `rhymepage-action-rhyme-suggestions` | Typing a line, rhyme panel populating live |
-| `rhymepage-action-theme-switching` | Cycling through the theme picker |
-| `rhymepage-action-sync-playback` | Marking sync points, then teleprompter playback |
+Accepted extensions: `.webp`, `.avif`, `.png`, `.jpg`, `.jpeg`, `.gif`.
+Files with no extension are invisible to the glob.
 
-For Cars:
+## Light and dark are a pair, not an option
 
-| File | Shows |
-| --- | --- |
-| `cars-variant-cruz-light[.gif]` / `-dark` | Cruz Ramirez, light/dark theme |
-| `cars-variant-dinoco-light` / `-dark` | Dinoco, light/dark theme |
-| `cars-variant-mcqueen-light` / `-dark` | Lightning McQueen, light/dark theme |
-| `cars-action-search-filter-sort` | Desktop-only action clip |
-| `cars-action-wishlist-toggle` | Own/want toggle demo |
-| `cars-action-theme-switching` | Theme-switch demo |
+Every capture needs both. The site's theme toggle swaps each screenshot to
+its twin, so a pair must be the same page, same scroll position and same data
+— only the theme differs. A misaligned pair makes the transition visibly
+jump. See SHOT-LIST.md for capture settings.
 
-Every one of the Cars files above also has a `-mobile` variant in use.
+## Resolution order
 
-For Arranged Godly — variants are three different screens (home shelf, Max
-for Live devices, Magic Gunden) each in light and dark, since the site has a
-simple light/dark toggle rather than a multi-theme picker:
+`resolveShot` in `src/lib/images.ts` tries, in order:
 
-| File | Shows |
-| --- | --- |
-| `ag-variant-home-light` / `-dark` | Home splash, album cards fanned out |
-| `ag-variant-max-light` / `-dark` | Max for Live floating device cards |
-| `ag-variant-gunden-light` / `-dark` | Magic Gunden title screen |
-| `ag-action-album-browse` | Dragging the badge to fan through album covers |
-| `ag-action-devices-scroll` | Parallax sweep across the Max for Live cards |
-| `ag-action-game-launch` | Title screen → game loading transition |
+1. `{id}-{slot}-{theme}-mobile` (narrow viewports only)
+2. `{id}-{slot}-{theme}`
+3. a legacy `{id}-variant-*` capture, discovered from the folder itself
+4. nothing — `Shot` renders the diagonal-hatch placeholder, so a missing file
+   is obvious rather than silent
 
-`ag-action-game-launch` only captures the launch transition, not gameplay —
-the embedded itch.io WebGL build wouldn't progress past its own loading
-screen in the capture environment. Worth re-capturing with a real gameplay
-clip if that's ever convenient.
+Step 3 exists only so the site keeps showing something until the reshoot
+lands, and it still follows the theme toggle where the old filenames happen
+to carry `-light` / `-dark`.
 
-Large GIFs (the theme-switching and album-browse clips are several MB) only
-download when actually shown — the hero swaps a single `<img src>`, so the
-other clips never fetch until clicked. Still worth trimming/compressing at
-the source if you re-export these; nothing in this repo currently does that
-automatically.
+## Legacy captures, pending deletion
 
-Two captures were left unused on purpose and can be deleted whenever: an
-earlier, differently-cropped desktop "still" pass (superseded by the
-`still2` pass, since renamed to `cars-variant-*`) and a duplicate take of the
-wishlist-toggle desktop clip.
+The `*-variant-*` and `*-action-*` GIFs predate this scheme and are superseded
+by the shot list. They are ~39 MB across 35 files and carry very little
+motion — the 24 `variant` files are 1–5 frames each, which is to say they are
+still images stored as GIFs. Delete them once the new captures are in.
+
+Seven files in this folder have **no extension** (`still_desktop_*`, and a
+duplicate wishlist take). They were left over from an earlier pass, are
+invisible to the glob, and can go at any time.
