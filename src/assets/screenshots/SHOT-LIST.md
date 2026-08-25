@@ -7,8 +7,12 @@ next build.
 ## Use the script
 
 ```bash
+npm run capture:setup   # once — installs Playwright and sharp, downloads Chromium
 npm run capture
 ```
+
+`capture:setup` installs with `--no-save` on purpose: Playwright and sharp are
+capture-only tools and have no business being installed on every deploy.
 
 It opens a real browser at the exact viewport, walks you through every shot in
 order, and writes correctly-named WebP files straight into this folder. You
