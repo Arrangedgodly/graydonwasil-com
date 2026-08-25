@@ -28,6 +28,9 @@ export function About() {
           label={'photo — graydon\ndrop an image here'}
           alt="Graydon Wasil"
           natural
+          /* The deck only mounts the active slide, so this photo is in view
+             the moment it exists — lazy would just delay it. */
+          loading="eager"
           placeholderRatio="4 / 5"
           /* width:auto so the photo keeps its own proportions inside the
              column rather than being stretched to fill it. */
