@@ -7,7 +7,7 @@ import { useIsMobile } from '../lib/useIsMobile';
 
 export function Home() {
   return (
-    <>
+    <div className="pane">
       <section className="hero">
         <h1 className="disp hero-title">
           <span className="line">I build software</span>
@@ -25,7 +25,7 @@ export function Home() {
           <Exhibit key={p.id} project={p} eager={i === 0} />
         ))}
       </section>
-    </>
+    </div>
   );
 }
 
@@ -51,18 +51,25 @@ function Exhibit({ project, eager }: { project: Project; eager: boolean }) {
       </figure>
 
       <div className="exhibit-meta">
-        <span className="mono exhibit-num">{project.num}</span>
-        <h2 className="pt exhibit-title">{project.title}</h2>
-        <p className="exhibit-tagline">{project.tagline}</p>
-        <div className="exhibit-tags">
-          {project.tags.map((t) => (
-            <span key={t} className="tag tag-outline">
-              {t}
-            </span>
-          ))}
-          <span className="mono exhibit-year">{project.year}</span>
+        <div className="exhibit-lead">
+          <div className="exhibit-heading">
+            <span className="mono exhibit-num">{project.num}</span>
+            <h2 className="pt exhibit-title">{project.title}</h2>
+          </div>
+          <p className="exhibit-tagline">{project.tagline}</p>
         </div>
-        <span className="open mono exhibit-open">Open project &rarr;</span>
+
+        <div className="exhibit-side">
+          <div className="exhibit-tags">
+            {project.tags.map((t) => (
+              <span key={t} className="tag tag-outline">
+                {t}
+              </span>
+            ))}
+          </div>
+          <span className="mono exhibit-year">{project.year}</span>
+          <span className="open mono exhibit-open">Open project &rarr;</span>
+        </div>
       </div>
     </Link>
   );

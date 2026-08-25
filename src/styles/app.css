@@ -227,21 +227,25 @@ body { text-wrap: pretty; }
   padding: var(--chrome-top) var(--gutter) var(--chrome-bottom);
 }
 
-.pane { animation: fadeUp 0.32s var(--ease) both; }
+.pane {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 7vh, 84px);
+  animation: fadeUp 0.32s var(--ease) both;
+}
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: none; }
 }
 
-/* ---------- home ---------- */
+/* ---------- shared blocks ---------- */
 
-.hero {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(14px, 2.2vw, 24px);
-  padding-bottom: clamp(38px, 8vh, 92px);
-}
+.hero { display: flex; flex-direction: column; gap: clamp(14px, 2.2vw, 24px); }
 .hero-title { font-size: var(--step-6); }
+/* Secondary pages get a smaller display size — only Home's headline is the
+   thesis of the page. */
+.hero--sub .hero-title { font-size: var(--step-5); }
+
 .lede {
   margin: 0;
   max-width: var(--measure-text);
@@ -250,19 +254,42 @@ body { text-wrap: pretty; }
   color: color-mix(in srgb, var(--color-text) 82%, transparent);
 }
 
+.block { display: flex; flex-direction: column; gap: 14px; }
+.block-label {
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-divider);
+  color: var(--color-accent-700);
+  font-weight: 400;
+}
+
+.prose { display: flex; flex-direction: column; gap: 14px; max-width: var(--measure-text); }
+.prose p, .prose-lead {
+  margin: 0;
+  max-width: var(--measure-text);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text) 84%, transparent);
+}
+
+.rulelist { list-style: none; margin: 0; padding: 0; }
+.rulelist li {
+  padding: 11px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 11%, transparent);
+}
+.rulelist li:last-child { border-bottom: 0; }
+
+.tagrun { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ---------- home ---------- */
+
 .exhibits {
   display: flex;
   flex-direction: column;
   gap: clamp(52px, 10vh, 116px);
 }
 
-.exhibit {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  color: inherit;
-  text-decoration: none;
-}
+.exhibit { display: flex; flex-direction: column; gap: 20px; color: inherit; text-decoration: none; }
 .exhibit-frame {
   margin: 0;
   position: relative;
@@ -278,7 +305,14 @@ body { text-wrap: pretty; }
   box-shadow: var(--shadow-lg);
 }
 
-.exhibit-meta { display: flex; flex-direction: column; gap: 9px; }
+.exhibit-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+.exhibit-lead { display: flex; flex-direction: column; gap: 8px; }
+.exhibit-heading { display: flex; align-items: baseline; gap: 14px; }
 .exhibit-num { color: var(--color-accent-700); }
 .exhibit-title { font-size: var(--step-3); }
 .exhibit-tagline {
@@ -287,47 +321,58 @@ body { text-wrap: pretty; }
   font-size: var(--step-0);
   color: color-mix(in srgb, var(--color-text) 80%, transparent);
 }
-.exhibit-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.exhibit-year {
-  margin-left: auto;
-  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+
+.exhibit-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  text-align: right;
 }
+.exhibit-tags { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.exhibit-year { color: color-mix(in srgb, var(--color-text) 60%, transparent); }
 .exhibit-open {
-  align-self: flex-start;
-  margin-top: 3px;
   padding: 7px 13px;
   border: 1px solid var(--color-accent);
   color: var(--color-accent-700);
   transition: background 0.2s ease, color 0.2s ease;
 }
-.exhibit:hover .exhibit-open {
-  background: var(--color-accent);
-  color: var(--color-bg);
-}
+.exhibit:hover .exhibit-open { background: var(--color-accent); color: var(--color-bg); }
+.open { transition: background 0.2s ease, color 0.2s ease; }
 
-/* ---------- page layouts still in use by About / Contact / Detail / Toolkit
-   (rewritten in the next stages; here they simply stop stretching) ---------- */
+/* ---------- about ---------- */
 
-.grid3 {
+.about-split {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: clamp(16px, 2vw, 28px);
-}
-.dsplit {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 36px);
-}
-.split {
-  display: grid;
-  grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
-  gap: clamp(20px, 3.5vw, 44px);
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 52px);
   align-items: start;
 }
+.about-photo { margin: 0; border: 1px solid var(--color-divider); }
+
+/* ---------- contact ---------- */
+
+.contact-split {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(24px, 4vw, 52px);
+  align-items: start;
+}
+.linkstack { display: grid; gap: 9px; justify-items: start; }
+.linkstack a { text-transform: none; }
+
+.formpanel { padding: clamp(16px, 2.5vw, 26px); }
+.formgrid { display: grid; gap: 14px; }
 .contact-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.formfoot { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.formhint { color: color-mix(in srgb, var(--color-text) 66%, transparent); }
+.formhint[data-warn="1"] { color: var(--color-accent-700); }
+.sent-title { font-size: var(--step-2); }
 
+/* ---------- project detail (rewritten next stage) ---------- */
+
+.dsplit { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(20px, 3vw, 36px); }
 .detailshot { aspect-ratio: 2 / 1; }
-
 .thumb {
   cursor: pointer;
   padding: 0;
@@ -337,8 +382,6 @@ body { text-wrap: pretty; }
 }
 .thumb:hover { border-color: var(--color-accent); }
 
-.open { transition: background 0.2s ease, color 0.2s ease; }
-
 /* ---------- narrow ---------- */
 
 @media (max-width: 760px) {
@@ -346,8 +389,14 @@ body { text-wrap: pretty; }
   .namemark-short { display: inline; }
   .navpill-item { padding: 0 12px; font-size: 12px; letter-spacing: 0.08em; }
   .footnote { display: none; }
-  .split, .contact-fields { grid-template-columns: 1fr; }
-  .exhibit-year { margin-left: 0; }
+
+  .about-split,
+  .contact-split,
+  .contact-fields { grid-template-columns: 1fr; }
+
+  .exhibit-meta { grid-template-columns: 1fr; }
+  .exhibit-side { align-items: flex-start; text-align: left; }
+  .exhibit-tags { justify-content: flex-start; }
 }
 
 @media (prefers-reduced-motion: reduce) {
