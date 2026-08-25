@@ -9,6 +9,7 @@ export function Shot({
   className = '',
   style,
   natural = false,
+  placeholderRatio = '2 / 1',
   loading = 'lazy',
 }: {
   imageKey: string;
@@ -21,6 +22,9 @@ export function Shot({
    *  them to a container's leftover height is what produced the stretched
    *  proportions this redesign exists to fix. */
   natural?: boolean;
+  /** Shape for the hatched placeholder only. A real image always keeps its own
+   *  ratio — forcing one onto it is how a portrait photo gets squashed. */
+  placeholderRatio?: string;
   loading?: 'lazy' | 'eager';
 }) {
   const src = getShotImage(imageKey);
@@ -29,7 +33,7 @@ export function Shot({
       <Placeholder
         label={label}
         className={className}
-        style={natural ? { aspectRatio: '2 / 1', ...style } : style}
+        style={natural ? { aspectRatio: placeholderRatio, ...style } : style}
       />
     );
   }

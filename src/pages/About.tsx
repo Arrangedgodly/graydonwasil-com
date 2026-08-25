@@ -28,7 +28,10 @@ export function About() {
           label={'photo — graydon\ndrop an image here'}
           alt="Graydon Wasil"
           natural
-          style={{ aspectRatio: '4 / 5' }}
+          placeholderRatio="4 / 5"
+          /* width:auto so the photo keeps its own proportions inside the
+             column rather than being stretched to fill it. */
+          style={{ width: 'auto', maxWidth: '100%' }}
         />
       </figure>
 

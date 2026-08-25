@@ -159,9 +159,6 @@ async function main() {
   }
 
   const rl = createInterface({ input: stdin, output: stdout });
-  const pause = async (msg) => {
-    await rl.question(`\n${msg}\n${c.dim('   press Enter when ready (or type s to skip) › ')}`).then((a) => a.trim().toLowerCase());
-  };
   const ask = async (msg) =>
     (await rl.question(`\n${msg}\n${c.dim('   Enter to capture · s to skip · q to quit › ')}`)).trim().toLowerCase();
 
