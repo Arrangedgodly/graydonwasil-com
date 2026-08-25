@@ -4,6 +4,33 @@ Everything the rebuilt site needs, in one sitting. **13 required files, 12
 recommended, 1 photo.** Drop them in this folder; they're picked up on the
 next build.
 
+## Use the script
+
+```bash
+npm run capture
+```
+
+It opens a real browser at the exact viewport, walks you through every shot in
+order, and writes correctly-named WebP files straight into this folder. You
+sign in and set up each screen; it owns the viewport, the filenames, and the
+light/dark pairing.
+
+It never reloads or navigates between a pair, so **the twins cannot drift** —
+which is the one rule below that actually matters. Skip a shot with `s`, quit
+with `q`, and run it again later to pick up exactly where you left off.
+
+```bash
+npm run capture -- --list              # what is still outstanding
+npm run capture -- --only rhymepage    # one project
+npm run capture -- --force             # re-take shots that already exist
+```
+
+Your browser profile persists in `.capture-profile/` (gitignored), so logins
+survive between runs. `about.webp` is a photo of you — the script can't take
+that one.
+
+Everything below is the manual fallback, and explains what the script is doing.
+
 ## The one rule that matters most
 
 Every capture has a **light twin and a dark twin**, and the site's theme
