@@ -112,9 +112,40 @@ body { text-wrap: pretty; }
   white-space: nowrap; text-decoration: none;
   color: color-mix(in srgb, var(--color-text) 72%, transparent); transition: color 0.2s ease;
 }
+button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 7px; }
 .navpill-item:hover { color: var(--color-text); }
 .navpill-item[data-on="1"] { color: var(--color-accent-700); }
 .navpill-label { position: relative; z-index: 1; }
+.navpill-caret {
+  position: relative; z-index: 1; display: inline-block; font-size: 9px; line-height: 1;
+  transition: transform 0.2s var(--ease);
+}
+.navpill-caret[data-open="1"] { transform: rotate(180deg); }
+
+.navpill-slot { position: relative; display: flex; }
+.navmenu {
+  position: absolute; top: calc(100% + 8px); left: 0; z-index: 2;
+  margin: 0; padding: 4px; list-style: none; min-width: 210px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--color-divider); box-shadow: var(--shadow-lg);
+}
+.navmenu a {
+  display: flex; align-items: baseline; gap: 11px;
+  min-height: 44px; padding: 0 12px; text-decoration: none;
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
+  transition: background 0.16s ease, color 0.16s ease;
+}
+.navmenu a:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); color: var(--color-text); }
+.navmenu a[data-on="1"] {
+  background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  color: var(--color-accent-700);
+}
+.navmenu-num { color: var(--color-accent-700); flex: none; }
+.navmenu-title {
+  font: 600 14px/44px var(--font-heading); letter-spacing: 0.06em; text-transform: uppercase;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 
 .footbar {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
@@ -165,7 +196,7 @@ body { text-wrap: pretty; }
 }
 .rail-count {
   color: var(--color-accent-700); font-variant-numeric: tabular-nums;
-  writing-mode: vertical-rl; letter-spacing: 0.18em;
+  letter-spacing: 0.1em; white-space: nowrap;
 }
 .rail-total { color: color-mix(in srgb, var(--color-text) 50%, transparent); }
 .rail-dots { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }

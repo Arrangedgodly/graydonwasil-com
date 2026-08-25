@@ -13,6 +13,12 @@ function modalOpen(): boolean {
   return !!document.querySelector('[role="dialog"][aria-modal="true"]');
 }
 
+/* An open nav menu owns the keyboard — otherwise arrow keys would move the
+ * deck out from under the list you are trying to pick from. */
+function menuOpen(): boolean {
+  return !!document.querySelector('[data-menu-open="true"]');
+}
+
 function inTextField(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
   if (!el?.closest) return false;
@@ -66,10 +72,9 @@ export function useKeyNav(go: (delta: 1 | -1) => void, onEscape?: () => void) {
     const onKey = (e: KeyboardEvent) => {
       if (inTextField(e.target)) return;
 
-      if (modalOpen()) {
-        // The modal handles its own Escape; everything else is inert.
-        return;
-      }
+      // A modal or an open menu handles its own Escape; everything else is
+      // inert while one of them is up.
+      if (modalOpen() || menuOpen()) return;
 
       switch (e.key) {
         case 'ArrowDown':
