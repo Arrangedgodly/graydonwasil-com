@@ -1,0 +1,17 @@
+{
+  // Cloudflare deploys this repo as a Workers Build (the GitHub check is
+  // "Workers Builds: graydonwasil-com"), and a Workers Build needs a config
+  // telling it what to serve. Without this file the build fails at dispatch,
+  // before it ever runs a command.
+  //
+  // There is no "main" — nothing here needs a request handler. It is a static
+  // assets Worker serving the Vite output.
+  "name": "graydonwasil-com",
+  "compatibility_date": "2026-08-25",
+  "assets": {
+    "directory": "./dist",
+    // Every path renders the same shell; the client decides which slide is
+    // parked. Without this, a hard load of /projects/rhymepage would 404.
+    "not_found_handling": "single-page-application"
+  }
+}
