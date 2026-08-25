@@ -7,47 +7,78 @@ const CURRENTLY = [
   'Waiting on Enter the Gungeon 2',
 ];
 
+const TOOLS = [
+  'JavaScript',
+  'React',
+  'CSS',
+  'SQL',
+  'REST',
+  'Auth',
+  'Max for Live',
+  'Web Audio',
+  'Game loops',
+];
+
 export function About() {
   return (
-    <section className="pane">
-      <div className="split">
-        <figure className="blueprint duotone" style={{ margin: 0, height: '100%', minHeight: 0 }}>
-          <i className="corner tl" /><i className="corner tr" /><i className="corner bl" /><i className="corner br" />
-          <Shot imageKey="about" label={'photo — graydon\ndrop an image here'} alt="Graydon Wasil" style={{ height: '100%', minHeight: 220 }} />
-        </figure>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1.4vh,16px)' }}>
-          <h2 className="disp" style={{ fontSize: 'clamp(21px,min(3.2vw,4.8vh),42px)' }}>
-            <span className="line">I got here by</span>
-            <span className="line">refusing to do it</span>
-            <span className="line">by hand twice.</span>
-          </h2>
-          <p style={{ margin: 0, fontSize: 'clamp(13px,min(1.1vw,1.9vh),15.5px)', lineHeight: 1.5, color: 'color-mix(in srgb, var(--color-text) 84%, transparent)' }}>
-            The first thing I ever built was a spreadsheet that got out of hand. Then a Max device, because I
-            wanted a delay that behaved a specific way. Then a whole site, because a collection had outgrown
-            a notes app. Each one taught me enough to start the next.
+    <div className="aslide">
+      <figure className="aslide-photo">
+        <Shot
+          imageKey="about"
+          label={'photo — graydon\ndrop an image here'}
+          alt="Graydon Wasil"
+          natural
+          /* The deck only mounts the active slide, so this photo is in view
+             the moment it exists — lazy would just delay it. */
+          loading="eager"
+          placeholderRatio="4 / 5"
+          /* width:auto so the photo keeps its own proportions inside the
+             column rather than being stretched to fill it. */
+          style={{ width: 'auto', maxWidth: '100%' }}
+        />
+      </figure>
+
+      <div className="aslide-body">
+        <h2 className="disp aslide-title">
+          <span className="line">I got here by</span>
+          <span className="line">refusing to do it</span>
+          <span className="line">by hand twice.</span>
+        </h2>
+
+        <div className="prose">
+          <p>
+            The first thing I ever built was a spreadsheet that got out of hand. Then a Max device,
+            because I wanted a delay that behaved a specific way. Then a whole site, because a
+            collection had outgrown a notes app. Each one taught me enough to start the next.
           </p>
-          <p style={{ margin: 0, fontSize: 'clamp(13px,min(1.1vw,1.9vh),15.5px)', lineHeight: 1.5, color: 'color-mix(in srgb, var(--color-text) 84%, transparent)' }}>
-            By day I'm a senior online banker — where I learned that software people trust is software that's
-            boring in exactly the right places.
+          <p>
+            By day I&rsquo;m a senior online banker &mdash; where I learned that software people
+            trust is software that&rsquo;s boring in exactly the right places.
           </p>
-          <div className="blueprint" style={{ padding: 'clamp(10px,1.6vh,18px) 20px' }}>
-            <i className="corner tl" /><i className="corner tr" /><i className="corner bl" /><i className="corner br" />
-            <span className="mono" style={{ color: 'var(--color-accent-700)', display: 'block', marginBottom: 10 }}>
-              Currently
-            </span>
-            <div style={{ display: 'grid', gap: 'clamp(4px,.8vh,8px)', fontSize: 'clamp(12.5px,min(1.05vw,1.75vh),15px)', lineHeight: 1.4 }}>
-              {CURRENTLY.map((c, i) => (
-                <div key={c} style={{ display: 'flex', gap: 12 }}>
-                  <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 66%, transparent)' }}>
-                    {'0' + (i + 1)}
-                  </span>
-                  <span>{c}</span>
-                </div>
+        </div>
+
+        <div className="aslide-cols">
+          <div className="block">
+            <h3 className="mono block-label">Currently</h3>
+            <ul className="rulelist">
+              {CURRENTLY.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="block">
+            <h3 className="mono block-label">What I work with</h3>
+            <div className="tagrun">
+              {TOOLS.map((t) => (
+                <span key={t} className="tag tag-outline">
+                  {t}
+                </span>
               ))}
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

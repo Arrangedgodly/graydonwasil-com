@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0e11" />
     <title>Graydon Wasil — Software for the things I can't stop thinking about</title>
     <meta name="description" content="I build software for the things I'm already into: a lyric app synced to the track, a database for every Mattel Pixar Cars casting, and the home shelf for my music, Max for Live devices and games." />
     <meta property="og:type" content="website" />
@@ -11,6 +12,31 @@
     <meta property="og:description" content="I build software for the things I'm already into. Three projects, all shipped." />
     <meta property="og:url" content="https://graydonwasil.com/" />
     <meta name="twitter:card" content="summary" />
+
+    <!-- Stamp the stored theme before first paint so there is no flash of the
+         wrong palette. Dark is the default and the intended presentation. -->
+    <script>
+      (function () {
+        var theme = 'dark';
+        try {
+          if (localStorage.getItem('gw-theme') === 'light') theme = 'light';
+        } catch (e) {
+          /* private browsing — fall through to the dark default */
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'light') {
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', '#eef3f5');
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
   </head>
   <body>
     <div id="root"></div>

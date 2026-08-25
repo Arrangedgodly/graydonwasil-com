@@ -28,3 +28,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright profile used by the capture script (holds live logins)
+.capture-profile/
