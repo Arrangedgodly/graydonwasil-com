@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { m, useReducedMotion } from 'motion/react';
+import { m, useReducedMotion, type PanInfo } from 'motion/react';
 import { PROJECTS } from '../data/projects';
 import { Shot } from './Shot';
 import { Lightbox } from './Lightbox';
@@ -25,6 +25,31 @@ export function DetailOverlay() {
   const project = PROJECTS.find((p) => p.id === slug);
 
   const close = () => navigate(`/projects/${slug}`);
+
+  /* Thumbnails are hidden on phones, so without this the other captures are
+   * unreachable. Same axis discipline as the deck: horizontal has to beat
+   * vertical before the gesture counts, so a scroll that drifts sideways does
+   * not change the shot. */
+  const axis = useRef<'none' | 'x' | 'y'>('none');
+  const shotCount = project?.shots.length ?? 0;
+
+  const onPan = (_: PointerEvent, info: PanInfo) => {
+    if (axis.current !== 'none') return;
+    const ax = Math.abs(info.offset.x);
+    const ay = Math.abs(info.offset.y);
+    if (ax < 10 && ay < 10) return;
+    axis.current = ax > ay * 1.5 ? 'x' : 'y';
+  };
+
+  const onPanEnd = (_: PointerEvent, info: PanInfo) => {
+    const committed =
+      axis.current === 'x' && (Math.abs(info.offset.x) > 50 || Math.abs(info.velocity.x) > 400);
+    if (committed && shotCount > 1) {
+      const step = info.offset.x < 0 ? 1 : -1;
+      setActive((i) => (i + step + shotCount) % shotCount);
+    }
+    axis.current = 'none';
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -59,6 +84,8 @@ export function DetailOverlay() {
           layoutId={sharedShotId(project)}
           className="detail-media blueprint duotone"
           transition={reduce ? INSTANT : SPRING_OPEN}
+          onPan={onPan}
+          onPanEnd={onPanEnd}
         >
           <i className="corner tl" />
           <i className="corner tr" />
@@ -71,12 +98,31 @@ export function DetailOverlay() {
             natural
             loading="eager"
           />
-          <figcaption className="mono detail-caption">{shot.label}</figcaption>
-          {heroSrc && (
-            <button type="button" className="mono detail-expand" onClick={() => setExpanded(true)}>
-              Expand
-            </button>
-          )}
+          <div className="detail-mediabar">
+            <figcaption className="mono detail-caption">{shot.label}</figcaption>
+
+            {project.shots.length > 1 && (
+              <div className="detail-dots" role="group" aria-label="Screenshot">
+                {project.shots.map((s, i) => (
+                  <button
+                    key={s.key}
+                    type="button"
+                    data-on={i === active ? '1' : '0'}
+                    aria-current={i === active ? 'true' : undefined}
+                    onClick={() => setActive(i)}
+                  >
+                    <span className="sr-only">{s.label}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {heroSrc && (
+              <button type="button" className="mono detail-expand" onClick={() => setExpanded(true)}>
+                Expand
+              </button>
+            )}
+          </div>
         </m.figure>
 
         <div className="detail-body">

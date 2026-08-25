@@ -363,6 +363,9 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   display: block; width: auto; height: auto;
   max-width: 100%; max-height: calc(var(--stage-h) - var(--side-h));
 }
+.detail-mediabar { display: contents; }
+.detail-dots { display: none; }
+
 .detail-caption {
   position: absolute; left: 9px; bottom: 9px; padding: 4px 9px;
   background: var(--color-bg); color: var(--color-accent-700);
@@ -508,6 +511,48 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .detail-media { grid-column: 1; grid-row: 1; }
   .detail-body { grid-column: 1; grid-row: 2; }
   .detail-thumbs { display: none; }
+
+  .detail-mediabar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 9px;
+  }
+  .detail-caption {
+    position: static;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .detail-expand { position: static; flex: none; }
+  .detail-dots { display: flex; flex: none; gap: 2px; }
+  .detail-dots button {
+    width: 26px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .detail-dots button::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border: 1px solid color-mix(in srgb, var(--color-text) 45%, transparent);
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s var(--ease);
+  }
+  .detail-dots button[data-on="1"]::before {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: scale(1.4);
+  }
 }
 
 /* ---------- theme wipe ----------
