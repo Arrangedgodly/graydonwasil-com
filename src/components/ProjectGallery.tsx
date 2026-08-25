@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { m, useReducedMotion } from 'motion/react';
 import type { Project } from '../data/projects';
 import { Shot } from './Shot';
-import { resolveShot, sharedShotId } from '../lib/images';
+import { getShotImage, resolveShot, sharedShotId } from '../lib/images';
+import { Lightbox } from './Lightbox';
 import { useTheme } from '../lib/useTheme';
 import { useIsMobile } from '../lib/useIsMobile';
 import { SPRING_OPEN, INSTANT } from '../lib/motion';
@@ -18,8 +19,10 @@ export function ProjectGallery({ project }: { project: Project }) {
   // ProjectDetail passes key={project.id}, so switching projects remounts this
   // component and useState resets on its own — no effect needed.
   const [active, setActive] = useState(0);
+  const [expanded, setExpanded] = useState(false);
 
   const shot = project.shots[active] ?? project.shots[0];
+  const heroSrc = getShotImage(resolveShot(project, shot.key, theme, isMobile));
 
   return (
     <div className="gallery">
@@ -42,6 +45,16 @@ export function ProjectGallery({ project }: { project: Project }) {
           loading="eager"
         />
         <figcaption className="mono gallery-caption">{shot.label}</figcaption>
+
+        {heroSrc && (
+          <button
+            type="button"
+            className="mono gallery-expand"
+            onClick={() => setExpanded(true)}
+          >
+            Expand
+          </button>
+        )}
       </m.figure>
 
       {project.shots.length > 1 && (
@@ -65,6 +78,15 @@ export function ProjectGallery({ project }: { project: Project }) {
             </button>
           ))}
         </div>
+      )}
+
+      {expanded && heroSrc && (
+        <Lightbox
+          src={heroSrc}
+          alt={`${project.title} — ${shot.label}`}
+          caption={`${project.title} — ${shot.label}`}
+          onClose={() => setExpanded(false)}
+        />
       )}
     </div>
   );

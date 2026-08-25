@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { NavPill } from './NavPill';
 import { Footer } from './Footer';
+import { SwipeArea } from './SwipeArea';
 import { useViewMeta } from '../lib/useViewMeta';
 import { useStep } from '../lib/useStep';
 
@@ -15,6 +16,10 @@ export function Shell() {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement | null;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      // A modal owns the keyboard while it is open. Checking the DOM rather
+      // than relying on capture-phase ordering: both listeners live on window,
+      // so stopPropagation between them is not dependable.
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
       if (e.key === 'Escape' && inDetail) {
         navigate('/');
         return;
@@ -41,9 +46,9 @@ export function Shell() {
 
       <NavPill />
 
-      <main className="page">
+      <SwipeArea>
         <Outlet />
-      </main>
+      </SwipeArea>
 
       <Footer />
     </div>
