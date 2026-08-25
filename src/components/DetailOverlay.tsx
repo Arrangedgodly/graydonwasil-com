@@ -7,7 +7,6 @@ import { Lightbox } from './Lightbox';
 import { getShotImage, resolveShot, sharedShotId } from '../lib/images';
 import { detailSlug } from '../lib/deck';
 import { useTheme } from '../lib/useTheme';
-import { useIsMobile } from '../lib/useIsMobile';
 import { SPRING_OPEN, INSTANT } from '../lib/motion';
 
 /* The deeper view is a layer over the deck, not another place to be. The deck
@@ -19,7 +18,6 @@ export function DetailOverlay() {
   const navigate = useNavigate();
   const slug = detailSlug(location.pathname);
   const { theme } = useTheme();
-  const isMobile = useIsMobile();
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
@@ -42,7 +40,11 @@ export function DetailOverlay() {
   if (!project) return null;
 
   const shot = project.shots[active] ?? project.shots[0];
-  const heroKeyName = resolveShot(project, shot.key, theme, isMobile);
+  /* Always the desktop capture here, even on a phone. The phone captures are
+   * portrait — 343px wide becomes 742px tall, which cannot share a 674px stage
+   * with the write-up. Landscape keeps the image small and the text readable,
+   * and Expand opens it full height when you actually want to look. */
+  const heroKeyName = resolveShot(project, shot.key, theme, false);
   const heroSrc = getShotImage(heroKeyName);
 
   return (
@@ -133,7 +135,7 @@ export function DetailOverlay() {
                 onClick={() => setActive(i)}
               >
                 <Shot
-                  imageKey={resolveShot(project, s.key, theme, isMobile)}
+                  imageKey={resolveShot(project, s.key, theme, false)}
                   label={s.label}
                   alt=""
                   natural

@@ -23,7 +23,13 @@ export function ProjectSlide({ project }: { project: Project }) {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const shots = project.shots;
+  /* Only the hero is captured for phones. Cycling the rest there would swing
+   * the frame between a tall phone screenshot and wide desktop ones every few
+   * seconds, so on mobile we show just the shots that have their own capture.
+   * Add mobile twins for the others later and cycling resumes on its own. */
+  const shots = isMobile
+    ? project.shots.filter((s) => resolveShot(project, s.key, theme, true).endsWith('-mobile'))
+    : project.shots;
 
   useEffect(() => {
     if (reduce || paused || shots.length < 2) return;
@@ -31,7 +37,7 @@ export function ProjectSlide({ project }: { project: Project }) {
     return () => clearInterval(id);
   }, [reduce, paused, shots.length]);
 
-  const shot = shots[i] ?? shots[0];
+  const shot = shots[i] ?? shots[0] ?? project.shots[0];
   const key = resolveShot(project, shot.key, theme, isMobile);
 
   return (

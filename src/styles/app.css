@@ -250,21 +250,24 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 /* ---------- project slide ---------- */
 
 .pslide {
+  --pslide-gap: clamp(12px, 2.4vh, 24px);
   display: flex; flex-direction: column; align-items: center;
-  justify-content: center; gap: clamp(12px, 2.4vh, 24px);
+  justify-content: center; gap: var(--pslide-gap);
 }
 
 /* The meta block is roughly fixed in height, so the media gets a deterministic
-   cap rather than chasing a percentage-height chain. */
+   cap rather than chasing a percentage-height chain. The reserve has to cover
+   the gap between them as well — leaving it out overflowed the stage by 10px
+   at each end on a 812px-tall phone. */
 .pslide-media {
-  --meta-h: clamp(104px, 15vh, 150px);
+  --meta-h: clamp(112px, 16vh, 156px);
   position: relative; margin: 0; display: grid; max-width: 100%;
 }
 .pslide-frame { grid-area: 1 / 1; display: grid; place-items: center; min-width: 0; }
 .pslide-frame img {
   display: block; width: auto; height: auto;
   max-width: 100%;
-  max-height: calc(var(--stage-h) - var(--meta-h));
+  max-height: calc(var(--stage-h) - var(--meta-h) - var(--pslide-gap));
 }
 
 .pslide-dots { position: absolute; right: 9px; bottom: 9px; z-index: 2; display: flex; gap: 6px; }
@@ -483,7 +486,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .aslide-photo { display: none; }
   .aslide-cols, .contact-fields { grid-template-columns: 1fr; }
 
-  .detail-inner { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; }
+  .detail-inner { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: start; }
+  /* Stacked here, so the image gets a hard share of the stage rather than the
+     desktop reserve, which only accounted for the thumbnail row beside it. */
+  .detail-media img { max-height: calc(var(--stage-h) * 0.34); }
   .detail-media { grid-column: 1; grid-row: 1; }
   .detail-body { grid-column: 1; grid-row: 2; }
   .detail-thumbs { display: none; }
