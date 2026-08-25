@@ -12,7 +12,7 @@ export function Contact() {
 
   const ready = name.trim().length > 0 && /.+@.+\..+/.test(email) && msg.trim().length > 3;
   const formHint = touched && !ready ? 'Name, a real email, and a sentence.' : 'Goes straight to my inbox.';
-  const hintColor = touched && !ready ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 50%, transparent)';
+  const hintColor = touched && !ready ? 'var(--color-accent-700)' : 'color-mix(in srgb, var(--color-text) 66%, transparent)';
 
   const send = async () => {
     if (!ready) {
@@ -69,19 +69,19 @@ export function Contact() {
           <i className="corner tl" /><i className="corner tr" /><i className="corner bl" /><i className="corner br" />
           {!sent ? (
             <div style={{ display: 'grid', gap: 'clamp(8px,1.4vh,14px)' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+              <div className="contact-fields">
                 <div className="field">
-                  <label>Name</label>
-                  <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+                  <label htmlFor="contact-name">Name</label>
+                  <input id="contact-name" className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
                 </div>
                 <div className="field">
-                  <label>Email</label>
-                  <input className="input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
+                  <label htmlFor="contact-email">Email</label>
+                  <input id="contact-email" className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" />
                 </div>
               </div>
               <div className="field">
-                <label>Message</label>
-                <textarea className="input" value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="What are you building?" />
+                <label htmlFor="contact-message">Message</label>
+                <textarea id="contact-message" className="input" value={msg} onChange={(e) => setMsg(e.target.value)} placeholder="What are you building?" />
               </div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <button type="button" className="btn btn-primary" onClick={send} disabled={sending}>

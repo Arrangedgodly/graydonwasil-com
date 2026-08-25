@@ -15,13 +15,13 @@ export function Footer() {
         padding: '10px clamp(20px,3.2vw,44px)',
         borderTop: '1px solid var(--color-divider)',
         fontSize: 12,
-        color: 'color-mix(in srgb, var(--color-text) 58%, transparent)',
+        color: 'color-mix(in srgb, var(--color-text) 66%, transparent)',
       }}
     >
-      <button type="button" className="btn btn-secondary" onClick={() => step(-1)} style={{ padding: '4px 11px' }}>
+      <button type="button" className="btn btn-secondary" onClick={() => step(-1)} style={{ minWidth: 44, minHeight: 44 }}>
         ←
       </button>
-      <button type="button" className="btn btn-secondary" onClick={() => step(1)} style={{ padding: '4px 11px' }}>
+      <button type="button" className="btn btn-secondary" onClick={() => step(1)} style={{ minWidth: 44, minHeight: 44 }}>
         →
       </button>
       <span

@@ -35,10 +35,10 @@ export function Rail() {
         </p>
       </div>
 
-      <nav className="railnav" style={{ display: 'grid', gap: 0 }}>
+      <nav className="railnav">
         {VIEWS.map((v) => (
           <Link key={v.path} to={v.path} className="navitem" data-on={view.path === v.path ? '1' : '0'}>
-            <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 45%, transparent)' }}>
+            <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 66%, transparent)' }}>
               {v.num}
             </span>
             {v.label}

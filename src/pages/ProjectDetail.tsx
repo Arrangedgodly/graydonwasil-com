@@ -62,7 +62,7 @@ export function ProjectDetail() {
                   lineHeight: 1.45,
                 }}
               >
-                <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 42%, transparent)' }}>
+                <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 66%, transparent)' }}>
                   {'0' + (i + 1)}
                 </span>
                 <span>{b}</span>

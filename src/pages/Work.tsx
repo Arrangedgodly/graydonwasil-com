@@ -28,6 +28,7 @@ export function Work() {
 
   return (
     <section className="pane" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+      <h2 className="sr-only">Work</h2>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center', justifyContent: 'space-between', flex: 'none' }}>
         <p style={{ margin: 0, fontSize: 15, lineHeight: '22px', color: 'color-mix(in srgb, var(--color-text) 70%, transparent)' }}>
           {resultNote}
@@ -64,7 +65,7 @@ export function Work() {
               <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: 10, flex: 'none' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                   <span className="mono" style={{ color: 'var(--color-accent-700)' }}>{p.num}</span>
-                  <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 50%, transparent)' }}>{p.year}</span>
+                  <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 66%, transparent)' }}>{p.year}</span>
                 </div>
                 <h3 className="pt" style={{ fontSize: 'clamp(19px,1.6vw,24px)' }}>{p.title}</h3>
                 <p style={{ margin: 0, fontSize: 14, lineHeight: '21px', color: 'color-mix(in srgb, var(--color-text) 80%, transparent)' }}>

@@ -66,7 +66,7 @@ export function ProjectGallery({ project }: { project: Project }) {
         </span>
 
         {mode === 'variant' ? (
-          <div style={{ position: 'absolute', right: 10, bottom: 10, display: 'flex', gap: 5 }}>
+          <div style={{ position: 'absolute', right: 2, bottom: 2, display: 'flex', gap: 8 }}>
             {gallery.variants.map((v, i) => (
               <button
                 key={v.key}
@@ -74,14 +74,26 @@ export function ProjectGallery({ project }: { project: Project }) {
                 aria-label={`Show ${v.label}`}
                 onClick={() => setVariantIndex(i)}
                 style={{
-                  width: 8,
-                  height: 8,
+                  width: 32,
+                  height: 32,
                   padding: 0,
-                  border: '1px solid var(--color-bg)',
-                  background: i === variantIndex ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-bg) 55%, var(--color-text))',
+                  border: 0,
+                  background: 'transparent',
+                  display: 'grid',
+                  placeItems: 'center',
                   cursor: 'pointer',
                 }}
-              />
+              >
+                <span
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    border: '1px solid var(--color-bg)',
+                    background: i === variantIndex ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-bg) 55%, var(--color-text))',
+                  }}
+                />
+              </button>
             ))}
           </div>
         ) : (

@@ -25,6 +25,7 @@ const SKILLS: Skill[] = [
 export function Toolkit() {
   return (
     <section className="pane" style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(10px,2vh,26px)' }}>
+      <h2 className="sr-only">Toolkit</h2>
       <p style={{ margin: 0, fontSize: 'clamp(13.5px,min(1.4vw,2.1vh),19px)', lineHeight: 1.45, maxWidth: '70ch' }}>
         Self-taught, project by project. Nothing on this list is here because I read about it — it's here
         because something I wanted didn't exist yet.

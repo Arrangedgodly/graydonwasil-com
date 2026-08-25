@@ -38,7 +38,7 @@ export function About() {
             <div style={{ display: 'grid', gap: 'clamp(4px,.8vh,8px)', fontSize: 'clamp(12.5px,min(1.05vw,1.75vh),15px)', lineHeight: 1.4 }}>
               {CURRENTLY.map((c, i) => (
                 <div key={c} style={{ display: 'flex', gap: 12 }}>
-                  <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 45%, transparent)' }}>
+                  <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 66%, transparent)' }}>
                     {'0' + (i + 1)}
                   </span>
                   <span>{c}</span>

@@ -33,11 +33,11 @@ export function Header() {
         {crumbTitle}
       </span>
       {inDetail && (
-        <Link to="/work" className="btn btn-secondary" style={{ padding: '5px 12px' }}>
+        <Link to="/work" className="btn btn-secondary" style={{ padding: '5px 12px', minHeight: 44 }}>
           ← All work
         </Link>
       )}
-      <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 45%, transparent)' }}>
+      <span className="mono" style={{ color: 'color-mix(in srgb, var(--color-text) 66%, transparent)' }}>
         {hint}
       </span>
     </header>
