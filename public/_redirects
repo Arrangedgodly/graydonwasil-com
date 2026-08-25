@@ -1,5 +1,0 @@
-# Every path renders the same shell — the client decides which slide is parked
-# and whether a deeper view is layered over it. Without this, a hard load of
-# /projects/rhymepage depends on the host's default behaviour for unmatched
-# paths rather than on anything in this repo.
-/*  /index.html  200
