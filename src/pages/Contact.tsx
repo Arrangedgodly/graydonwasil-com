@@ -47,29 +47,25 @@ export function Contact() {
   };
 
   return (
-    <div className="pane">
-      <section className="hero hero--sub">
-        <h1 className="disp hero-title">
+    <div className="cslide">
+      <div className="cslide-lead">
+        <h2 className="disp cslide-title">
           <span className="line">Say</span>
           <span className="line">something.</span>
-        </h1>
-      </section>
-
-      <section className="contact-split">
-        <div className="block">
-          <p className="prose-lead">
+        </h2>
+        <p className="prose-lead">
             Questions, ideas, or an argument about which casting is the rarest &mdash; it all lands in
             the same inbox, and I answer everything.
-          </p>
-          <div className="linkstack mono">
-            <a href="mailto:hello@graydonwasil.com">hello@graydonwasil.com</a>
-            <a href="https://github.com/graydonwasil" target="_blank" rel="noreferrer">
-              github.com/graydonwasil
-            </a>
-          </div>
+        </p>
+        <div className="linkstack mono">
+          <a href="mailto:hello@graydonwasil.com">hello@graydonwasil.com</a>
+          <a href="https://github.com/graydonwasil" target="_blank" rel="noreferrer">
+            github.com/graydonwasil
+          </a>
         </div>
+      </div>
 
-        <div className="formpanel glass">
+      <div className="formpanel glass">
           {!sent ? (
             <div className="formgrid">
               <div className="contact-fields">
@@ -121,7 +117,7 @@ export function Contact() {
           ) : (
             <div className="formgrid" aria-live="polite">
               <span className="mono block-label">Sent</span>
-              <h2 className="pt sent-title">Thanks &mdash; that&rsquo;s on its way.</h2>
+              <h3 className="pt sent-title">Thanks &mdash; that&rsquo;s on its way.</h3>
               <p className="prose-lead">
                 I read everything, usually within a day. If it&rsquo;s about a casting, expect a long
                 reply.
@@ -132,9 +128,8 @@ export function Contact() {
                 </button>
               </div>
             </div>
-          )}
-        </div>
-      </section>
+        )}
+      </div>
     </div>
   );
 }

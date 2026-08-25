@@ -1,26 +1,26 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { m, useReducedMotion } from 'motion/react';
 import { VIEWS } from '../lib/nav';
-import { useViewMeta } from '../lib/useViewMeta';
+import { navKeyFor } from '../lib/deck';
+import { useDeck, directionBetween } from '../lib/useDeck';
 import { SPRING_SNAP, INSTANT } from '../lib/motion';
 
-/* The indicator renders inside whichever item is active and carries a shared
- * layoutId, so Motion morphs it between items — position and width — without
- * anything measuring the DOM by hand. */
-
 export function NavPill() {
-  const { view } = useViewMeta();
+  const { slide } = useDeck();
+  const location = useLocation();
   const reduce = useReducedMotion();
+  const activeKey = navKeyFor(slide);
 
   return (
     <nav className="navpill" aria-label="Sections">
       <div className="navpill-list">
         {VIEWS.map((v) => {
-          const on = view.path === v.path;
+          const on = activeKey === v.key;
           return (
             <Link
-              key={v.path}
+              key={v.key}
               to={v.path}
+              state={{ dir: directionBetween(location.pathname, v.path) }}
               className="navpill-item"
               data-on={on ? '1' : '0'}
               aria-current={on ? 'page' : undefined}
