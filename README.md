@@ -12,94 +12,116 @@ npm run dev
 
 `npm run build` typechecks and builds. `npm run lint` runs oxlint.
 
+## The deck
+
+**Nothing scrolls.** The shell is exactly one viewport with `overflow: hidden`,
+the chrome is fixed and never moves, and slides transition in and out of a
+centred stage. The site is one flat sequence:
+
+```
+Hero · Rhymepage · Collectible Cars · Arranged Godly · About · Contact
+```
+
+A wheel tick, a swipe, an arrow key and the nav pill all do the same thing —
+move one index. `src/lib/deck.ts` is the single source of that order; adding a
+project to `src/data/projects.ts` inserts a slide, a URL and a rail dot.
+
+Wheel input becomes **discrete** moves rather than continuous travel, which is
+what makes it snap. Trackpad momentum keeps firing after the fingers lift, so
+the deck stops listening for 520ms once it commits (`useDeckDrivers.ts`).
+
+## Fitting, not cropping
+
+The previous design stretched its media badly, and it is worth being precise
+about why: images were sized from **leftover height** and then cropped with
+`object-fit: cover`. A locked viewport was never the problem.
+
+Here every image is capped by an explicit `max-height` derived from the chrome
+(`--stage-h` minus the slide's own furniture), with `width` and `height` on
+`auto`. It scales to fit and never distorts or crops. At 1366×768 a 2.44:1
+capture renders 1118×457 — exactly 2.44:1.
+
+Type is fluid on both axes (`min(Xvw, Yvh)`), because a locked stage has to
+survive short laptop windows as well as narrow ones.
+
 ## Design
 
-Dark-first, with a light toggle. Tokens live in `src/styles/theme.css`: the
-bare `:root` block is the dark palette and the site's default, and
-`:root[data-theme="light"]` overrides it. `index.html` stamps the stored
-choice on `<html>` before first paint so there is no flash.
+Dark-first with a light toggle. Tokens live in `src/styles/theme.css`: the bare
+`:root` block is the dark palette and the default, and `:root[data-theme="light"]`
+overrides it. `index.html` stamps the stored choice before first paint.
 
 The colour ramps **invert** relative to a conventional light system — on dark
-grounds `--color-*-100` is the deepest value and `--color-*-900` the
-brightest. That keeps rules like `.tag-accent` ("quiet ground, loud text")
-and `.btn-primary` ("loud ground, quiet text") correct in both themes with no
-theme-specific component overrides.
-
-`src/styles/app.css` holds layout. The document scrolls and the chrome does
-not: content is centred on the true viewport centre, capped at
-`--measure-wide` (1120px), with running text capped much shorter at
-`--measure-text` (65ch). **Nothing sizes itself from leftover viewport
-height** — that was what stretched the media in the previous design.
+grounds `--color-*-100` is the deepest value and `--color-*-900` the brightest.
+That keeps `.tag-accent` ("quiet ground, loud text") and `.btn-primary` ("loud
+ground, quiet text") correct in both themes with no per-theme overrides.
 
 ## Structure
 
-- `src/data/projects.ts` — the three project write-ups. Each declares three
-  capture slots (`hero`, `shot-2`, `shot-3`). Add a project here and it gets
-  an exhibit on the home page and a detail route automatically.
-- `src/pages/` — `Home` (hero + the three exhibits), `ProjectDetail`,
-  `About` (with the toolkit folded in), `Contact`.
-- `src/components/Shell.tsx` — fixed chrome: name mark, nav pill, footer,
-  plus the ← / → / Esc keyboard navigation.
-- `src/components/NavPill.tsx` — the floating nav. Its active indicator is a
-  shared `layoutId`, so Motion morphs it between items rather than anything
-  measuring positions by hand.
+- `src/data/projects.ts` — the three write-ups. Each declares three capture
+  slots (`hero`, `shot-2`, `shot-3`).
+- `src/lib/deck.ts` — slide order, URL mapping, footer notes.
+- `src/components/Deck.tsx` — the stage and its slide transitions.
+- `src/components/ProjectSlide.tsx` — a project as a slide: captures cycle on
+  their own every 3.2s and it says almost nothing. The descriptions live in the
+  deeper view.
+- `src/components/DetailOverlay.tsx` — the deeper view, layered over the deck
+  so closing returns you exactly where you were.
+- `src/components/SwipeArea.tsx` — vertical touch swipe with an axis lock, so a
+  gesture that drifts sideways is ignored.
+- `src/components/Lightbox.tsx` — tap a capture to see it full height and pan
+  it sideways; the only way an ultrawide is legible on a phone.
 - `src/lib/images.ts` — `resolveShot` maps a project and slot to a filename,
-  preferring the theme-paired capture and degrading to older ones. See
-  `src/assets/screenshots/README.md`.
+  preferring the theme-paired capture. See `src/assets/screenshots/README.md`.
 - `src/lib/useTheme.ts` — reads `data-theme` off `<html>` as its source of
-  truth rather than keeping a second copy. Switching themes runs a circular
-  wipe through the View Transitions API, and flushes React synchronously
-  inside it so the screenshots swap to their twins within the same snapshot.
-- `src/components/SwipeArea.tsx` — touch-only swipe between sections and
-  projects, with an axis lock so a scroll that drifts sideways is ignored.
-- `src/components/Lightbox.tsx` — tap to view a screenshot full height and
-  scroll it sideways, which is the only way an ultrawide capture is legible
-  on a phone.
+  truth. Switching runs a circular wipe via the View Transitions API and
+  flushes React synchronously inside it, so the captures swap to their twins
+  within the same snapshot.
 
 ## Motion
 
-`motion` (v13) via `LazyMotion` with the `domMax` feature set, in `strict`
-mode — so every call site uses `m`, not `motion`. `domMax` is required because
-`layoutId` is a layout animation and `domAnimation` omits those. Springs live
-in `src/lib/motion.ts`.
+`motion` (v13) via `LazyMotion` with `domMax`, in `strict` mode — every call
+site uses `m`, not `motion`. `domMax` is required because `layoutId` is a layout
+animation and `domAnimation` omits those. Springs live in `src/lib/motion.ts`.
 
-Two shared `layoutId`s: the nav indicator, and the frame linking a home-page
-exhibit to its detail hero. Note that Motion measures layout in document
-space, and opening a project also resets the scroll — so the frame travels the
-distance between the two document positions rather than staying under the
-cursor. True in-place continuity would need a fixed-overlay FLIP.
-
-Everything respects `prefers-reduced-motion`: springs collapse to zero
-duration and the theme wipe is skipped.
+Two shared `layoutId`s: the nav indicator, and the frame linking a project
+slide to its deeper view. Everything respects `prefers-reduced-motion` —
+springs collapse to zero duration and the theme wipe is skipped.
 
 ## Routes
 
-`/` · `/about` · `/contact` · `/projects/:slug`. `/work` and `/toolkit`
-redirect to `/` and `/about`; anything unmatched redirects to `/`.
+Every URL renders the same shell; the path decides which slide is parked and
+whether a deeper view is layered over it. `App.tsx` has no `<Route>` elements,
+which is why `DetailOverlay` reads its slug from the pathname rather than
+`useParams`.
+
+```
+/                          Hero
+/projects/:slug            that project's slide
+/projects/:slug/details    its deeper view, over the deck
+/about  ·  /contact        those slides
+```
+
+Anything unmatched lands on the first slide.
 
 ## Contact form
 
 `src/pages/Contact.tsx` posts to `VITE_CONTACT_ENDPOINT` (see `.env.example`).
-With no endpoint configured it opens the visitor's mail client with the
-message pre-filled — functional either way, but a real endpoint (e.g. a
-[Formspree](https://formspree.io) form URL) delivers without leaving the
-page. Set it in a local `.env` and again in your host's environment
-variables.
+With no endpoint configured it opens the visitor's mail client with the message
+pre-filled — functional either way, but a real endpoint (e.g. a
+[Formspree](https://formspree.io) form URL) delivers without leaving the page.
 
 ## Deploy — Cloudflare Pages
 
 1. Push this repo to GitHub.
-2. Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to
-   Git**, select the repo.
+2. **Workers & Pages → Create → Pages → Connect to Git**, select the repo.
 3. Framework preset **Vite**, build command `npm run build`, output `dist`.
-4. Add `VITE_CONTACT_ENDPOINT` under environment variables if you are using a
-   form backend.
+4. Add `VITE_CONTACT_ENDPOINT` if you are using a form backend.
 5. Deploy, then add `graydonwasil.com` as a custom domain.
 
 ## Not done yet
 
 - The reshoot — see `src/assets/screenshots/SHOT-LIST.md`. Until it lands,
-  Rhymepage and Arranged Godly have no phone captures and render as thin
-  strips on mobile, and the About photo is a placeholder.
+  Rhymepage and Arranged Godly have no phone captures and render as thin strips
+  on mobile, and the About photo is a placeholder.
 - Open Graph / Twitter card images (currently text-only).
 - `robots.txt` / sitemap.
