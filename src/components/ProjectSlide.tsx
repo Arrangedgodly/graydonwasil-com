@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { AnimatePresence, m, useReducedMotion } from 'motion/react';
 import type { Project } from '../data/projects';
 import { Shot } from './Shot';
-import { resolveShot, sharedShotId } from '../lib/images';
+import { getShotImage, resolveShot, sharedShotId } from '../lib/images';
 import { detailPath } from '../lib/deck';
-import { useTheme } from '../lib/useTheme';
+import { useTheme, type Theme } from '../lib/useTheme';
 import { useIsMobile } from '../lib/useIsMobile';
 import { SPRING_OPEN, INSTANT } from '../lib/motion';
 
@@ -36,6 +36,29 @@ export function ProjectSlide({ project }: { project: Project }) {
     const id = setInterval(() => setI((v) => (v + 1) % shots.length), CYCLE_MS);
     return () => clearInterval(id);
   }, [reduce, paused, shots.length]);
+
+  /* Decode this project's other-theme captures while the browser is idle. The
+   * theme flip swaps every screenshot inside a flushSync, and decoding a
+   * 589 KB WebP at that moment is a large part of why the wipe stutters on a
+   * phone. Doing it ahead of time makes the swap free. */
+  useEffect(() => {
+    const other: Theme = theme === 'dark' ? 'light' : 'dark';
+    const run = () => {
+      for (const s of shots) {
+        const src = getShotImage(resolveShot(project, s.key, other, isMobile));
+        if (!src) continue;
+        const img = new Image();
+        img.src = src;
+        img.decode?.().catch(() => {});
+      }
+    };
+    const hasIdle = typeof window.requestIdleCallback === 'function';
+    const handle = hasIdle ? window.requestIdleCallback(run) : window.setTimeout(run, 300);
+    return () => {
+      if (hasIdle) window.cancelIdleCallback(handle);
+      else window.clearTimeout(handle);
+    };
+  }, [project, theme, isMobile, shots]);
 
   const shot = shots[i] ?? shots[0] ?? project.shots[0];
   const key = resolveShot(project, shot.key, theme, isMobile);

@@ -57,9 +57,29 @@ export function setTheme(theme: Theme, origin?: WipeOrigin) {
     return;
   }
 
+  /* A view transition rasterises two full-page snapshots before it animates
+   * anything, so every backdrop-filter on the page is paid for twice up front.
+   * Blur is the single most expensive thing here, and on a phone that cost
+   * lands as a freeze before the wipe starts rather than a low frame rate
+   * during it. Swapping the glass for solid panels for the duration removes it
+   * — imperceptible while the whole screen is changing colour anyway. */
+  const root = document.documentElement;
+  root.classList.add('wiping');
+
   const transition = doc.startViewTransition(() => {
     flushSync(() => applyTheme(theme));
   });
+
+  // Belt and braces: if the transition is skipped or its promise never
+  // settles, the page must not be left stuck with the glass turned off.
+  const unwipe = () => root.classList.remove('wiping');
+  const safety = window.setTimeout(unwipe, 1200);
+  transition.finished
+    .finally(() => {
+      window.clearTimeout(safety);
+      unwipe();
+    })
+    .catch(() => {});
 
   transition.ready
     .then(() => {
@@ -76,7 +96,9 @@ export function setTheme(theme: Theme, origin?: WipeOrigin) {
           clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`],
         },
         {
-          duration: 520,
+          // Shorter on touch: phones have the most snapshot work to do, so any
+          // residual hitch is over sooner.
+          duration: window.matchMedia('(pointer: coarse)').matches ? 380 : 520,
           easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
           pseudoElement: '::view-transition-new(root)',
         },

@@ -483,7 +483,22 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .rail { gap: 8px; right: 8px; }
 
   .aslide, .cslide { grid-template-columns: 1fr; align-content: center; }
-  .aslide-photo { display: none; }
+  /* Was display:none while this slot held a placeholder. There is a real
+     photograph in it now, and hiding it on the device most people will open
+     the site on was the wrong call.
+
+     Floated rather than stacked: stacking cost 189px of a 674px stage and
+     pushed the Currently list off the bottom. Letting the text wrap around it
+     reclaims all of that, so nothing has to be cut. The body and prose drop to
+     normal flow here because a flex container is pushed aside by a float
+     instead of wrapping around it. */
+  .aslide { display: block; }
+  .aslide-photo { display: block; float: left; margin: 0 14px 10px 0; }
+  .aslide-photo img { max-height: calc(var(--stage-h) * 0.26); }
+  .aslide-body { display: block; }
+  .aslide-body > * + * { margin-top: clamp(10px, 1.8vh, 18px); }
+  .prose { display: block; }
+  .prose p + p { margin-top: 10px; }
   .aslide-cols, .contact-fields { grid-template-columns: 1fr; }
 
   .detail-inner { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: start; }
@@ -495,7 +510,18 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .detail-thumbs { display: none; }
 }
 
-/* ---------- theme wipe ---------- */
+/* ---------- theme wipe ----------
+   .wiping is set on <html> for the length of the transition. Dropping the
+   backdrop blur means the two full-page snapshots the transition rasterises do
+   not have to compute it, which is where the cost sits on a phone. */
+
+:root.wiping { --glass-blur: none; }
+:root.wiping .navpill-list,
+:root.wiping .footbar,
+:root.wiping .peek,
+:root.wiping .detail-close,
+:root.wiping .detail { background: var(--color-bg); }
+
 
 ::view-transition-old(root),
 ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
