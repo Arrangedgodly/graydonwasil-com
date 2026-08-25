@@ -69,7 +69,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    id: 'cars',
+    id: 'collectible-cars',
     num: '02',
     title: 'Collectible Cars DB',
     url: 'cars.arrangedgodly.com',
@@ -111,7 +111,7 @@ export const PROJECTS: Project[] = [
     },
   },
   {
-    id: 'ag',
+    id: 'arranged-godly',
     num: '03',
     title: 'Arranged Godly',
     url: 'arrangedgodly.com',

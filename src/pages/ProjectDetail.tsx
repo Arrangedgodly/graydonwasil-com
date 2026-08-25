@@ -13,7 +13,7 @@ export function ProjectDetail() {
 
   useEffect(() => setShot(0), [slug]);
 
-  if (!project) return <Navigate to="/work" replace />;
+  if (!project) return <Navigate to="/" replace />;
 
   return (
     <section className="pane">

@@ -11,9 +11,9 @@ export function About() {
   return (
     <section className="pane">
       <div className="split">
-        <figure className="blueprint duotone" style={{ margin: 0, height: '100%', minHeight: 0 }}>
+        <figure className="blueprint duotone" style={{ margin: 0 }}>
           <i className="corner tl" /><i className="corner tr" /><i className="corner bl" /><i className="corner br" />
-          <Shot imageKey="about" label={'photo — graydon\ndrop an image here'} alt="Graydon Wasil" style={{ height: '100%', minHeight: 220 }} />
+          <Shot imageKey="about" label={'photo — graydon\ndrop an image here'} alt="Graydon Wasil" style={{ aspectRatio: '4 / 5' }} />
         </figure>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1.4vh,16px)' }}>
           <h2 className="disp" style={{ fontSize: 'clamp(21px,min(3.2vw,4.8vh),42px)' }}>

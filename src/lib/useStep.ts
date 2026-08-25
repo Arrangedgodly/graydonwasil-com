@@ -11,7 +11,7 @@ export function useStep() {
     if (inDetail && project) {
       const i = PROJECTS.findIndex((p) => p.id === project.id);
       const next = PROJECTS[(i + d + PROJECTS.length) % PROJECTS.length];
-      navigate(`/work/${next.id}`);
+      navigate(`/projects/${next.id}`);
       return;
     }
     const i = VIEWS.findIndex((v) => v.path === view.path);

@@ -1,7 +1,6 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { Shell } from './components/Shell';
-import { Intro } from './pages/Intro';
-import { Work } from './pages/Work';
+import { Home } from './pages/Home';
 import { ProjectDetail } from './pages/ProjectDetail';
 import { Toolkit } from './pages/Toolkit';
 import { About } from './pages/About';
@@ -11,12 +10,18 @@ function App() {
   return (
     <Routes>
       <Route element={<Shell />}>
-        <Route path="/" element={<Intro />} />
-        <Route path="/work" element={<Work />} />
-        <Route path="/work/:slug" element={<ProjectDetail />} />
-        <Route path="/toolkit" element={<Toolkit />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/projects/:slug" element={<ProjectDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+
+        {/* Toolkit is no longer a destination; its content folds into About in
+            the next stage. Routed until then so nothing is stranded. */}
+        <Route path="/toolkit" element={<Toolkit />} />
+
+        {/* Home absorbed the work index. */}
+        <Route path="/work" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );
