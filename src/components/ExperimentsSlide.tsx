@@ -72,16 +72,23 @@ export function ExperimentsSlide() {
 
       // At either end, leave the gesture alone so the main deck continues to
       // the neighbouring section. Everywhere else, this small deck owns it.
-      if (nextIndex < 0 || nextIndex >= visibleExperiments.length || wheelLocked.current) return;
+      if (nextIndex < 0 || nextIndex >= visibleExperiments.length) {
+        // The first boundary gesture after a card change is usually leftover
+        // trackpad momentum. Keep it in this surface; a fresh gesture exits.
+        if (wheelLocked.current) event.preventDefault();
+        return;
+      }
 
       event.preventDefault();
+      if (wheelLocked.current) return;
       wheelAccumulation.current += event.deltaY;
-      if (Math.abs(wheelAccumulation.current) < 42) return;
+      // Keep the nested stack in step with the site-wide deck navigation.
+      if (Math.abs(wheelAccumulation.current) < 60) return;
 
       wheelAccumulation.current = 0;
       wheelLocked.current = true;
       selectIndex(nextIndex);
-      window.setTimeout(() => { wheelLocked.current = false; }, 360);
+      window.setTimeout(() => { wheelLocked.current = false; }, 520);
     };
 
     surface.addEventListener('wheel', onWheel, { passive: false });
