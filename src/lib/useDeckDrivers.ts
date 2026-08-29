@@ -36,7 +36,9 @@ export function useWheelNav(go: (delta: 1 | -1) => void) {
     let unlockTimer: number | undefined;
 
     const onWheel = (e: WheelEvent) => {
-      if (modalOpen() || inTextField(e.target)) return;
+      // A focused nested control can consume a gesture before it reaches the
+      // outer deck. This lets the experiment stack hand off at its endpoints.
+      if (e.defaultPrevented || modalOpen() || inTextField(e.target)) return;
 
       // Nothing to scroll, so suppress overscroll bounce and rubber-banding.
       e.preventDefault();

@@ -1,11 +1,11 @@
-import { useMemo, useState } from 'react';
-import { EXPERIMENTS } from '../data/projects';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { EXPERIMENTS, type Experiment } from '../data/projects';
 
 type ExperimentOrder = 'curated' | 'alphabetical' | 'newest';
 
 const ORDER_LABELS: Record<ExperimentOrder, string> = {
   curated: 'Curated',
-  alphabetical: 'A–Z',
+  alphabetical: 'A-Z',
   newest: 'Newest',
 };
 
@@ -15,9 +15,35 @@ function nextOrder(order: ExperimentOrder): ExperimentOrder {
   return 'curated';
 }
 
+function StackCard({ experiment, index, depth, onSelect }: {
+  experiment: Experiment;
+  index: number;
+  depth: 0 | 1 | 2;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="experiment-stack-card"
+      data-depth={depth}
+      data-project={experiment.id}
+      onClick={onSelect}
+      aria-current={depth === 0 ? 'true' : undefined}
+    >
+      <span className="experiment-stack-kicker mono">{experiment.tags.join(' / ')}</span>
+      <span className="experiment-stack-title disp">{experiment.title}</span>
+      <span className="experiment-stack-index mono">{String(index + 1).padStart(2, '0')}</span>
+    </button>
+  );
+}
+
 export function ExperimentsSlide() {
   const [selectedId, setSelectedId] = useState(EXPERIMENTS[0].id);
   const [order, setOrder] = useState<ExperimentOrder>('curated');
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const surfaceRef = useRef<HTMLDivElement>(null);
+  const wheelAccumulation = useRef(0);
+  const wheelLocked = useRef(false);
   const visibleExperiments = useMemo(() => {
     if (order === 'curated') return EXPERIMENTS;
     return [...EXPERIMENTS].sort((a, b) => (
@@ -26,10 +52,44 @@ export function ExperimentsSlide() {
         : b.createdAt.localeCompare(a.createdAt) || a.title.localeCompare(b.title)
     ));
   }, [order]);
-  const selected = EXPERIMENTS.find((experiment) => experiment.id === selectedId) ?? EXPERIMENTS[0];
+  const selectedIndex = Math.max(0, visibleExperiments.findIndex((experiment) => experiment.id === selectedId));
+  const selected = visibleExperiments[selectedIndex] ?? visibleExperiments[0];
+
+  const selectIndex = useCallback((index: number) => {
+    const next = visibleExperiments[index];
+    if (!next || next.id === selected.id) return;
+    setDirection(index > selectedIndex ? 1 : -1);
+    setSelectedId(next.id);
+  }, [selected.id, selectedIndex, visibleExperiments]);
+
+  useEffect(() => {
+    const surface = surfaceRef.current;
+    if (!surface) return undefined;
+
+    const onWheel = (event: WheelEvent) => {
+      const step: 1 | -1 = event.deltaY > 0 ? 1 : -1;
+      const nextIndex = selectedIndex + step;
+
+      // At either end, leave the gesture alone so the main deck continues to
+      // the neighbouring section. Everywhere else, this small deck owns it.
+      if (nextIndex < 0 || nextIndex >= visibleExperiments.length || wheelLocked.current) return;
+
+      event.preventDefault();
+      wheelAccumulation.current += event.deltaY;
+      if (Math.abs(wheelAccumulation.current) < 42) return;
+
+      wheelAccumulation.current = 0;
+      wheelLocked.current = true;
+      selectIndex(nextIndex);
+      window.setTimeout(() => { wheelLocked.current = false; }, 360);
+    };
+
+    surface.addEventListener('wheel', onWheel, { passive: false });
+    return () => surface.removeEventListener('wheel', onWheel);
+  }, [selectIndex, selectedIndex, visibleExperiments.length]);
 
   return (
-    <div className="experiments-slide">
+    <div className="experiments-slide experiments-stack-slide" ref={surfaceRef}>
       <div className="experiments-heading">
         <div className="experiments-heading-row">
           <h2 className="disp">Experiments</h2>
@@ -42,31 +102,22 @@ export function ExperimentsSlide() {
             Order: {ORDER_LABELS[order]}
           </button>
         </div>
-        <p>Small interactive builds, made quickly and curiously with AI-assisted tools.</p>
+        <p>Scroll through small interactive builds, made quickly and curiously with AI-assisted tools.</p>
       </div>
 
-      <div className="experiments-index">
-        <select
-          className="experiments-mobile-select input"
-          value={selected.id}
-          onChange={(event) => setSelectedId(event.target.value)}
-          aria-label="Choose an experiment"
-        >
-          {visibleExperiments.map((experiment) => <option key={experiment.id} value={experiment.id}>{experiment.title}</option>)}
-        </select>
-        <div className="experiments-list" aria-label="Experiments">
-        {visibleExperiments.map((experiment) => (
-          <button
-            type="button"
-            key={experiment.id}
-            data-on={experiment.id === selected.id ? '1' : '0'}
-            aria-pressed={experiment.id === selected.id}
-            onClick={() => setSelectedId(experiment.id)}
-          >
-            <span className="pt">{experiment.title}</span>
-            <span className="mono">View</span>
-          </button>
-        ))}
+      <div className="experiments-stack-layout" data-direction={direction > 0 ? 'down' : 'up'}>
+        <div className="experiments-stack" key={selected.id} aria-label="Experiment stack">
+          {([0, 1, 2] as const).map((depth) => {
+            const index = selectedIndex + depth;
+            const experiment = visibleExperiments[index];
+            return experiment && <StackCard
+              key={experiment.id}
+              experiment={experiment}
+              index={index}
+              depth={depth}
+              onSelect={() => selectIndex(index)}
+            />;
+          })}
         </div>
 
         <section className="experiment-detail blueprint">
