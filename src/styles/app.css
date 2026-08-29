@@ -236,16 +236,58 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 /* ---------- hero ---------- */
 
 .hero {
+  position: relative; isolation: isolate;
   display: flex; flex-direction: column; justify-content: center;
   gap: clamp(12px, 2.4vh, 26px);
 }
-.hero-title { font-size: clamp(34px, min(7vw, 11vh), 104px); }
+.hero-title, .hero .lede, .hero-cue { position: relative; z-index: 1; }
+.hero-title {
+  max-width: 9.5ch;
+  font-size: clamp(34px, min(7vw, 11vh), 104px);
+  text-shadow: 0 2px 18px color-mix(in srgb, var(--color-bg) 78%, transparent);
+}
 .lede {
   margin: 0; max-width: var(--measure-text);
   font-size: clamp(13.5px, min(1.3vw, 2.2vh), 19px); line-height: 1.5;
   color: color-mix(in srgb, var(--color-text) 82%, transparent);
 }
 .hero-cue { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+
+/* A looping contact sheet made from the projects behind the statement. The
+   crops read like GIF fragments without making the first view carry a large,
+   unrelated animation download. */
+.hero-memory {
+  position: absolute; z-index: 0; inset: 0 calc(var(--gutter) * -0.15) 0 auto;
+  width: min(56vw, 720px); overflow: hidden; pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 79%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 30%, #000 79%, transparent 100%);
+}
+.hero-memory::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--color-bg) 0%, color-mix(in srgb, var(--color-bg) 68%, transparent) 35%, color-mix(in srgb, var(--color-bg) 30%, transparent) 100%);
+  z-index: 1;
+}
+.hero-memory-track { display: flex; flex-direction: column; }
+.hero-memory-sequence {
+  display: flex; flex-direction: column; gap: clamp(15px, 2.4vh, 24px);
+  padding-block: clamp(8px, 1.4vh, 14px);
+}
+.hero-memory-slice {
+  position: relative; margin-left: auto; width: min(50vw, 640px); height: clamp(58px, 11vh, 108px);
+  overflow: hidden; opacity: 0.7; border-block: 1px solid color-mix(in srgb, var(--color-accent) 48%, transparent);
+  box-shadow: 0 9px 24px rgb(0 0 0 / 0.22);
+}
+.hero-memory-slice img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(1.08) contrast(1.12) brightness(1.35); }
+.hero-memory-slice span {
+  position: absolute; right: 10px; bottom: 7px; padding: 2px 5px;
+  color: var(--color-accent-800); background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+}
+.hero-memory-slice:nth-child(3n + 1) { transform: translateX(7%); }
+.hero-memory-slice:nth-child(3n + 2) { transform: translateX(-5%); }
+.hero-memory-slice:nth-child(3n) { transform: translateX(3%); }
+.hero-memory[data-motion="loop"] .hero-memory-track { animation: hero-memory-roll 54s linear infinite; }
+
+@keyframes hero-memory-roll { to { transform: translateY(-50%); } }
 
 /* ---------- project slide ---------- */
 
@@ -435,6 +477,38 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 
 /* ---------- swipe peek ---------- */
 
+/* ---------- experiments ---------- */
+
+.experiments-slide {
+  width: min(100%, var(--measure-wide));
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(14px, 2.2vh, 24px);
+  margin: 0 auto;
+  padding: clamp(14px, 2.2vh, 28px) var(--gutter);
+}
+.experiments-heading { width: min(100%, 640px); }
+.experiments-heading p {
+  margin: 9px 0 0;
+  color: color-mix(in srgb, var(--color-text) 74%, transparent);
+  font-size: clamp(13px, 1.1vw, 16px);
+  white-space: nowrap;
+}
+.experiments-index { display: grid; grid-template-columns: minmax(190px, .65fr) minmax(0, 1.6fr); gap: clamp(24px, 6vw, 90px); align-items: center; min-height: 0; }
+.experiments-list { display: flex; flex-direction: column; border-top: 1px solid var(--color-divider); }
+.experiments-list button { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: clamp(9px, 1.4vh, 14px) 0; border: 0; border-bottom: 1px solid var(--color-divider); background: none; color: color-mix(in srgb, var(--color-text) 62%, transparent); cursor: pointer; text-align: left; }
+.experiments-list button:hover, .experiments-list button[data-on="1"] { color: var(--color-accent-700); }
+.experiments-list .pt { font-size: clamp(19px, min(2vw, 3vh), 29px); }
+.experiments-list .mono { font-size: 10px; }
+.experiment-detail { min-height: min(48vh, 410px); display: grid; grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; gap: clamp(14px, 2.5vh, 24px); align-items: end; padding: clamp(18px, 3vw, 34px); background: var(--color-surface); }
+.experiment-detail > img { justify-self: center; width: auto; height: auto; max-width: 100%; max-height: calc(var(--stage-h) * 0.31); object-fit: contain; }
+.experiment-detail-mark { min-height: min(28vh, 250px); display: grid; place-items: center; border: 1px solid var(--color-divider); color: var(--color-accent-700); font: 600 clamp(110px, 17vw, 220px)/.75 var(--font-heading); }
+.experiment-detail-copy p { margin: 10px 0 18px; color: color-mix(in srgb, var(--color-text) 76%, transparent); font-size: clamp(14px, 1.3vw, 18px); }
+.experiment-detail-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 22px; }
+.experiment-source { flex: none; padding: 4px 0; color: var(--color-accent-700); }
+
 .peek {
   position: fixed; left: 50%; z-index: 39; transform: translateX(-50%);
   pointer-events: none; padding: 10px 14px;
@@ -516,6 +590,18 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .detail-media { grid-column: 1; grid-row: 1; }
   .detail-body { grid-column: 1; grid-row: 2; }
   .detail-thumbs { display: none; }
+
+  .experiments-slide { gap: 18px; padding-inline: 0; }
+  .experiments-heading { padding-inline: var(--gutter); }
+  .experiments-heading p { font-size: 13px; white-space: normal; }
+  .experiments-index { grid-template-columns: 1fr; gap: 18px; padding-inline: var(--gutter); }
+  .experiments-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 1px solid var(--color-divider); }
+  .experiments-list button { padding: 10px; border-top: 1px solid var(--color-divider); border-right: 1px solid var(--color-divider); }
+  .experiments-list .pt { font-size: 18px; }
+  .experiment-detail { min-height: min(43vh, 340px); }
+  .experiment-detail > img { max-height: calc(var(--stage-h) * 0.24); }
+  .experiment-detail-mark { display: none; }
+  .experiment-detail-copy h3 { font-size: clamp(44px, 13vw, 74px); }
 
   .detail-mediabar {
     display: flex;

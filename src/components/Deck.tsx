@@ -6,6 +6,7 @@ import { ProgressRail } from './ProgressRail';
 import { Hero } from '../pages/Hero';
 import { About } from '../pages/About';
 import { Contact } from '../pages/Contact';
+import { ExperimentsSlide } from './ExperimentsSlide';
 
 /* Slides enter from the direction the deck is travelling and leave the
  * opposite way, so a move reads as the content having scrolled past even
@@ -44,6 +45,7 @@ export function Deck() {
         >
           {slide.kind === 'hero' && <Hero />}
           {slide.kind === 'project' && slide.project && <ProjectSlide project={slide.project} />}
+          {slide.kind === 'experiments' && <ExperimentsSlide />}
           {slide.kind === 'about' && <About />}
           {slide.kind === 'contact' && <Contact />}
         </m.section>

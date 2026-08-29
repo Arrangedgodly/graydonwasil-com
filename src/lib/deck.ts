@@ -5,7 +5,7 @@ import { PROJECTS, type Project } from '../data/projects';
  * doing the same thing — moving an index — rather than three different
  * navigation models wearing the same chrome. */
 
-export type SlideKind = 'hero' | 'project' | 'about' | 'contact';
+export type SlideKind = 'hero' | 'project' | 'experiments' | 'about' | 'contact';
 
 export interface Slide {
   kind: SlideKind;
@@ -26,6 +26,7 @@ export const SLIDES: Slide[] = [
       project: p,
     }),
   ),
+  { kind: 'experiments', key: 'experiments', path: '/experiments', label: 'Experiments' },
   { kind: 'about', key: 'about', path: '/about', label: 'About' },
   { kind: 'contact', key: 'contact', path: '/contact', label: 'Contact' },
 ];
@@ -72,6 +73,8 @@ export function slideNote(slide: Slide): string {
       return 'Six screens. Move with the wheel, the arrow keys, or a swipe.';
     case 'project':
       return 'Screens cycle on their own. Open the project for the write-up.';
+    case 'experiments':
+      return 'Pick an experiment to preview it. Each one opens in a new tab.';
     case 'about':
       return 'The short version: I build the tool the hobby was missing.';
     case 'contact':
@@ -81,7 +84,7 @@ export function slideNote(slide: Slide): string {
 
 /** Which nav item reads as current for a given slide. */
 export function navKeyFor(slide: Slide): string | null {
-  if (slide.kind === 'project') return 'work';
+  if (slide.kind === 'project' || slide.kind === 'experiments') return 'work';
   if (slide.kind === 'about') return 'about';
   if (slide.kind === 'contact') return 'contact';
   return null;

@@ -96,6 +96,18 @@ export function NavPill() {
                   </li>
                 );
               })}
+              <li>
+                <Link
+                  to="/experiments"
+                  state={{ dir: directionBetween(location.pathname, '/experiments') }}
+                  onClick={() => setMenuOpen(false)}
+                  data-on={slide.kind === 'experiments' ? '1' : '0'}
+                  aria-current={slide.kind === 'experiments' ? 'true' : undefined}
+                >
+                  <span className="mono navmenu-num">+</span>
+                  <span className="navmenu-title">Experiments</span>
+                </Link>
+              </li>
             </m.ul>
           )}
         </div>

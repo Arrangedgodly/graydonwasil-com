@@ -7,7 +7,10 @@ export interface ProjectShot {
   label: string;
 }
 
+export type ProjectCollection = 'featured' | 'experiment';
+
 export interface Project {
+  collection: 'featured';
   id: string;
   num: string;
   title: string;
@@ -22,8 +25,21 @@ export interface Project {
   shots: ProjectShot[];
 }
 
-export const PROJECTS: Project[] = [
+export interface Experiment {
+  collection: 'experiment';
+  id: string;
+  title: string;
+  url: string;
+  sourceUrl?: string;
+  description: string;
+  tags: string[];
+  /** A local, cropped screenshot added to /public/experiments when available. */
+  thumbnail?: string;
+}
+
+const FEATURED_PROJECTS: Project[] = [
   {
+    collection: 'featured',
     id: 'rhymepage',
     num: '01',
     title: 'Rhymepage',
@@ -48,6 +64,7 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
+    collection: 'featured',
     id: 'collectible-cars',
     num: '02',
     title: 'Collectible Cars DB',
@@ -72,6 +89,7 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
+    collection: 'featured',
     id: 'arranged-godly',
     num: '03',
     title: 'Arranged Godly',
@@ -96,3 +114,79 @@ export const PROJECTS: Project[] = [
     ],
   },
 ];
+
+export const EXPERIMENTS: Experiment[] = [
+  {
+    collection: 'experiment',
+    id: 'thread-art',
+    title: 'Thread Art',
+    url: 'https://thread.graydonwasil.com/',
+    sourceUrl: 'https://github.com/arrangedgodly/thread-art',
+    description: 'Turn an image into a field of woven thread.',
+    tags: ['Generative', 'Browser tool'],
+    thumbnail: threadArtThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'biome-generator',
+    title: 'Biome Generator',
+    url: 'https://biome.graydonwasil.com/',
+    sourceUrl: 'https://github.com/arrangedgodly/biome-generator',
+    description: 'Explore procedural terrain shaped by elevation and moisture.',
+    tags: ['Generative', 'Interactive'],
+    thumbnail: biomeGeneratorThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'loom',
+    title: 'LOOM',
+    url: 'https://loom.arrangedgodly.com/',
+    sourceUrl: 'https://github.com/arrangedgodly/loom',
+    description: 'Turn cellular automata into an audiovisual loom.',
+    tags: ['Generative', 'Audio'],
+    thumbnail: loomThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'traffic',
+    title: 'Traffic',
+    url: 'https://traffic.graydonwasil.com/',
+    sourceUrl: 'https://github.com/arrangedgodly/traffic',
+    description: 'Tune a traffic signal and watch the intersection respond.',
+    tags: ['Simulation', 'Interactive'],
+    thumbnail: trafficThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'terrarium',
+    title: 'Terrarium',
+    url: 'https://terrarium.arrangedgodly.com/',
+    sourceUrl: 'https://github.com/arrangedgodly/terrarium',
+    description: 'Set growing conditions and generate a digital terrarium.',
+    tags: ['Simulation', 'Procedural'],
+    thumbnail: terrariumThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'karaoke',
+    title: 'Karaoke',
+    url: 'https://karaoke.arrangedgodly.com/',
+    sourceUrl: 'https://github.com/arrangedgodly/karaoke',
+    description: 'Build a vocal chain on the fly.',
+    tags: ['Sound Design', 'Music'],
+    thumbnail: karaokeThumbnail,
+  },
+];
+
+/** The portfolio has one content source. Slides select the collection they need. */
+export const PORTFOLIO_ITEMS: Array<Project | Experiment> = [...FEATURED_PROJECTS, ...EXPERIMENTS];
+
+export const PROJECTS = PORTFOLIO_ITEMS.filter(
+  (item): item is Project => item.collection === 'featured',
+);
+import biomeGeneratorThumbnail from '../assets/experiments/biome-generator.png';
+import karaokeThumbnail from '../assets/experiments/karaoke.png';
+import loomThumbnail from '../assets/experiments/loom.png';
+import terrariumThumbnail from '../assets/experiments/terrarium.png';
+import threadArtThumbnail from '../assets/experiments/thread-art.png';
+import trafficThumbnail from '../assets/experiments/traffic.png';
