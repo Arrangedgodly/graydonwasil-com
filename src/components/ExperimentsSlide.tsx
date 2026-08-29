@@ -19,6 +19,7 @@ export function ExperimentsSlide() {
             type="button"
             key={experiment.id}
             data-on={experiment.id === selected.id ? '1' : '0'}
+            aria-pressed={experiment.id === selected.id}
             onClick={() => setSelectedId(experiment.id)}
           >
             <span className="pt">{experiment.title}</span>

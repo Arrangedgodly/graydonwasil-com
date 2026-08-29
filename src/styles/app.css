@@ -591,17 +591,24 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .detail-body { grid-column: 1; grid-row: 2; }
   .detail-thumbs { display: none; }
 
-  .experiments-slide { gap: 18px; padding-inline: 0; }
+  .experiments-slide { justify-content: center; gap: 12px; padding: 8px 0; }
   .experiments-heading { padding-inline: var(--gutter); }
-  .experiments-heading p { font-size: 13px; white-space: normal; }
-  .experiments-index { grid-template-columns: 1fr; gap: 18px; padding-inline: var(--gutter); }
+  .experiments-heading p { margin-top: 4px; font-size: 13px; white-space: normal; }
+  .experiments-index { grid-template-columns: 1fr; gap: 12px; padding-inline: var(--gutter); }
   .experiments-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 1px solid var(--color-divider); }
-  .experiments-list button { padding: 10px; border-top: 1px solid var(--color-divider); border-right: 1px solid var(--color-divider); }
-  .experiments-list .pt { font-size: 18px; }
-  .experiment-detail { min-height: min(43vh, 340px); }
-  .experiment-detail > img { max-height: calc(var(--stage-h) * 0.24); }
+  .experiments-list button { min-height: 44px; padding: 8px 10px; border-top: 1px solid var(--color-divider); border-right: 1px solid var(--color-divider); }
+  .experiments-list .pt { font-size: clamp(16px, 4.8vw, 19px); }
+  .experiments-list .mono { font-size: 9px; }
+  .experiment-detail { min-height: 0; gap: 12px; padding: 14px; }
+  .experiment-detail > img { max-height: min(32vh, 250px); }
   .experiment-detail-mark { display: none; }
-  .experiment-detail-copy h3 { font-size: clamp(44px, 13vw, 74px); }
+  .experiment-detail-copy h3 { font-size: clamp(31px, 9vw, 44px); }
+  .experiment-detail-copy p { margin: 4px 0 9px; font-size: 13px; line-height: 1.35; }
+  .experiment-detail .tagrun { gap: 4px; }
+  .experiment-detail .tag { padding: 2px 7px; font-size: 10px; }
+  .experiment-detail-actions { gap: 8px; margin-top: 10px; }
+  .experiment-detail-actions .btn { min-height: 44px; }
+  .experiment-source { display: inline-flex; align-items: center; min-height: 44px; }
 
   .detail-mediabar {
     display: flex;
@@ -644,6 +651,15 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
     border-color: var(--color-accent);
     transform: scale(1.4);
   }
+}
+
+@media (max-width: 760px) and (max-height: 700px) {
+  .experiments-slide { gap: 8px; }
+  .experiments-heading p { display: none; }
+  .experiments-index { gap: 8px; }
+  .experiments-list button { min-height: 40px; }
+  .experiment-detail > img { max-height: min(23vh, 150px); }
+  .experiment-detail-actions { margin-top: 6px; }
 }
 
 /* ---------- theme wipe ----------

@@ -43,6 +43,12 @@ image assets in their repositories and remain text-led for now.
 Validation: TypeScript build, Vite production build, oxlint, and the design
 detector all passed. The detector returned no findings.
 
+Revision: increased the mobile preview image to up to 32vh so the experiment
+remains the visual focus, matching the scale of featured-project imagery. A
+short-viewport rule reduces it only on phones under 700px tall to prevent
+clipping. TypeScript build, Vite production build, oxlint, and the design
+detector passed; the detector returned no findings.
+
 Revision: the user supplied six PNG captures and requested that they replace
 the repository sources. All six now live in `src/assets/experiments` and are
 bundled locally. Each is 1312 × 820. TypeScript build, Vite production build,
@@ -60,3 +66,16 @@ centered composition, reduced their separation, and keeps the subline on one
 line at desktop widths. Updated the footer hint to describe the selected-panel
 interaction. TypeScript build, Vite production build, oxlint, and the design
 detector passed; the detector returned no findings.
+
+## E3
+
+Status: awaiting approval.
+
+Reworked the mobile treatment into a compact two-column chooser with 44px
+touch targets. The selected preview now uses less vertical space, keeps the
+image legible, and retains the primary project and source controls in the
+thumb-friendly lower portion of the panel. The selected state is exposed with
+`aria-pressed`.
+
+Validation: TypeScript build, Vite production build, oxlint, and the design
+detector all passed. The detector returned no findings.

@@ -1,6 +1,6 @@
 # Production state
 
-Active task: E2, awaiting user approval.
+Active task: E3, awaiting user approval.
 
 The user approved an Experiments collection that sits after featured projects.
 It is one deck destination, reached from a single Work-menu entry. Cards open
@@ -19,3 +19,6 @@ uses that layout and leaves vertical wheel navigation to the deck.
 E2 now uses six user-supplied 1312 × 820 PNG captures, one for each experiment.
 Their selected-panel layout now flows top-to-bottom to preserve the captures'
 native aspect ratio.
+
+Mobile treatment: a two-column, six-item chooser uses 44px targets, and the
+selected preview stacks image, copy, tags, and actions within the viewport.
