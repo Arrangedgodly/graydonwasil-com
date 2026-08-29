@@ -1,3 +1,15 @@
+import bcCodesThumbnail from '../assets/experiments/bc-codes.png';
+import biomeGeneratorThumbnail from '../assets/experiments/biome-generator.png';
+import howVotesFlowThumbnail from '../assets/experiments/how-votes-flow.png';
+import karaokeThumbnail from '../assets/experiments/karaoke.png';
+import loomThumbnail from '../assets/experiments/loom.png';
+import readPacerThumbnail from '../assets/experiments/read-pacer.png';
+import terrariumThumbnail from '../assets/experiments/terrarium.png';
+import threadArtThumbnail from '../assets/experiments/thread-art.png';
+import trafficThumbnail from '../assets/experiments/traffic.png';
+import typographyMatcherThumbnail from '../assets/experiments/typography-matcher.png';
+import writersBlockThumbnail from '../assets/experiments/writers-block.png';
+
 /** A slot in a project's gallery. `key` is the capture slot — it becomes part
  *  of the filename as `{project.id}-{key}-{light|dark}[-mobile]`, so it has to
  *  match what the shot list asks for. `hero` does double duty: it is the image
@@ -33,6 +45,7 @@ export interface Experiment {
   sourceUrl?: string;
   description: string;
   tags: string[];
+  createdAt: string;
   /** A local, cropped screenshot added to /public/experiments when available. */
   thumbnail?: string;
 }
@@ -124,6 +137,7 @@ export const EXPERIMENTS: Experiment[] = [
     sourceUrl: 'https://github.com/arrangedgodly/thread-art',
     description: 'Turn an image into a field of woven thread.',
     tags: ['Generative', 'Browser tool'],
+    createdAt: '2026-08-28T03:49:29Z',
     thumbnail: threadArtThumbnail,
   },
   {
@@ -134,6 +148,7 @@ export const EXPERIMENTS: Experiment[] = [
     sourceUrl: 'https://github.com/arrangedgodly/biome-generator',
     description: 'Explore procedural terrain shaped by elevation and moisture.',
     tags: ['Generative', 'Interactive'],
+    createdAt: '2026-08-28T02:50:19Z',
     thumbnail: biomeGeneratorThumbnail,
   },
   {
@@ -144,6 +159,7 @@ export const EXPERIMENTS: Experiment[] = [
     sourceUrl: 'https://github.com/arrangedgodly/loom',
     description: 'Turn cellular automata into an audiovisual loom.',
     tags: ['Generative', 'Audio'],
+    createdAt: '2026-08-28T21:05:26Z',
     thumbnail: loomThumbnail,
   },
   {
@@ -154,6 +170,7 @@ export const EXPERIMENTS: Experiment[] = [
     sourceUrl: 'https://github.com/arrangedgodly/traffic',
     description: 'Tune a traffic signal and watch the intersection respond.',
     tags: ['Simulation', 'Interactive'],
+    createdAt: '2026-08-28T03:10:52Z',
     thumbnail: trafficThumbnail,
   },
   {
@@ -164,6 +181,7 @@ export const EXPERIMENTS: Experiment[] = [
     sourceUrl: 'https://github.com/arrangedgodly/terrarium',
     description: 'Set growing conditions and generate a digital terrarium.',
     tags: ['Simulation', 'Procedural'],
+    createdAt: '2026-08-29T06:00:26Z',
     thumbnail: terrariumThumbnail,
   },
   {
@@ -174,7 +192,63 @@ export const EXPERIMENTS: Experiment[] = [
     sourceUrl: 'https://github.com/arrangedgodly/karaoke',
     description: 'Build a vocal chain on the fly.',
     tags: ['Sound Design', 'Music'],
+    createdAt: '2026-08-27T15:57:37Z',
     thumbnail: karaokeThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'typography-matcher',
+    title: 'Blind Test',
+    url: 'https://font.graydonwasil.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/typography-matcher',
+    description: 'Judge font pairings before you know their names.',
+    tags: ['Typography', 'Interactive'],
+    createdAt: '2026-08-29T14:49:56Z',
+    thumbnail: typographyMatcherThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'how-votes-flow',
+    title: 'How Votes Flow',
+    url: 'https://vote.graydonwasil.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/how-votes-flow',
+    description: 'Watch ranked-choice voting play out, round by round.',
+    tags: ['Civic Tech', 'Simulation'],
+    createdAt: '2026-08-29T14:47:36Z',
+    thumbnail: howVotesFlowThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'writers-block',
+    title: 'The Disappearing Draft',
+    url: 'https://draft.graydonwasil.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/writers-block',
+    description: 'Keep writing before your idle draft disappears for good.',
+    tags: ['Writing', 'Timer'],
+    createdAt: '2026-08-29T15:08:40Z',
+    thumbnail: writersBlockThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'read-pacer',
+    title: 'Reading Pacer',
+    url: 'https://pacer.graydonwasil.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/read-pacer',
+    description: 'Turn a reading goal into a sustainable daily pace.',
+    tags: ['Reading', 'Planner'],
+    createdAt: '2026-08-29T14:51:50Z',
+    thumbnail: readPacerThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'bc-codes',
+    title: 'bc-codes',
+    url: 'https://codes.arrangedgodly.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/bc-codes',
+    description: 'Give each verified fan one fair Bandcamp download code.',
+    tags: ['Music', 'Fan tools'],
+    createdAt: '2026-08-29T16:49:10Z',
+    thumbnail: bcCodesThumbnail,
   },
 ];
 
@@ -184,9 +258,3 @@ export const PORTFOLIO_ITEMS: Array<Project | Experiment> = [...FEATURED_PROJECT
 export const PROJECTS = PORTFOLIO_ITEMS.filter(
   (item): item is Project => item.collection === 'featured',
 );
-import biomeGeneratorThumbnail from '../assets/experiments/biome-generator.png';
-import karaokeThumbnail from '../assets/experiments/karaoke.png';
-import loomThumbnail from '../assets/experiments/loom.png';
-import terrariumThumbnail from '../assets/experiments/terrarium.png';
-import threadArtThumbnail from '../assets/experiments/thread-art.png';
-import trafficThumbnail from '../assets/experiments/traffic.png';

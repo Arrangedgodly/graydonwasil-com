@@ -490,6 +490,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   padding: clamp(14px, 2.2vh, 28px) var(--gutter);
 }
 .experiments-heading { width: min(100%, 640px); }
+.experiments-heading-row { display: flex; align-items: center; gap: 14px; }
+.experiments-sort { min-height: 32px; padding: 4px 8px; cursor: pointer; border: 1px solid var(--color-divider); background: transparent; color: color-mix(in srgb, var(--color-text) 66%, transparent); }
+.experiments-sort:hover { border-color: var(--color-accent); color: var(--color-accent-700); }
+.experiments-mobile-select { display: none; }
 .experiments-heading p {
   margin: 9px 0 0;
   color: color-mix(in srgb, var(--color-text) 74%, transparent);
@@ -552,6 +556,7 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .input { min-height: 44px; }
   .namemark { min-width: 44px; }
   .linkstack a { display: inline-flex; align-items: center; min-height: 44px; }
+  .experiments-sort { min-height: 44px; }
 }
 
 /* ---------- narrow ---------- */
@@ -593,9 +598,12 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 
   .experiments-slide { justify-content: center; gap: 12px; padding: 8px 0; }
   .experiments-heading { padding-inline: var(--gutter); }
+  .experiments-heading-row { justify-content: space-between; gap: 8px; }
+  .experiments-sort { min-height: 36px; font-size: 9px; }
   .experiments-heading p { margin-top: 4px; font-size: 13px; white-space: normal; }
   .experiments-index { grid-template-columns: 1fr; gap: 12px; padding-inline: var(--gutter); }
-  .experiments-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-left: 1px solid var(--color-divider); }
+  .experiments-mobile-select { display: block; }
+  .experiments-list { display: none; }
   .experiments-list button { min-height: 44px; padding: 8px 10px; border-top: 1px solid var(--color-divider); border-right: 1px solid var(--color-divider); }
   .experiments-list .pt { font-size: clamp(16px, 4.8vw, 19px); }
   .experiments-list .mono { font-size: 9px; }
