@@ -85,13 +85,14 @@ export function ExperimentsSlide() {
       event.preventDefault();
       if (wheelLocked.current) return;
       wheelAccumulation.current += event.deltaY;
-      // Keep the nested stack in step with the site-wide deck navigation.
+      // The stack is a denser browse surface than the page deck, so it gets a
+      // shorter momentum hold after each committed card change.
       if (Math.abs(wheelAccumulation.current) < 60) return;
 
       wheelAccumulation.current = 0;
       wheelLocked.current = true;
       selectIndex(nextIndex);
-      window.setTimeout(() => { wheelLocked.current = false; }, 520);
+      window.setTimeout(() => { wheelLocked.current = false; }, 180);
     };
 
     surface.addEventListener('wheel', onWheel, { passive: false });

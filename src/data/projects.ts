@@ -3,6 +3,7 @@ import biomeGeneratorThumbnail from '../assets/experiments/biome-generator.png';
 import howVotesFlowThumbnail from '../assets/experiments/how-votes-flow.png';
 import karaokeThumbnail from '../assets/experiments/karaoke.png';
 import loomThumbnail from '../assets/experiments/loom.png';
+import morseCodeThumbnail from '../assets/experiments/morse-code.png';
 import readPacerThumbnail from '../assets/experiments/read-pacer.png';
 import terrariumThumbnail from '../assets/experiments/terrarium.png';
 import threadArtThumbnail from '../assets/experiments/thread-art.png';
@@ -249,6 +250,17 @@ export const EXPERIMENTS: Experiment[] = [
     tags: ['Music', 'Fan tools'],
     createdAt: '2026-08-29T16:49:10Z',
     thumbnail: bcCodesThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'morse-code',
+    title: 'The Register',
+    url: 'https://morsecode.graydonwasil.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/morse-code',
+    description: 'Turn a message into Morse code for light, screen, and tone.',
+    tags: ['Morse code', 'Browser tool'],
+    createdAt: '2026-08-29T18:00:00Z',
+    thumbnail: morseCodeThumbnail,
   },
 ];
 
