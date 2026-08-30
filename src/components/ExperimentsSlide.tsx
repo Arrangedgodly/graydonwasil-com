@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { EXPERIMENTS, type Experiment } from '../data/projects';
+import { useDeck } from '../lib/useDeck';
 
 type ExperimentOrder = 'curated' | 'alphabetical' | 'newest';
 
@@ -44,6 +45,8 @@ export function ExperimentsSlide() {
   const surfaceRef = useRef<HTMLDivElement>(null);
   const wheelAccumulation = useRef(0);
   const wheelLocked = useRef(false);
+  const touchStartY = useRef<number | null>(null);
+  const { go } = useDeck();
   const visibleExperiments = useMemo(() => {
     if (order === 'curated') return EXPERIMENTS;
     return [...EXPERIMENTS].sort((a, b) => (
@@ -95,8 +98,42 @@ export function ExperimentsSlide() {
     return () => surface.removeEventListener('wheel', onWheel);
   }, [selectIndex, selectedIndex, visibleExperiments.length]);
 
+  const ownTouchStart = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse') return;
+    touchStartY.current = event.clientY;
+    event.stopPropagation();
+  };
+
+  const ownTouchMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== 'mouse' && touchStartY.current !== null) event.stopPropagation();
+  };
+
+  const ownTouchEnd = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' || touchStartY.current === null) return;
+
+    const travel = event.clientY - touchStartY.current;
+    touchStartY.current = null;
+    event.stopPropagation();
+    if (Math.abs(travel) < 70) return;
+
+    const step: 1 | -1 = travel < 0 ? 1 : -1;
+    const nextIndex = selectedIndex + step;
+    if (nextIndex >= 0 && nextIndex < visibleExperiments.length) {
+      selectIndex(nextIndex);
+      return;
+    }
+    go(step);
+  };
+
   return (
-    <div className="experiments-slide experiments-stack-slide" ref={surfaceRef}>
+    <div
+      className="experiments-slide experiments-stack-slide"
+      ref={surfaceRef}
+      onPointerDownCapture={ownTouchStart}
+      onPointerMoveCapture={ownTouchMove}
+      onPointerUpCapture={ownTouchEnd}
+      onPointerCancelCapture={() => { touchStartY.current = null; }}
+    >
       <div className="experiments-heading">
         <div className="experiments-heading-row">
           <h2 className="disp">Experiments</h2>
