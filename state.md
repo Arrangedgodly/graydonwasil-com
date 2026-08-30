@@ -1,6 +1,6 @@
 # Production state
 
-Active task: E3, awaiting user approval.
+Active task: all critique follow-through tasks complete.
 
 The user approved an Experiments collection that sits after featured projects.
 It is one deck destination, reached from a single Work-menu entry. Cards open
@@ -22,3 +22,6 @@ native aspect ratio.
 
 Mobile treatment: a two-column, six-item chooser uses 44px targets, and the
 selected preview stacks image, copy, tags, and actions within the viewport.
+
+Critique decision: implement the five priority improvements in order. E4 adds
+visible collection position and endpoint handoff cues; E5-E8 remain pending.

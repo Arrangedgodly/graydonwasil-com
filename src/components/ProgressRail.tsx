@@ -13,7 +13,7 @@ export function ProgressRail({
   goTo: (i: number) => void;
 }) {
   return (
-    <nav className="rail" aria-label="Slides">
+    <nav className="rail" data-slide={SLIDES[index]?.kind} aria-label="Slides">
       <span className="mono rail-count">
         {String(index + 1).padStart(2, '0')}
         <span className="rail-total"> / {String(count).padStart(2, '0')}</span>

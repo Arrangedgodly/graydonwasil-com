@@ -10,15 +10,10 @@ const ORDER_LABELS: Record<ExperimentOrder, string> = {
   newest: 'Newest',
 };
 
-function nextOrder(order: ExperimentOrder): ExperimentOrder {
-  if (order === 'curated') return 'alphabetical';
-  if (order === 'alphabetical') return 'newest';
-  return 'curated';
-}
-
-function StackCard({ experiment, index, depth, onSelect }: {
+function StackCard({ experiment, index, count, depth, onSelect }: {
   experiment: Experiment;
   index: number;
+  count: number;
   depth: 0 | 1 | 2;
   onSelect: () => void;
 }) {
@@ -30,10 +25,11 @@ function StackCard({ experiment, index, depth, onSelect }: {
       data-project={experiment.id}
       onClick={onSelect}
       aria-current={depth === 0 ? 'true' : undefined}
+      aria-label={`Experiment ${index + 1} of ${count}: ${experiment.title}${depth === 0 ? ', current' : ''}`}
     >
       <span className="experiment-stack-kicker mono">{experiment.tags.join(' / ')}</span>
       <span className="experiment-stack-title disp">{experiment.title}</span>
-      <span className="experiment-stack-index mono">{String(index + 1).padStart(2, '0')}</span>
+      <span className="experiment-stack-index mono">{String(index + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}</span>
     </button>
   );
 }
@@ -138,19 +134,35 @@ export function ExperimentsSlide() {
       <div className="experiments-heading">
         <div className="experiments-heading-row">
           <h2 className="disp">Experiments</h2>
-          <button
-            type="button"
-            className="experiments-sort mono"
-            onClick={() => setOrder(nextOrder(order))}
-            aria-label={`Order experiments by ${ORDER_LABELS[nextOrder(order)]}`}
-          >
-            Order: {ORDER_LABELS[order]}
-          </button>
         </div>
         <p>Scroll through small interactive builds, made quickly and curiously with AI-assisted tools.</p>
       </div>
 
+      <p className="sr-only" role="status" aria-live="polite">
+        Experiment {selectedIndex + 1} of {visibleExperiments.length}: {selected.title}
+      </p>
+
       <div className="experiments-stack-layout" data-direction={direction > 0 ? 'down' : 'up'}>
+        <div className="experiments-controls">
+          <label className="experiments-order mono">
+            <span>Order</span>
+            <select className="input" value={order} onChange={(event) => setOrder(event.target.value as ExperimentOrder)}>
+              {Object.entries(ORDER_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+            </select>
+          </label>
+          <label className="experiments-picker mono">
+            <span>Jump to</span>
+            <select
+              className="input"
+              value={selected.id}
+              onChange={(event) => selectIndex(visibleExperiments.findIndex((item) => item.id === event.target.value))}
+            >
+              {visibleExperiments.map((experiment) => (
+                <option key={experiment.id} value={experiment.id}>{experiment.title}</option>
+              ))}
+            </select>
+          </label>
+        </div>
         <div className="experiments-stack" key={selected.id} aria-label="Experiment stack">
           {([0, 1, 2] as const).map((depth) => {
             const index = selectedIndex + depth;
@@ -159,10 +171,13 @@ export function ExperimentsSlide() {
               key={experiment.id}
               experiment={experiment}
               index={index}
+              count={visibleExperiments.length}
               depth={depth}
               onSelect={() => selectIndex(index)}
             />;
           })}
+          {selectedIndex === 0 && <span className="experiment-stack-boundary mono">↑ Featured projects</span>}
+          {selectedIndex === visibleExperiments.length - 1 && <span className="experiment-stack-boundary mono">↓ Continue to About</span>}
         </div>
 
         <section className="experiment-detail blueprint">

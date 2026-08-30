@@ -79,3 +79,96 @@ thumb-friendly lower portion of the panel. The selected state is exposed with
 
 Validation: TypeScript build, Vite production build, oxlint, and the design
 detector all passed. The detector returned no findings.
+
+## E4
+
+Status: awaiting approval.
+
+Added `01 / 12` collection position to each Experiments stack card and an
+endpoint cue for the neighbouring deck destination: Featured projects at the
+start and About at the end.
+
+Changed: `src/components/ExperimentsSlide.tsx`, `src/styles/app.css`,
+`plan.md`, and `state.md`.
+
+Validation: repository-local TypeScript build, Vite production build, oxlint,
+and the Impeccable detector passed. The detector returned no findings.
+
+Delegation: none; performed directly because the task was a narrow extension.
+Commit: pending user approval.
+
+Approval: received. E8 is complete; the critique follow-through is complete.
+
+Approval: received. E7 is complete; E8 is active.
+
+## E8
+
+Status: awaiting approval.
+
+Added an assistive status announcement for the active experiment position and
+title, descriptive labels for stack cards, and a visible keyboard-focus outline.
+
+Changed: `src/components/ExperimentsSlide.tsx`, `src/styles/app.css`,
+`plan.md`, and `state.md`.
+
+Validation: repository-local TypeScript build, Vite production build, oxlint,
+and the Impeccable detector passed. The detector returned no findings.
+
+Delegation: none; performed directly because the task was a narrow extension.
+Commit: pending user approval.
+
+Approval: received. E6 is complete; E7 is active.
+
+## E7
+
+Status: awaiting approval.
+
+Replaced the cycling order button with an exposed selector containing Curated,
+A-Z, and Newest. The Jump to picker remains alongside it.
+
+Changed: `src/components/ExperimentsSlide.tsx`, `src/styles/app.css`,
+`plan.md`, and `state.md`.
+
+Validation: repository-local TypeScript build, Vite production build, oxlint,
+and the Impeccable detector passed. The detector returned no findings.
+
+Delegation: none; performed directly because the task was a narrow extension.
+Commit: pending user approval.
+
+Approval: received. E5 is complete; E6 is active.
+
+## E6
+
+Status: awaiting approval.
+
+On narrow screens, the persistent progress rail now hides only while the
+Experiments slide is active. Previous/next slide controls remain available in
+the fixed footer, leaving the stack unobstructed.
+
+Changed: `src/components/ProgressRail.tsx`, `src/styles/app.css`, `plan.md`,
+and `state.md`.
+
+Validation: repository-local TypeScript build, Vite production build, oxlint,
+and the Impeccable detector passed. The detector returned no findings.
+
+Delegation: none; performed directly because the task was a narrow extension.
+Commit: pending user approval.
+
+Approval: received. E4 is complete; E5 is active.
+
+## E5
+
+Status: awaiting approval.
+
+Added a compact, labelled Jump to selector beside the order control. It uses
+the active collection order and moves the stack directly to the chosen
+experiment.
+
+Changed: `src/components/ExperimentsSlide.tsx`, `src/styles/app.css`,
+`plan.md`, and `state.md`.
+
+Validation: repository-local TypeScript build, Vite production build, oxlint,
+and the Impeccable detector passed. The detector returned no findings.
+
+Delegation: none; performed directly because the task was a narrow extension.
+Commit: pending user approval.

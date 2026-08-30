@@ -490,12 +490,17 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   padding: clamp(14px, 2.2vh, 28px) var(--gutter);
 }
 .experiments-heading { width: min(100%, 640px); }
-.experiments-heading-row { display: flex; align-items: center; gap: 14px; }
+.experiments-heading-row { display: flex; align-items: center; }
+.experiments-controls { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
 .experiments-sort { min-height: 32px; padding: 4px 8px; cursor: pointer; border: 1px solid var(--color-divider); background: transparent; color: color-mix(in srgb, var(--color-text) 66%, transparent); }
 .experiments-sort:hover { border-color: var(--color-accent); color: var(--color-accent-700); }
+.experiments-order, .experiments-picker { display: inline-flex; align-items: center; gap: 6px; color: color-mix(in srgb, var(--color-text) 66%, transparent); font-size: 9px; }
+.experiments-order select, .experiments-picker select { min-height: 32px; padding: 4px 24px 4px 7px; font: 500 10px/1 var(--font-mono); letter-spacing: .04em; text-transform: uppercase; }
+.experiments-order select { width: 120px; }
+.experiments-picker select { width: min(170px, 20vw); }
 .experiments-mobile-select { display: none; }
 .experiments-heading p {
-  margin: 9px 0 0;
+  margin: 3px 0 0;
   color: color-mix(in srgb, var(--color-text) 74%, transparent);
   font-size: clamp(13px, 1.1vw, 16px);
   white-space: nowrap;
@@ -514,12 +519,15 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-source { flex: none; padding: 4px 0; color: var(--color-accent-700); }
 
 .experiments-stack-slide { gap: clamp(12px, 2vh, 22px); }
-.experiments-stack-layout { display: grid; grid-template-columns: minmax(220px, .75fr) minmax(0, 1.5fr); gap: clamp(24px, 6vw, 92px); align-items: center; min-height: 0; }
-.experiments-stack { position: relative; height: min(48vh, 400px); }
+.experiments-stack-layout { display: grid; grid-template-columns: minmax(220px, .75fr) minmax(0, 1.5fr); grid-template-rows: auto 1fr; column-gap: clamp(24px, 6vw, 92px); row-gap: 12px; align-items: start; min-height: 0; }
+.experiments-stack-layout > .experiments-controls { grid-column: 1; grid-row: 1; justify-self: center; }
+.experiments-stack { grid-column: 1; grid-row: 2; position: relative; height: min(48vh, 400px); }
+.experiments-stack-layout > .experiment-detail { grid-column: 2; grid-row: 1 / 3; align-self: center; }
 .experiment-stack-card { position: absolute; inset: 0 0 auto 0; z-index: 1; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; align-items: start; width: 100%; min-height: min(30vh, 250px); padding: clamp(16px, 2vw, 28px); overflow: hidden; container-type: inline-size; background: var(--color-surface); border: 1px solid var(--color-divider); color: var(--color-text); text-align: left; cursor: pointer; box-shadow: 0 10px 22px color-mix(in srgb, var(--color-text) 10%, transparent); transition: transform .32s var(--ease), opacity .32s var(--ease); }
 .experiment-stack-card[data-depth="0"] { z-index: 3; transform: translateY(0); color: var(--color-accent-700); }
 .experiment-stack-card[data-depth="1"] { z-index: 2; opacity: .55; transform: translate(12px, 28px) scale(.94); }
 .experiment-stack-card[data-depth="2"] { z-index: 1; opacity: .25; transform: translate(22px, 54px) scale(.88); }
+.experiment-stack-card:focus-visible { z-index: 5; outline: 2px solid var(--color-accent); outline-offset: 3px; }
 .experiments-stack-layout[data-direction="down"] .experiments-stack { animation: experiment-stack-forward .35s var(--ease); }
 .experiments-stack-layout[data-direction="up"] .experiments-stack { animation: experiment-stack-backward .35s var(--ease); }
 @keyframes experiment-stack-forward { from { transform: translateY(10px); } to { transform: translateY(0); } }
@@ -527,6 +535,7 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-stack-kicker { color: currentColor; font-size: 9px; letter-spacing: .12em; }
 .experiment-stack-title { align-self: end; grid-column: 1 / -1; max-width: 94%; overflow-wrap: normal; word-break: normal; white-space: normal; font-size: var(--stack-title-size, clamp(2rem, 5.6vw, 5.25rem)); line-height: .82; letter-spacing: -.035em; text-wrap: balance; }
 .experiment-stack-index { color: currentColor; font-size: 10px; }
+.experiment-stack-boundary { position: absolute; left: 0; bottom: 0; z-index: 4; padding: 7px 9px; background: var(--color-bg); border: 1px solid var(--color-divider); color: color-mix(in srgb, var(--color-text) 70%, transparent); font-size: 9px; }
 .experiment-stack-card::after { content: ""; position: absolute; z-index: -1; opacity: .28; pointer-events: none; }
 .experiment-stack-card[data-project="thread-art"] { background: #15120e; color: #d6b56a; font-family: Georgia, serif; }
 .experiment-stack-card[data-project="thread-art"] .experiment-stack-title { font-weight: 400; letter-spacing: .02em; }
@@ -619,6 +628,9 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .footnote { display: none; }
   .rail-count { display: none; }
   .rail { gap: 8px; right: 8px; }
+  /* The footer keeps previous/next navigation available here. Removing the
+     side rail lets the full-width experiment stack read as one exhibit. */
+  .rail[data-slide="experiments"] { display: none; }
 
   .aslide, .cslide { grid-template-columns: 1fr; align-content: center; }
   /* Was display:none while this slot held a placeholder. There is a real
@@ -649,8 +661,13 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 
   .experiments-slide { justify-content: center; gap: 12px; padding: 8px 0; }
   .experiments-heading { padding-inline: var(--gutter); }
-  .experiments-heading-row { justify-content: space-between; gap: 8px; }
+  .experiments-heading-row { justify-content: flex-start; }
+  .experiments-controls { gap: 5px; }
   .experiments-sort { min-height: 36px; font-size: 9px; }
+  .experiments-order, .experiments-picker { gap: 4px; font-size: 8px; }
+  .experiments-order select, .experiments-picker select { min-height: 36px; font-size: 9px; }
+  .experiments-order select { width: 120px; }
+  .experiments-picker select { width: min(132px, 35vw); }
   .experiments-heading p { margin-top: 4px; font-size: 13px; white-space: normal; }
   .experiments-index { grid-template-columns: 1fr; gap: 12px; padding-inline: var(--gutter); }
   .experiments-mobile-select { display: block; }
@@ -670,8 +687,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .experiment-source { display: inline-flex; align-items: center; min-height: 44px; }
 
   .experiments-stack-slide { justify-content: center; gap: 12px; }
-  .experiments-stack-layout { grid-template-columns: 1fr; gap: 12px; padding-inline: var(--gutter); }
-  .experiments-stack { height: min(26vh, 210px); }
+  .experiments-stack-layout { grid-template-columns: 1fr; grid-template-rows: auto auto auto; row-gap: 12px; padding-inline: var(--gutter); }
+  .experiments-stack-layout > .experiments-controls { grid-column: 1; grid-row: 1; }
+  .experiments-stack { grid-column: 1; grid-row: 2; height: min(26vh, 210px); }
+  .experiments-stack-layout > .experiment-detail { grid-column: 1; grid-row: 3; }
   .experiment-stack-card { min-height: min(21vh, 168px); padding: 14px; }
   .experiment-stack-title { line-height: .84; }
   .experiment-stack-card[data-depth="1"] { transform: translate(9px, 20px) scale(.95); }
