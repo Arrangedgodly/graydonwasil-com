@@ -572,6 +572,9 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-stack-card[data-project="morse-code"] { background: #1b1309; color: #ffe5a7; }
 .experiment-stack-card[data-project="morse-code"] .experiment-stack-title { --stack-title-size: clamp(1.65rem, 4vw, 3.7rem); font-family: var(--font-mono); letter-spacing: .035em; text-transform: uppercase; }
 .experiment-stack-card[data-project="morse-code"]::after { left: 4%; right: 4%; bottom: 13%; height: 10px; background: repeating-linear-gradient(90deg, currentColor 0 5px, transparent 6px 16px, currentColor 17px 38px, transparent 39px 51px); }
+.experiment-stack-card[data-project="gears"] { background: #ece9e1; color: #3f4b59; }
+.experiment-stack-card[data-project="gears"] .experiment-stack-title { --stack-title-size: clamp(1.35rem, 3.2vw, 3rem); font-family: var(--font-mono); letter-spacing: -.025em; }
+.experiment-stack-card[data-project="gears"]::after { right: -10%; bottom: -55%; width: 110%; aspect-ratio: 1; border: 22px dotted currentColor; border-radius: 50%; box-shadow: -120px -52px 0 -12px var(--color-surface); }
 
 .peek {
   position: fixed; left: 50%; z-index: 39; transform: translateX(-50%);

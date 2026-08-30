@@ -1,5 +1,6 @@
 import bcCodesThumbnail from '../assets/experiments/bc-codes.png';
 import biomeGeneratorThumbnail from '../assets/experiments/biome-generator.png';
+import gearsThumbnail from '../assets/experiments/gears.png';
 import howVotesFlowThumbnail from '../assets/experiments/how-votes-flow.png';
 import karaokeThumbnail from '../assets/experiments/karaoke.png';
 import loomThumbnail from '../assets/experiments/loom.png';
@@ -261,6 +262,17 @@ export const EXPERIMENTS: Experiment[] = [
     tags: ['Morse code', 'Browser tool'],
     createdAt: '2026-08-29T18:00:00Z',
     thumbnail: morseCodeThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'gears',
+    title: 'The Interlocking Gear Animator',
+    url: 'https://gears.graydonwasil.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/gears',
+    description: 'Build a chain of interlocking gears and watch motion travel through it.',
+    tags: ['Simulation', 'Interactive'],
+    createdAt: '2026-08-30T05:00:00Z',
+    thumbnail: gearsThumbnail,
   },
 ];
 
