@@ -533,7 +533,7 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 @keyframes experiment-stack-forward { from { transform: translateY(10px); } to { transform: translateY(0); } }
 @keyframes experiment-stack-backward { from { transform: translateY(-10px); } to { transform: translateY(0); } }
 .experiment-stack-kicker { color: currentColor; font-size: 9px; letter-spacing: .12em; }
-.experiment-stack-title { align-self: end; grid-column: 1 / -1; max-width: 94%; overflow-wrap: normal; word-break: normal; white-space: normal; font-size: var(--stack-title-size, clamp(2rem, 5.6vw, 5.25rem)); line-height: .82; letter-spacing: -.035em; text-wrap: balance; }
+.experiment-stack-title { align-self: end; grid-column: 1 / -1; max-width: 94%; overflow-wrap: normal; word-break: normal; white-space: normal; font-size: var(--stack-title-size, clamp(1.8rem, 4.8vw, 4.5rem)); line-height: .82; letter-spacing: -.035em; text-wrap: balance; }
 .experiment-stack-index { color: currentColor; font-size: 10px; }
 .experiment-stack-boundary { position: absolute; left: 0; bottom: 0; z-index: 4; padding: 7px 9px; background: var(--color-bg); border: 1px solid var(--color-divider); color: color-mix(in srgb, var(--color-text) 70%, transparent); font-size: 9px; }
 .experiment-stack-card::after { content: ""; position: absolute; z-index: -1; opacity: .28; pointer-events: none; }
@@ -544,39 +544,39 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-stack-card[data-project="biome-generator"] .experiment-stack-title { letter-spacing: -.04em; }
 .experiment-stack-card[data-project="biome-generator"]::after { right: -5%; bottom: -40%; width: 85%; height: 140%; background: currentColor; clip-path: polygon(0 100%, 13% 58%, 28% 73%, 42% 22%, 58% 61%, 74% 5%, 100% 100%); }
 .experiment-stack-card[data-project="loom"] { background: #0d111f; color: #b9c9ff; }
-.experiment-stack-card[data-project="loom"] .experiment-stack-title { --stack-title-size: clamp(1.85rem, 4.7vw, 4.4rem); font-family: var(--font-mono); letter-spacing: -.035em; }
+.experiment-stack-card[data-project="loom"] .experiment-stack-title { --stack-title-size: clamp(1.7rem, 4.1vw, 3.85rem); font-family: var(--font-mono); letter-spacing: -.035em; }
 .experiment-stack-card[data-project="loom"]::after { inset: 0; background: repeating-linear-gradient(90deg, transparent 0 13px, currentColor 14px 15px, transparent 16px 29px), repeating-linear-gradient(0deg, transparent 0 13px, currentColor 14px 15px, transparent 16px 29px); }
 .experiment-stack-card[data-project="traffic"] { background: #11151a; color: #f5c94a; }
-.experiment-stack-card[data-project="traffic"] .experiment-stack-title { --stack-title-size: clamp(1.75rem, 4.2vw, 3.9rem); font-family: var(--font-mono); letter-spacing: -.035em; }
+.experiment-stack-card[data-project="traffic"] .experiment-stack-title { --stack-title-size: clamp(1.6rem, 3.7vw, 3.4rem); font-family: var(--font-mono); letter-spacing: -.035em; }
 .experiment-stack-card[data-project="traffic"]::after { left: 0; right: 0; top: 52%; height: 18px; background: repeating-linear-gradient(90deg, transparent 0 25px, currentColor 26px 44px, transparent 45px 69px); }
 .experiment-stack-card[data-project="terrarium"] { background: #092016; color: #c5f0bb; }
-.experiment-stack-card[data-project="terrarium"] .experiment-stack-title { --stack-title-size: clamp(1.3rem, 4.2vw, 4rem); font-family: Georgia, serif; font-weight: 400; white-space: nowrap; }
+.experiment-stack-card[data-project="terrarium"] .experiment-stack-title { --stack-title-size: clamp(1.2rem, 3.7vw, 3.5rem); font-family: Georgia, serif; font-weight: 400; white-space: nowrap; }
 .experiment-stack-card[data-project="terrarium"]::after { right: -4%; bottom: -55%; width: 88%; height: 170%; background: radial-gradient(ellipse at center, transparent 0 45%, currentColor 46% 47%, transparent 48%); }
 .experiment-stack-card[data-project="karaoke"] { background: #2a2824; color: #ffb337; }
 .experiment-stack-card[data-project="karaoke"] .experiment-stack-title { font-family: var(--font-mono); letter-spacing: -.035em; }
 .experiment-stack-card[data-project="karaoke"]::after { right: 12%; bottom: -28%; width: 42%; height: 130%; border: 12px solid currentColor; border-radius: 50% 50% 42% 42%; }
 .experiment-stack-card[data-project="typography-matcher"] { background: #f0ede5; color: #172b45; }
-.experiment-stack-card[data-project="typography-matcher"] .experiment-stack-title { --stack-title-size: clamp(1.9rem, 4.6vw, 4.2rem); font-family: Georgia, serif; font-weight: 400; }
+.experiment-stack-card[data-project="typography-matcher"] .experiment-stack-title { --stack-title-size: clamp(1.7rem, 4vw, 3.7rem); font-family: Georgia, serif; font-weight: 400; }
 .experiment-stack-card[data-project="how-votes-flow"] { background: #090d14; color: #93dcff; }
-.experiment-stack-card[data-project="how-votes-flow"] .experiment-stack-title { --stack-title-size: clamp(1.55rem, 3.7vw, 3.4rem); font-family: var(--font-mono); text-transform: uppercase; }
+.experiment-stack-card[data-project="how-votes-flow"] .experiment-stack-title { --stack-title-size: clamp(1.4rem, 3.25vw, 3rem); font-family: var(--font-mono); text-transform: uppercase; }
 .experiment-stack-card[data-project="how-votes-flow"]::after { right: 12%; bottom: 14%; width: 35%; height: 40%; background: repeating-linear-gradient(90deg, currentColor 0 11px, transparent 12px 18px); }
 .experiment-stack-card[data-project="writers-block"] { background: #191d22; color: #e8e2d5; }
 .experiment-stack-card[data-project="writers-block"] .experiment-stack-title { --stack-title-size: clamp(1.45rem, 3.25vw, 3rem); font-family: var(--font-mono); letter-spacing: -.035em; }
 .experiment-stack-card[data-project="writers-block"]::after { right: 8%; top: 10%; width: 25%; height: 5px; background: currentColor; box-shadow: 0 21px 0 currentColor, 0 42px 0 currentColor, 0 63px 0 currentColor; }
 .experiment-stack-card[data-project="read-pacer"] { background: #f1f0e8; color: #163c68; }
-.experiment-stack-card[data-project="read-pacer"] .experiment-stack-title { --stack-title-size: clamp(1.8rem, 4.3vw, 4rem); font-family: Georgia, serif; }
+.experiment-stack-card[data-project="read-pacer"] .experiment-stack-title { --stack-title-size: clamp(1.6rem, 3.75vw, 3.5rem); font-family: Georgia, serif; }
 .experiment-stack-card[data-project="read-pacer"]::after { inset: 0; background: linear-gradient(90deg, transparent 0 11%, currentColor 11.2% 11.7%, transparent 11.9% 100%), linear-gradient(0deg, transparent 0 28%, currentColor 28.2% 28.7%, transparent 28.9% 100%); }
 .experiment-stack-card[data-project="bc-codes"] { background: #100e0d; color: #30e36d; }
 .experiment-stack-card[data-project="bc-codes"] .experiment-stack-title { font-family: var(--font-mono); text-transform: uppercase; }
 .experiment-stack-card[data-project="bc-codes"]::after { left: 4%; right: 4%; top: 9%; height: 4px; background: repeating-linear-gradient(90deg, currentColor 0 10px, transparent 11px 17px); }
 .experiment-stack-card[data-project="morse-code"] { background: #1b1309; color: #ffe5a7; }
-.experiment-stack-card[data-project="morse-code"] .experiment-stack-title { --stack-title-size: clamp(1.65rem, 4vw, 3.7rem); font-family: var(--font-mono); letter-spacing: .035em; text-transform: uppercase; }
+.experiment-stack-card[data-project="morse-code"] .experiment-stack-title { --stack-title-size: clamp(1.5rem, 3.5vw, 3.25rem); font-family: var(--font-mono); letter-spacing: .035em; text-transform: uppercase; }
 .experiment-stack-card[data-project="morse-code"]::after { left: 4%; right: 4%; bottom: 13%; height: 10px; background: repeating-linear-gradient(90deg, currentColor 0 5px, transparent 6px 16px, currentColor 17px 38px, transparent 39px 51px); }
 .experiment-stack-card[data-project="gears"] { background: #ece9e1; color: #3f4b59; }
-.experiment-stack-card[data-project="gears"] .experiment-stack-title { --stack-title-size: clamp(1.35rem, 3.2vw, 3rem); font-family: var(--font-mono); letter-spacing: -.025em; }
+.experiment-stack-card[data-project="gears"] .experiment-stack-title { --stack-title-size: clamp(1.25rem, 2.8vw, 2.65rem); font-family: var(--font-mono); letter-spacing: -.025em; }
 .experiment-stack-card[data-project="gears"]::after { right: -10%; bottom: -55%; width: 110%; aspect-ratio: 1; border: 22px dotted currentColor; border-radius: 50%; box-shadow: -120px -52px 0 -12px var(--color-surface); }
 .experiment-stack-card[data-project="harmonograph"] { background: #f3ecd9; color: #245667; }
-.experiment-stack-card[data-project="harmonograph"] .experiment-stack-title { --stack-title-size: clamp(1.5rem, 3.7vw, 3.55rem); font-family: Georgia, serif; font-weight: 400; letter-spacing: -.03em; }
+.experiment-stack-card[data-project="harmonograph"] .experiment-stack-title { --stack-title-size: clamp(1.35rem, 3.2vw, 3.1rem); font-family: Georgia, serif; font-weight: 400; letter-spacing: -.03em; }
 .experiment-stack-card[data-project="harmonograph"]::after { right: -26%; bottom: -48%; width: 112%; aspect-ratio: 1; background: repeating-radial-gradient(ellipse at center, transparent 0 15px, currentColor 16px 17px, transparent 18px 30px); opacity: .18; transform: rotate(-18deg); }
 
 .peek {
