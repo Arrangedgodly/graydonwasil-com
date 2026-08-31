@@ -578,6 +578,7 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-stack-card[data-project="harmonograph"] { background: #f3ecd9; color: #245667; }
 .experiment-stack-card[data-project="harmonograph"] .experiment-stack-title { --stack-title-size: clamp(1.35rem, 3.2vw, 3.1rem); font-family: Georgia, serif; font-weight: 400; letter-spacing: -.03em; }
 .experiment-stack-card[data-project="harmonograph"]::after { right: -26%; bottom: -48%; width: 112%; aspect-ratio: 1; background: repeating-radial-gradient(ellipse at center, transparent 0 15px, currentColor 16px 17px, transparent 18px 30px); opacity: .18; transform: rotate(-18deg); }
+.experiments-stack .experiment-stack-card .experiment-stack-title { grid-column: 1; grid-row: 2; align-self: end; max-width: min(66%, 16ch); --stack-title-size: clamp(1.1rem, 2.2vw, 2.15rem); line-height: .9; }
 
 .peek {
   position: fixed; left: 50%; z-index: 39; transform: translateX(-50%);
