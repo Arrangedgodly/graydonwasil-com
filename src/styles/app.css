@@ -575,6 +575,9 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-stack-card[data-project="gears"] { background: #ece9e1; color: #3f4b59; }
 .experiment-stack-card[data-project="gears"] .experiment-stack-title { --stack-title-size: clamp(1.35rem, 3.2vw, 3rem); font-family: var(--font-mono); letter-spacing: -.025em; }
 .experiment-stack-card[data-project="gears"]::after { right: -10%; bottom: -55%; width: 110%; aspect-ratio: 1; border: 22px dotted currentColor; border-radius: 50%; box-shadow: -120px -52px 0 -12px var(--color-surface); }
+.experiment-stack-card[data-project="harmonograph"] { background: #f3ecd9; color: #245667; }
+.experiment-stack-card[data-project="harmonograph"] .experiment-stack-title { --stack-title-size: clamp(1.5rem, 3.7vw, 3.55rem); font-family: Georgia, serif; font-weight: 400; letter-spacing: -.03em; }
+.experiment-stack-card[data-project="harmonograph"]::after { right: -26%; bottom: -48%; width: 112%; aspect-ratio: 1; background: repeating-radial-gradient(ellipse at center, transparent 0 15px, currentColor 16px 17px, transparent 18px 30px); opacity: .18; transform: rotate(-18deg); }
 
 .peek {
   position: fixed; left: 50%; z-index: 39; transform: translateX(-50%);

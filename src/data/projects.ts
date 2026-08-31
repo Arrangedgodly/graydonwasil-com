@@ -1,6 +1,7 @@
 import bcCodesThumbnail from '../assets/experiments/bc-codes.png';
 import biomeGeneratorThumbnail from '../assets/experiments/biome-generator.png';
 import gearsThumbnail from '../assets/experiments/gears.png';
+import harmonographThumbnail from '../assets/experiments/harmonograph.png';
 import howVotesFlowThumbnail from '../assets/experiments/how-votes-flow.png';
 import karaokeThumbnail from '../assets/experiments/karaoke.png';
 import loomThumbnail from '../assets/experiments/loom.png';
@@ -273,6 +274,17 @@ export const EXPERIMENTS: Experiment[] = [
     tags: ['Simulation', 'Interactive'],
     createdAt: '2026-08-30T05:00:00Z',
     thumbnail: gearsThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'harmonograph',
+    title: 'The Digital Harmonograph',
+    url: 'https://harmonograph.arrangedgodly.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/harmonograph',
+    description: 'Tune a set of pendulums and draw the harmonics they create.',
+    tags: ['Generative', 'Simulation'],
+    createdAt: '2026-08-31T05:00:00Z',
+    thumbnail: harmonographThumbnail,
   },
 ];
 
