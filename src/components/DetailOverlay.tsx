@@ -176,7 +176,7 @@ export function DetailOverlay() {
             </a>
             <a
               className="btn btn-secondary"
-              href="https://github.com/graydonwasil"
+              href={project.sourceUrl ?? 'https://github.com/graydonwasil'}
               target="_blank"
               rel="noreferrer"
             >

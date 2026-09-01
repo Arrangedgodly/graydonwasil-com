@@ -3,8 +3,8 @@ import biomeGeneratorThumbnail from '../assets/experiments/biome-generator.png';
 import gearsThumbnail from '../assets/experiments/gears.png';
 import harmonographThumbnail from '../assets/experiments/harmonograph.png';
 import howVotesFlowThumbnail from '../assets/experiments/how-votes-flow.png';
-import karaokeThumbnail from '../assets/experiments/karaoke.png';
 import loomThumbnail from '../assets/experiments/loom.png';
+import messageBoardThumbnail from '../assets/experiments/message-board.png';
 import morseCodeThumbnail from '../assets/experiments/morse-code.png';
 import readPacerThumbnail from '../assets/experiments/read-pacer.png';
 import terrariumThumbnail from '../assets/experiments/terrarium.png';
@@ -30,6 +30,7 @@ export interface Project {
   num: string;
   title: string;
   url: string;
+  sourceUrl?: string;
   year: string;
   tagline: string;
   blurb: string;
@@ -129,6 +130,30 @@ const FEATURED_PROJECTS: Project[] = [
       { key: 'shot-3', label: 'Magic Gunden' },
     ],
   },
+  {
+    collection: 'featured',
+    id: 'voxchain',
+    num: '04',
+    title: 'VOXCHAIN',
+    url: 'voxchain.arrangedgodly.com',
+    sourceUrl: 'https://github.com/Arrangedgodly/voxchain',
+    year: '2026',
+    tagline: 'Build a vocal chain, audition it live, and keep the signal under control.',
+    blurb:
+      'A voice-processing workspace for building a chain in real time. Start at the microphone, arrange the effects, tune each step, and keep the whole signal path visible from input to safe output.',
+    bullets: [
+      'Modular voice effects arranged as a visible signal chain',
+      'Live input status with sample rate, latency, and node count',
+      'Preset library for karaoke, music, and spoken voice',
+      'Custom chains with output protection at the end of the route',
+    ],
+    stack: ['Web Audio', 'Audio processing', 'Live input', 'Local storage'],
+    tags: ['Web app', 'Audio'],
+    learned: 'A vocal tool gets easier to trust when the entire signal path is visible.',
+    shots: [
+      { key: 'hero', label: 'The signal chain workspace' },
+    ],
+  },
 ];
 
 export const EXPERIMENTS: Experiment[] = [
@@ -186,17 +211,6 @@ export const EXPERIMENTS: Experiment[] = [
     tags: ['Simulation', 'Procedural'],
     createdAt: '2026-08-29T06:00:26Z',
     thumbnail: terrariumThumbnail,
-  },
-  {
-    collection: 'experiment',
-    id: 'karaoke',
-    title: 'Karaoke',
-    url: 'https://karaoke.arrangedgodly.com/',
-    sourceUrl: 'https://github.com/arrangedgodly/karaoke',
-    description: 'Build a vocal chain on the fly.',
-    tags: ['Sound Design', 'Music'],
-    createdAt: '2026-08-27T15:57:37Z',
-    thumbnail: karaokeThumbnail,
   },
   {
     collection: 'experiment',
@@ -285,6 +299,17 @@ export const EXPERIMENTS: Experiment[] = [
     tags: ['Generative', 'Simulation'],
     createdAt: '2026-08-31T05:00:00Z',
     thumbnail: harmonographThumbnail,
+  },
+  {
+    collection: 'experiment',
+    id: 'message-board',
+    title: 'Message Board',
+    url: 'https://board.graydonwasil.com/',
+    sourceUrl: 'https://github.com/Arrangedgodly/message-board-new',
+    description: 'Leave a note on an open board that stays in your browser.',
+    tags: ['Community', 'Browser tool'],
+    createdAt: '2026-09-01T05:00:00Z',
+    thumbnail: messageBoardThumbnail,
   },
 ];
 

@@ -70,7 +70,7 @@ export function isKnownPath(pathname: string): boolean {
 export function slideNote(slide: Slide): string {
   switch (slide.kind) {
     case 'hero':
-      return 'Six screens. Move with the wheel, the arrow keys, or a swipe.';
+      return 'Move with the wheel, the arrow keys, or a swipe.';
     case 'project':
       return 'Screens cycle on their own. Open the project for the write-up.';
     case 'experiments':
