@@ -339,43 +339,52 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 /* ---------- project slide ---------- */
 
 .pslide {
+  position: relative;
+  isolation: isolate;
   display: grid;
   place-items: center;
 }
+.stage > .pslide { max-width: none; }
+
+.pslide[data-project="voxchain"] { --scene-bg: #071116; --scene-ink: #6fe9ff; --scene-hot: #c475ff; }
+.pslide[data-project="rhymepage"] { --scene-bg: #160d1d; --scene-ink: #f1a8ff; --scene-hot: #ffcf66; }
+.pslide[data-project="collectible-cars"] { --scene-bg: #180e0a; --scene-ink: #ffb361; --scene-hot: #ff5d57; }
+.pslide[data-project="arranged-godly"] { --scene-bg: #080f20; --scene-ink: #80aaff; --scene-hot: #ff985e; }
+
+:root[data-theme="light"] .pslide[data-project="voxchain"] { --scene-bg: #e5f5f8; --scene-ink: #08788b; --scene-hot: #784aa8; }
+:root[data-theme="light"] .pslide[data-project="rhymepage"] { --scene-bg: #f4eafa; --scene-ink: #7a348c; --scene-hot: #9a6500; }
+:root[data-theme="light"] .pslide[data-project="collectible-cars"] { --scene-bg: #faeee4; --scene-ink: #9b4d09; --scene-hot: #ad302d; }
+:root[data-theme="light"] .pslide[data-project="arranged-godly"] { --scene-bg: #e8eefb; --scene-ink: #315ea9; --scene-hot: #a54818; }
 
 .pslide-card {
   position: relative;
+  z-index: 1;
   isolation: isolate;
-  width: 100%;
+  width: min(100%, 1360px);
   max-height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
-  background: var(--color-bg);
-  border: 1px solid var(--color-divider);
+  overflow: visible;
 }
 .pslide-exhibit {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(250px, .62fr) minmax(0, 1.38fr);
-  margin: 12px 12px 0;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 12px 0 0;
 }
 
 .project-scene {
-  --scene-bg: #071116;
-  --scene-ink: #6fe9ff;
-  --scene-hot: #c475ff;
-  position: relative;
+  position: absolute;
+  z-index: 0;
+  inset: calc(var(--chrome-top) * -1) calc(var(--gutter) * -1) calc(var(--chrome-bottom) * -1);
   min-width: 0;
-  min-height: 220px;
+  min-height: 0;
   overflow: hidden;
   pointer-events: none;
   color: var(--scene-ink);
   background: var(--scene-bg);
-  border: 1px solid color-mix(in srgb, currentColor 34%, transparent);
-  border-right: 0;
   transition: filter .42s var(--ease-out);
 }
 .project-scene::after {
@@ -384,30 +393,22 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   inset: 0;
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--scene-bg) 12%, transparent) 0%,
-    transparent 54%,
-    color-mix(in srgb, var(--scene-bg) 78%, transparent) 100%
+    color-mix(in srgb, var(--scene-bg) 22%, transparent) 0%,
+    transparent 42%,
+    color-mix(in srgb, var(--scene-bg) 72%, transparent) 100%
   );
 }
-.pslide-card:is(:hover, :focus-within) .project-scene { filter: saturate(1.14) contrast(1.04); }
-.project-scene[data-project="rhymepage"] { --scene-bg: #160d1d; --scene-ink: #f1a8ff; --scene-hot: #ffcf66; }
-.project-scene[data-project="collectible-cars"] { --scene-bg: #180e0a; --scene-ink: #ffb361; --scene-hot: #ff5d57; }
-.project-scene[data-project="arranged-godly"] { --scene-bg: #080f20; --scene-ink: #80aaff; --scene-hot: #ff985e; }
-
-:root[data-theme="light"] .project-scene[data-project="voxchain"] { --scene-bg: #e5f5f8; --scene-ink: #08788b; --scene-hot: #784aa8; }
-:root[data-theme="light"] .project-scene[data-project="rhymepage"] { --scene-bg: #f4eafa; --scene-ink: #7a348c; --scene-hot: #9a6500; }
-:root[data-theme="light"] .project-scene[data-project="collectible-cars"] { --scene-bg: #faeee4; --scene-ink: #9b4d09; --scene-hot: #ad302d; }
-:root[data-theme="light"] .project-scene[data-project="arranged-godly"] { --scene-bg: #e8eefb; --scene-ink: #315ea9; --scene-hot: #a54818; }
+.pslide:is(:hover, :focus-within) .project-scene { filter: saturate(1.14) contrast(1.04); }
 
 .project-scene-grid {
   position: absolute;
   inset: 0;
-  opacity: .26;
+  opacity: .2;
   background-image:
     linear-gradient(color-mix(in srgb, currentColor 34%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in srgb, currentColor 34%, transparent) 1px, transparent 1px);
   background-size: clamp(34px, 5vw, 62px) clamp(34px, 5vw, 62px);
-  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
 }
 .scene-readout {
   position: absolute;
@@ -644,10 +645,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   grid-template-columns: 1fr auto auto;
   align-items: center;
   gap: clamp(14px, 2.2vw, 28px);
-  padding: 6px 11px;
-  color: color-mix(in srgb, var(--color-text) 62%, transparent);
-  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
-  border-bottom: 1px solid var(--color-divider);
+  padding: 6px 0;
+  color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  background: transparent;
+  border-bottom: 1px solid color-mix(in srgb, var(--scene-ink) 38%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -664,8 +665,11 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   display: grid;
   place-items: center;
   min-height: 0;
-  padding: clamp(20px, 3vh, 32px) clamp(28px, 5vw, 58px) clamp(40px, 5vh, 52px);
-  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  padding: clamp(20px, 3vh, 32px) clamp(24px, 4vw, 52px) clamp(40px, 5vh, 52px);
+  background: color-mix(in srgb, var(--color-bg) 76%, transparent);
+  border: 1px solid color-mix(in srgb, var(--scene-ink) 32%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 .pslide-frame {
   grid-area: 1 / 1;
@@ -676,18 +680,30 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
+.pslide-frame[data-media-kind="youtube"] {
+  width: min(100%, calc((var(--stage-h) - clamp(260px, 34vh, 310px)) * 8 / 5));
+}
+.pslide-frame[data-media-kind="youtube"] .project-youtube { width: 100%; }
 .pslide-frame img {
   display: block; width: auto; height: auto;
   max-width: 100%;
   max-height: calc(var(--stage-h) - clamp(260px, 34vh, 310px));
 }
 .project-youtube {
-  width: min(100%, calc((var(--stage-h) - clamp(260px, 34vh, 310px)) * 16 / 9));
-  aspect-ratio: 16 / 9;
+  width: min(100%, calc((var(--stage-h) - clamp(260px, 34vh, 310px)) * 8 / 5));
+  aspect-ratio: 8 / 5;
+  display: grid;
+  place-items: center;
   overflow: hidden;
-  background: var(--color-bg);
+  background: #000;
 }
-.project-youtube iframe { display: block; width: 100%; height: 100%; border: 0; }
+.project-youtube iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
 :root[data-theme="light"] .pslide-frame { box-shadow: var(--shadow-lg); }
 .pslide-media > .corner { z-index: 5; }
 
@@ -721,9 +737,9 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .pslide-shotstrip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 0 12px;
-  background: color-mix(in srgb, var(--color-bg) 76%, transparent);
-  border: 1px solid var(--color-divider);
+  margin: 0;
+  background: color-mix(in srgb, var(--color-bg) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--scene-ink) 28%, transparent);
   border-top: 0;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -771,12 +787,14 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   grid-template-rows: auto auto;
   gap: 10px clamp(22px, 3vw, 38px);
   align-items: end;
-  padding: clamp(12px, 1.8vh, 18px) 12px;
+  padding: clamp(14px, 2vh, 20px) 0;
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--color-bg) 88%, transparent),
-    color-mix(in srgb, var(--color-bg) 72%, transparent)
+    color-mix(in srgb, var(--scene-bg) 58%, transparent),
+    color-mix(in srgb, var(--scene-bg) 30%, transparent)
   );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .pslide-lead {
   grid-column: 1;
@@ -898,10 +916,12 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   display: block; width: auto; height: auto;
   max-width: 100%; max-height: calc(var(--stage-h) - var(--side-h));
 }
+.detail-media[data-media-kind="youtube"] { width: 100%; }
 .detail-frame { grid-area: 1 / 1; display: grid; place-items: center; min-width: 0; }
-.detail-frame .project-youtube {
-  width: min(100%, calc((var(--stage-h) - var(--side-h)) * 16 / 9));
+.detail-frame[data-media-kind="youtube"] {
+  width: min(100%, calc((var(--stage-h) - var(--side-h)) * 8 / 5));
 }
+.detail-frame[data-media-kind="youtube"] .project-youtube { width: 100%; }
 .detail-mediabar { display: contents; }
 .detail-dots { display: none; }
 
@@ -952,8 +972,20 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .thumb:hover, .thumb[data-on="1"] { border-color: var(--color-accent); }
 .thumb:active { transform: translateY(1px) scale(.985); }
 .thumb img { width: 100%; height: auto; max-height: clamp(46px, 7vh, 74px); object-fit: cover; }
-.project-youtube-thumb { position: relative; display: grid; overflow: hidden; }
-.project-youtube-thumb img { grid-area: 1 / 1; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.project-youtube-thumb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 8 / 5;
+  overflow: hidden;
+  background: #000;
+}
+.project-youtube-thumb img {
+  grid-area: 1 / 1;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
 .project-youtube-play {
   grid-area: 1 / 1;
   place-self: center;
@@ -1188,25 +1220,20 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
      side rail lets the full-width experiment card read as one exhibit. */
   .rail[data-slide="experiments"] { display: none; }
 
-  .pslide { padding-right: 14px; }
-  .pslide-card { width: 100%; }
+  .pslide { padding-right: 0; }
+  .pslide-card { width: 100%; padding-right: 14px; }
   .pslide-instrument {
     min-height: 30px;
     grid-template-columns: 1fr auto;
     gap: 12px;
-    padding: 5px 8px;
+    padding: 5px 0;
     font-size: 9px;
   }
   .pslide-instrument span:first-child { display: none; }
   .pslide-exhibit {
     grid-template-columns: 1fr;
-    grid-template-rows: clamp(58px, 11vh, 82px) minmax(0, 1fr);
-    margin: 8px 8px 0;
-  }
-  .project-scene {
-    min-height: 0;
-    border-right: 1px solid color-mix(in srgb, currentColor 34%, transparent);
-    border-bottom: 0;
+    grid-template-rows: minmax(0, 1fr);
+    margin: 8px 0 0;
   }
   .pslide-media {
     width: 100%;
@@ -1215,11 +1242,11 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
     padding: 14px 14px 38px;
   }
   .scene-readout { display: none; }
-  .scene-voxchain-wave { inset: 7px 4%; height: auto; gap: 3px; }
+  .scene-voxchain-wave { inset: 8% 4% auto; height: 22%; gap: 3px; }
   .scene-voxchain-route { display: none; }
   .scene-rhyme-ruler { display: none; }
   .scene-rhyme-sheet {
-    inset: 7px 3%;
+    inset: 8% 3% 34%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -1229,14 +1256,14 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .scene-rhyme-line span { height: 3px; }
   .scene-cars-query { display: none; }
   .scene-cars-grid {
-    inset: 7px 3%;
+    inset: 9% 3% 36%;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 4px;
   }
   .scene-cars-grid > span { padding: 4px; }
   .scene-cars-grid > span b { display: none; }
-  .scene-arranged-grid { inset: 6px 3%; gap: 4px; }
+  .scene-arranged-grid { inset: 9% 3% 37%; gap: 4px; }
   .scene-arranged-channel { grid-template-columns: 1fr; gap: 0; }
   .scene-arranged-channel > span { display: none; }
   .scene-arranged-channel > div { gap: 2px; }
@@ -1245,13 +1272,13 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .pslide-frame img { max-height: calc(var(--stage-h) - 300px); }
   .pslide-frame .project-youtube { width: 100%; }
   .pslide-signal { left: 6px; right: 6px; bottom: 6px; min-height: 26px; font-size: 8px; }
-  .pslide-shotstrip { margin-inline: 8px; }
+  .pslide-shotstrip { margin-inline: 0; }
   .pslide-meta {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
-    padding: 11px 8px 10px;
+    padding: 11px 0 10px;
   }
   .pslide-lead { width: 100%; align-items: flex-end; gap: 10px; }
   .pslide-num { font-size: clamp(44px, 14vw, 58px); }

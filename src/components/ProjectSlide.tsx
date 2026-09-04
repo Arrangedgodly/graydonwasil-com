@@ -74,6 +74,8 @@ export function ProjectSlide({ project }: { project: Project }) {
 
   return (
     <div className="pslide" data-project={project.id}>
+      <ProjectScene projectId={project.id} reducedMotion={Boolean(reduce)} />
+
       <article className="pslide-card" aria-labelledby={titleId}>
         <div className="pslide-instrument mono" aria-label={`Featured project ${project.num} of 04, ${project.year}`}>
           <span>Featured project</span>
@@ -82,8 +84,6 @@ export function ProjectSlide({ project }: { project: Project }) {
         </div>
 
         <div className="pslide-exhibit">
-          <ProjectScene projectId={project.id} reducedMotion={Boolean(reduce)} />
-
           <m.figure
             layoutId={sharedShotId(project)}
             className="pslide-media blueprint duotone"
@@ -104,6 +104,7 @@ export function ProjectSlide({ project }: { project: Project }) {
               <m.div
                 key={key}
                 className="pslide-frame"
+                data-media-kind={shot.kind}
                 initial={reduce ? undefined : { opacity: 0, x: 14, clipPath: 'inset(0 0 0 18%)' }}
                 animate={{ opacity: 1, x: 0, clipPath: 'inset(0 0 0 0)' }}
                 exit={reduce ? undefined : { opacity: 0, x: -10, clipPath: 'inset(0 18% 0 0)' }}

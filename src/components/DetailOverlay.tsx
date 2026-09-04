@@ -117,6 +117,7 @@ export function DetailOverlay() {
         <m.figure
           layoutId={sharedShotId(project)}
           className="detail-media blueprint duotone"
+          data-media-kind={shot.kind}
           transition={reduce ? INSTANT : SPRING_OPEN}
           onPan={onPan}
           onPanEnd={onPanEnd}
@@ -129,6 +130,7 @@ export function DetailOverlay() {
             <m.div
               key={heroKeyName}
               className="detail-frame"
+              data-media-kind={shot.kind}
               custom={shotDirection}
               variants={shotVariants}
               initial={reduce ? false : 'enter'}

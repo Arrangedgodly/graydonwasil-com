@@ -90,8 +90,8 @@ corporate / business, and shoot those two. Tell me which you chose.
 | --- | --- |
 | `rhymepage-shot-2-{theme}.webp` | Teleprompter mid-playback |
 | `rhymepage-shot-3-{theme}.webp` | Sync marks laid against the track |
-| `collectible-cars-shot-2-{theme}.webp` | A single casting's detail page |
-| `collectible-cars-shot-3-{theme}.webp` | The shelf — your own collection |
+| `collectible-cars-shot-2-{theme}.webp` | Catalog filters open |
+| `collectible-cars-shot-3-{theme}.webp` | Profile with owned and wishlist collections |
 | `arranged-godly-shot-2-{theme}.webp` | Max for Live device cards |
 | `arranged-godly-shot-3-{theme}.webp` | Magic Gunden title screen |
 | `voxchain-shot-2-{theme}.png` | Advanced view with the ordered chain and effect palette |

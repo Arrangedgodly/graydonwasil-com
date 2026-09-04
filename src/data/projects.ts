@@ -146,8 +146,8 @@ const FEATURED_PROJECTS: Project[] = [
     learned: 'Collectors know what they are looking for. The filters need to be just as specific.',
     shots: [
       { kind: 'image', key: 'hero', label: 'The catalog' },
-      { kind: 'image', key: 'shot-2', label: 'A single casting' },
-      { kind: 'image', key: 'shot-3', label: 'My shelf' },
+      { kind: 'image', key: 'shot-2', label: 'Catalog filters' },
+      { kind: 'image', key: 'shot-3', label: 'Owned and wishlist profile' },
     ],
   },
   {

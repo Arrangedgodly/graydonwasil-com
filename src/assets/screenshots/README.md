@@ -46,7 +46,7 @@ obvious rather than silent.
 
 ## Current set
 
-31 files, ~6.1 MB: three projects with complete themed galleries, VOXCHAIN's
+31 files, ~4.0 MB: three projects with complete themed galleries, VOXCHAIN's
 current still captures, a phone twin for the first three heroes, and
 `about.webp`. VOXCHAIN uses its YouTube explanation as gallery item one, then
 Simple view and Advanced view. The old Live signal chain still is no longer in
