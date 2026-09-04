@@ -15,22 +15,6 @@ import writersBlockThumbnail from '../assets/experiments/writers-block.png';
 import desktopSimThumbnail from '../assets/experiments/desktop-sim.png';
 import bitbounceThumbnail from '../assets/experiments/bitbounce.png';
 import cordsThumbnail from '../assets/experiments/cords.png';
-import rhymepagePortal from '../assets/project-portals/rhymepage-portal.webp';
-import rhymepagePortalMobile from '../assets/project-portals/rhymepage-portal-mobile.webp';
-import collectibleCarsPortal from '../assets/project-portals/collectible-cars-portal.webp';
-import collectibleCarsPortalMobile from '../assets/project-portals/collectible-cars-portal-mobile.webp';
-import arrangedGodlyPortal from '../assets/project-portals/arranged-godly-portal.webp';
-import arrangedGodlyPortalMobile from '../assets/project-portals/arranged-godly-portal-mobile.webp';
-import voxchainPortal from '../assets/project-portals/voxchain-portal.webp';
-import voxchainPortalMobile from '../assets/project-portals/voxchain-portal-mobile.webp';
-import rhymepagePortalVideo from '../assets/project-portals/video/rhymepage-portal.mp4';
-import rhymepagePortalVideoMobile from '../assets/project-portals/video/rhymepage-portal-mobile.mp4';
-import collectibleCarsPortalVideo from '../assets/project-portals/video/collectible-cars-portal.mp4';
-import collectibleCarsPortalVideoMobile from '../assets/project-portals/video/collectible-cars-portal-mobile.mp4';
-import arrangedGodlyPortalVideo from '../assets/project-portals/video/arranged-godly-portal.mp4';
-import arrangedGodlyPortalVideoMobile from '../assets/project-portals/video/arranged-godly-portal-mobile.mp4';
-import voxchainPortalVideo from '../assets/project-portals/video/voxchain-portal.mp4';
-import voxchainPortalVideoMobile from '../assets/project-portals/video/voxchain-portal-mobile.mp4';
 
 /** A slot in a project's gallery. `key` is the capture slot — it becomes part
  *  of the filename as `{project.id}-{key}-{light|dark}[-mobile]`, so it has to
@@ -72,10 +56,6 @@ export interface Project {
   tags: string[];
   learned: string;
   shots: ProjectShot[];
-  portalImage: string;
-  portalImageMobile: string;
-  portalVideo: string;
-  portalVideoMobile: string;
 }
 
 export interface Experiment {
@@ -114,10 +94,6 @@ const FEATURED_PROJECTS: Project[] = [
     stack: ['Web Audio', 'AudioWorklet', 'WebMCP', 'Local storage'],
     tags: ['Web app', 'Audio'],
     learned: 'Agent control works better when it edits the same visible state as the person.',
-    portalImage: voxchainPortal,
-    portalImageMobile: voxchainPortalMobile,
-    portalVideo: voxchainPortalVideo,
-    portalVideoMobile: voxchainPortalVideoMobile,
     shots: [
       { kind: 'youtube', key: 'demo', label: 'Watch the VOXCHAIN explanation', youtubeId: 'chm-IvQGqzQ' },
       { kind: 'image', key: 'hero', label: 'Simple view' },
@@ -143,10 +119,6 @@ const FEATURED_PROJECTS: Project[] = [
     stack: ['React', 'Web Audio', 'REST API', 'Local storage'],
     tags: ['Web app', 'Audio'],
     learned: 'The hard part was keeping every timing mark attached when the lyrics changed.',
-    portalImage: rhymepagePortal,
-    portalImageMobile: rhymepagePortalMobile,
-    portalVideo: rhymepagePortalVideo,
-    portalVideoMobile: rhymepagePortalVideoMobile,
     shots: [
       { kind: 'image', key: 'hero', label: 'The write screen' },
       { kind: 'image', key: 'shot-2', label: 'Teleprompter playback' },
@@ -172,10 +144,6 @@ const FEATURED_PROJECTS: Project[] = [
     stack: ['Database', 'Search', 'Auth', 'Image handling'],
     tags: ['Web app', 'Data'],
     learned: 'Collectors know what they are looking for. The filters need to be just as specific.',
-    portalImage: collectibleCarsPortal,
-    portalImageMobile: collectibleCarsPortalMobile,
-    portalVideo: collectibleCarsPortalVideo,
-    portalVideoMobile: collectibleCarsPortalVideoMobile,
     shots: [
       { kind: 'image', key: 'hero', label: 'The catalog' },
       { kind: 'image', key: 'shot-2', label: 'A single casting' },
@@ -201,10 +169,6 @@ const FEATURED_PROJECTS: Project[] = [
     stack: ['Max for Live', 'Game dev', 'Music', 'Static site'],
     tags: ['Audio', 'Games'],
     learned: 'Unrelated work can share a site if each type is easy to find.',
-    portalImage: arrangedGodlyPortal,
-    portalImageMobile: arrangedGodlyPortalMobile,
-    portalVideo: arrangedGodlyPortalVideo,
-    portalVideoMobile: arrangedGodlyPortalVideoMobile,
     shots: [
       { kind: 'image', key: 'hero', label: 'The home shelf' },
       { kind: 'image', key: 'shot-2', label: 'Max for Live devices' },

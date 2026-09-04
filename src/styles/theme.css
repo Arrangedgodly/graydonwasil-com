@@ -224,8 +224,8 @@ figcaption {
 .blueprint > .corner.bl { bottom: -6px; left: -6px; }
 .blueprint > .corner.br { bottom: -6px; right: -6px; }
 
-/* The screenshots are the only real colour on the page, so the old duotone
-   tint is gone. The class survives as a plain clipping frame. */
+/* Screenshots keep their real colour. The class survives as a plain clipping
+   frame so project evidence is never filtered to match the surrounding scene. */
 .duotone { position: relative; overflow: hidden; }
 
 /* ---------- controls ---------- */

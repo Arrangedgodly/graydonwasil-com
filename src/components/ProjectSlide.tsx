@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, m, useReducedMotion } from 'motion/react';
 import type { Project } from '../data/projects';
 import { ProjectMedia } from './ProjectMedia';
+import { ProjectScene } from './ProjectScene';
 import { getShotImage, resolveShot, sharedShotId } from '../lib/images';
 import { detailPath } from '../lib/deck';
 import { useTheme, type Theme } from '../lib/useTheme';
@@ -19,7 +20,6 @@ export function ProjectSlide({ project }: { project: Project }) {
   const { theme } = useTheme();
   const isMobile = useIsMobile();
   const reduce = useReducedMotion();
-  const portalVideoRef = useRef<HTMLVideoElement>(null);
 
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -65,32 +65,6 @@ export function ProjectSlide({ project }: { project: Project }) {
     };
   }, [project, theme, isMobile, shots]);
 
-  useEffect(() => {
-    const video = portalVideoRef.current;
-    if (!video || reduce) return;
-
-    let visible = false;
-    const updatePlayback = () => {
-      if (visible && !document.hidden) video.play().catch(() => {});
-      else video.pause();
-    };
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        visible = entry.isIntersecting;
-        updatePlayback();
-      },
-      { threshold: 0.15 },
-    );
-
-    observer.observe(video);
-    document.addEventListener('visibilitychange', updatePlayback);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener('visibilitychange', updatePlayback);
-      video.pause();
-    };
-  }, [project.id, isMobile, reduce]);
-
   const shot = shots[i] ?? shots[0] ?? project.shots[0];
   const key = shot.kind === 'youtube'
     ? `youtube-${shot.youtubeId}`
@@ -101,80 +75,56 @@ export function ProjectSlide({ project }: { project: Project }) {
   return (
     <div className="pslide" data-project={project.id}>
       <article className="pslide-card" aria-labelledby={titleId}>
-        <m.div
-          className="pslide-portal"
-          aria-hidden="true"
-          initial={reduce ? undefined : { opacity: 0.35, scale: 1.06, clipPath: 'inset(12% 5% 26%)' }}
-          animate={{ opacity: 1, scale: 1, clipPath: 'inset(0)' }}
-          transition={reduce ? INSTANT : { duration: 0.78, ease: [0.16, 1, 0.3, 1] }}
-        >
-          {reduce ? (
-            <img
-              src={isMobile ? project.portalImageMobile : project.portalImage}
-              alt=""
-              loading="eager"
-              decoding="async"
-            />
-          ) : (
-            <video
-              ref={portalVideoRef}
-              src={isMobile ? project.portalVideoMobile : project.portalVideo}
-              poster={isMobile ? project.portalImageMobile : project.portalImage}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
-          )}
-        </m.div>
-
         <div className="pslide-instrument mono" aria-label={`Featured project ${project.num} of 04, ${project.year}`}>
           <span>Featured project</span>
           <span>Case {project.num} / 04</span>
           <span>{project.year}</span>
         </div>
 
-        <m.figure
-          layoutId={sharedShotId(project)}
-          className="pslide-media blueprint duotone"
-          transition={reduce ? INSTANT : SPRING_OPEN}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocusCapture={() => setPaused(true)}
-          onBlurCapture={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false);
-          }}
-        >
-          <i className="corner tl" />
-          <i className="corner tr" />
-          <i className="corner bl" />
-          <i className="corner br" />
+        <div className="pslide-exhibit">
+          <ProjectScene projectId={project.id} reducedMotion={Boolean(reduce)} />
 
-          <AnimatePresence initial={false}>
-            <m.div
-              key={key}
-              className="pslide-frame"
-              initial={reduce ? undefined : { opacity: 0, x: 14, clipPath: 'inset(0 0 0 18%)' }}
-              animate={{ opacity: 1, x: 0, clipPath: 'inset(0 0 0 0)' }}
-              exit={reduce ? undefined : { opacity: 0, x: -10, clipPath: 'inset(0 18% 0 0)' }}
-              transition={reduce ? INSTANT : { duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <ProjectMedia
-                shot={shot}
-                imageKey={shot.kind === 'image' ? key : undefined}
-                title={`${project.title}, ${shot.label}`}
-                alt={`${project.title}. ${project.tagline}`}
-                loading="eager"
-              />
-            </m.div>
-          </AnimatePresence>
+          <m.figure
+            layoutId={sharedShotId(project)}
+            className="pslide-media blueprint duotone"
+            transition={reduce ? INSTANT : SPRING_OPEN}
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onFocusCapture={() => setPaused(true)}
+            onBlurCapture={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false);
+            }}
+          >
+            <i className="corner tl" />
+            <i className="corner tr" />
+            <i className="corner bl" />
+            <i className="corner br" />
 
-          <figcaption className="pslide-signal mono">
-            <span className="pslide-shot-name"><i aria-hidden="true" />{shot.label}</span>
-            <span>{String(activeShotIndex + 1).padStart(2, '0')} / {String(shots.length).padStart(2, '0')}</span>
-          </figcaption>
-        </m.figure>
+            <AnimatePresence initial={false}>
+              <m.div
+                key={key}
+                className="pslide-frame"
+                initial={reduce ? undefined : { opacity: 0, x: 14, clipPath: 'inset(0 0 0 18%)' }}
+                animate={{ opacity: 1, x: 0, clipPath: 'inset(0 0 0 0)' }}
+                exit={reduce ? undefined : { opacity: 0, x: -10, clipPath: 'inset(0 18% 0 0)' }}
+                transition={reduce ? INSTANT : { duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <ProjectMedia
+                  shot={shot}
+                  imageKey={shot.kind === 'image' ? key : undefined}
+                  title={`${project.title}, ${shot.label}`}
+                  alt={`${project.title}. ${project.tagline}`}
+                  loading="eager"
+                />
+              </m.div>
+            </AnimatePresence>
+
+            <figcaption className="pslide-signal mono">
+              <span className="pslide-shot-name"><i aria-hidden="true" />{shot.label}</span>
+              <span>{String(activeShotIndex + 1).padStart(2, '0')} / {String(shots.length).padStart(2, '0')}</span>
+            </figcaption>
+          </m.figure>
+        </div>
 
         {shots.length > 1 && (
           <div
