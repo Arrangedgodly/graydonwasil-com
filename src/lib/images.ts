@@ -1,4 +1,4 @@
-import type { Project, ProjectShot } from '../data/projects';
+import type { Project, ProjectImageSlot } from '../data/projects';
 import type { Theme } from './useTheme';
 
 const files = import.meta.glob<{ default: string }>(
@@ -27,7 +27,7 @@ export function getShotImage(key: string): string | undefined {
  * obvious rather than silent. */
 export function resolveShot(
   project: Project,
-  slot: ProjectShot['key'],
+  slot: ProjectImageSlot,
   theme: Theme,
   mobile: boolean,
 ): string {

@@ -15,15 +15,43 @@ import writersBlockThumbnail from '../assets/experiments/writers-block.png';
 import desktopSimThumbnail from '../assets/experiments/desktop-sim.png';
 import bitbounceThumbnail from '../assets/experiments/bitbounce.png';
 import cordsThumbnail from '../assets/experiments/cords.png';
+import rhymepagePortal from '../assets/project-portals/rhymepage-portal.webp';
+import rhymepagePortalMobile from '../assets/project-portals/rhymepage-portal-mobile.webp';
+import collectibleCarsPortal from '../assets/project-portals/collectible-cars-portal.webp';
+import collectibleCarsPortalMobile from '../assets/project-portals/collectible-cars-portal-mobile.webp';
+import arrangedGodlyPortal from '../assets/project-portals/arranged-godly-portal.webp';
+import arrangedGodlyPortalMobile from '../assets/project-portals/arranged-godly-portal-mobile.webp';
+import voxchainPortal from '../assets/project-portals/voxchain-portal.webp';
+import voxchainPortalMobile from '../assets/project-portals/voxchain-portal-mobile.webp';
+import rhymepagePortalVideo from '../assets/project-portals/video/rhymepage-portal.mp4';
+import rhymepagePortalVideoMobile from '../assets/project-portals/video/rhymepage-portal-mobile.mp4';
+import collectibleCarsPortalVideo from '../assets/project-portals/video/collectible-cars-portal.mp4';
+import collectibleCarsPortalVideoMobile from '../assets/project-portals/video/collectible-cars-portal-mobile.mp4';
+import arrangedGodlyPortalVideo from '../assets/project-portals/video/arranged-godly-portal.mp4';
+import arrangedGodlyPortalVideoMobile from '../assets/project-portals/video/arranged-godly-portal-mobile.mp4';
+import voxchainPortalVideo from '../assets/project-portals/video/voxchain-portal.mp4';
+import voxchainPortalVideoMobile from '../assets/project-portals/video/voxchain-portal-mobile.mp4';
 
 /** A slot in a project's gallery. `key` is the capture slot — it becomes part
  *  of the filename as `{project.id}-{key}-{light|dark}[-mobile]`, so it has to
  *  match what the shot list asks for. `hero` does double duty: it is the image
  *  on the home page exhibit and the one that opens into this detail page. */
-export interface ProjectShot {
-  key: 'hero' | 'shot-2' | 'shot-3';
+export type ProjectImageSlot = 'hero' | 'shot-2' | 'shot-3';
+
+export interface ProjectImageShot {
+  kind: 'image';
+  key: ProjectImageSlot;
   label: string;
 }
+
+export interface ProjectYoutubeShot {
+  kind: 'youtube';
+  key: 'demo';
+  label: string;
+  youtubeId: string;
+}
+
+export type ProjectShot = ProjectImageShot | ProjectYoutubeShot;
 
 export type ProjectCollection = 'featured' | 'experiment';
 
@@ -44,6 +72,10 @@ export interface Project {
   tags: string[];
   learned: string;
   shots: ProjectShot[];
+  portalImage: string;
+  portalImageMobile: string;
+  portalVideo: string;
+  portalVideoMobile: string;
 }
 
 export interface Experiment {
@@ -62,83 +94,8 @@ export interface Experiment {
 const FEATURED_PROJECTS: Project[] = [
   {
     collection: 'featured',
-    id: 'rhymepage',
-    num: '01',
-    title: 'Rhymepage',
-    url: 'rhymepage.com',
-    year: '2025',
-    tagline: 'Write with the track, time each line, then rehearse it like a teleprompter.',
-    blurb:
-      'I built Rhymepage because writing lyrics in a notes app separates the words from the song. Rhymepage puts the track beside the lyrics, lets me mark when each line starts, and scrolls the finished draft in time like a teleprompter. It also searches for rhymes and syllables when I get stuck.',
-    bullets: [
-      'Mark when each lyric line starts',
-      'Play the lyrics back in time with the song',
-      'Search rhymes, near-rhymes, and syllable counts',
-      'Save drafts automatically and revisit older versions',
-    ],
-    stack: ['React', 'Web Audio', 'REST API', 'Local storage'],
-    tags: ['Web app', 'Audio'],
-    learned: 'The hard part was keeping every timing mark attached when the lyrics changed.',
-    shots: [
-      { key: 'hero', label: 'The write screen' },
-      { key: 'shot-2', label: 'Teleprompter playback' },
-      { key: 'shot-3', label: 'Sync marks against the track' },
-    ],
-  },
-  {
-    collection: 'featured',
-    id: 'collectible-cars',
-    num: '02',
-    title: 'Collectible Cars DB',
-    url: 'cars.arrangedgodly.com',
-    year: '2026',
-    tagline: 'Keep track of every Mattel Pixar Cars casting, plus what I own and still want.',
-    blurb:
-      'My Pixar Cars collection got too big for a notes app, so I built the database I wanted. I can search every casting, filter the list, mark the cars I own or want, and see what is missing from my shelf. Storing the records was straightforward. Making a large catalog easy to browse was the real problem.',
-    bullets: [
-      'Search the full catalog and narrow it with filters',
-      'Mark each casting as owned, wanted, or rated',
-      'Build a shelf view from the cars you own',
-      'Compare ratings across the catalog',
-    ],
-    stack: ['Database', 'Search', 'Auth', 'Image handling'],
-    tags: ['Web app', 'Data'],
-    learned: 'Collectors know what they are looking for. The filters need to be just as specific.',
-    shots: [
-      { key: 'hero', label: 'The catalog' },
-      { key: 'shot-2', label: 'A single casting' },
-      { key: 'shot-3', label: 'My shelf' },
-    ],
-  },
-  {
-    collection: 'featured',
-    id: 'arranged-godly',
-    num: '03',
-    title: 'Arranged Godly',
-    url: 'arrangedgodly.com',
-    year: 'ongoing',
-    tagline: 'One place for my music, Max for Live devices, and browser games.',
-    blurb:
-      'I made Arranged Godly because my work did not fit on a normal music page. It holds my releases, free Max for Live tools, and Magic Gunden, the first game I finished. The main challenge was making all of that easy to browse without pretending it was the same kind of thing.',
-    bullets: [
-      'Play music releases without leaving the page',
-      'Download my Max for Live devices for free',
-      'Play Magic Gunden in the browser',
-      'Move clearly between music, tools, and games',
-    ],
-    stack: ['Max for Live', 'Game dev', 'Music', 'Static site'],
-    tags: ['Audio', 'Games'],
-    learned: 'Unrelated work can share a site if each type is easy to find.',
-    shots: [
-      { key: 'hero', label: 'The home shelf' },
-      { key: 'shot-2', label: 'Max for Live devices' },
-      { key: 'shot-3', label: 'Magic Gunden' },
-    ],
-  },
-  {
-    collection: 'featured',
     id: 'voxchain',
-    num: '04',
+    num: '01',
     title: 'VOXCHAIN',
     url: 'voxchain.arrangedgodly.com',
     sourceUrl: 'https://github.com/ArtofFish/voxchain',
@@ -157,10 +114,101 @@ const FEATURED_PROJECTS: Project[] = [
     stack: ['Web Audio', 'AudioWorklet', 'WebMCP', 'Local storage'],
     tags: ['Web app', 'Audio'],
     learned: 'Agent control works better when it edits the same visible state as the person.',
+    portalImage: voxchainPortal,
+    portalImageMobile: voxchainPortalMobile,
+    portalVideo: voxchainPortalVideo,
+    portalVideoMobile: voxchainPortalVideoMobile,
     shots: [
-      { key: 'hero', label: 'Simple view' },
-      { key: 'shot-2', label: 'Advanced view' },
-      { key: 'shot-3', label: 'The live signal chain' },
+      { kind: 'youtube', key: 'demo', label: 'Watch the VOXCHAIN explanation', youtubeId: 'chm-IvQGqzQ' },
+      { kind: 'image', key: 'hero', label: 'Simple view' },
+      { kind: 'image', key: 'shot-2', label: 'Advanced view' },
+    ],
+  },
+  {
+    collection: 'featured',
+    id: 'rhymepage',
+    num: '02',
+    title: 'Rhymepage',
+    url: 'rhymepage.com',
+    year: '2025',
+    tagline: 'Write with the track, time each line, then rehearse it like a teleprompter.',
+    blurb:
+      'I built Rhymepage because writing lyrics in a notes app separates the words from the song. Rhymepage puts the track beside the lyrics, lets me mark when each line starts, and scrolls the finished draft in time like a teleprompter. It also searches for rhymes and syllables when I get stuck.',
+    bullets: [
+      'Mark when each lyric line starts',
+      'Play the lyrics back in time with the song',
+      'Search rhymes, near-rhymes, and syllable counts',
+      'Save drafts automatically and revisit older versions',
+    ],
+    stack: ['React', 'Web Audio', 'REST API', 'Local storage'],
+    tags: ['Web app', 'Audio'],
+    learned: 'The hard part was keeping every timing mark attached when the lyrics changed.',
+    portalImage: rhymepagePortal,
+    portalImageMobile: rhymepagePortalMobile,
+    portalVideo: rhymepagePortalVideo,
+    portalVideoMobile: rhymepagePortalVideoMobile,
+    shots: [
+      { kind: 'image', key: 'hero', label: 'The write screen' },
+      { kind: 'image', key: 'shot-2', label: 'Teleprompter playback' },
+      { kind: 'image', key: 'shot-3', label: 'Sync marks against the track' },
+    ],
+  },
+  {
+    collection: 'featured',
+    id: 'collectible-cars',
+    num: '03',
+    title: 'CarsDB',
+    url: 'cars.arrangedgodly.com',
+    year: '2026',
+    tagline: 'Keep track of every Mattel Pixar Cars casting, plus what I own and still want.',
+    blurb:
+      'My Pixar Cars collection got too big for a notes app, so I built the database I wanted. I can search every casting, filter the list, mark the cars I own or want, and see what is missing from my shelf. Storing the records was straightforward. Making a large catalog easy to browse was the real problem.',
+    bullets: [
+      'Search the full catalog and narrow it with filters',
+      'Mark each casting as owned, wanted, or rated',
+      'Build a shelf view from the cars you own',
+      'Compare ratings across the catalog',
+    ],
+    stack: ['Database', 'Search', 'Auth', 'Image handling'],
+    tags: ['Web app', 'Data'],
+    learned: 'Collectors know what they are looking for. The filters need to be just as specific.',
+    portalImage: collectibleCarsPortal,
+    portalImageMobile: collectibleCarsPortalMobile,
+    portalVideo: collectibleCarsPortalVideo,
+    portalVideoMobile: collectibleCarsPortalVideoMobile,
+    shots: [
+      { kind: 'image', key: 'hero', label: 'The catalog' },
+      { kind: 'image', key: 'shot-2', label: 'A single casting' },
+      { kind: 'image', key: 'shot-3', label: 'My shelf' },
+    ],
+  },
+  {
+    collection: 'featured',
+    id: 'arranged-godly',
+    num: '04',
+    title: 'Arranged Godly',
+    url: 'arrangedgodly.com',
+    year: 'ongoing',
+    tagline: 'One place for my music, Max for Live devices, and browser games.',
+    blurb:
+      'I made Arranged Godly because my work did not fit on a normal music page. It holds my releases, free Max for Live tools, and Magic Gunden, the first game I finished. The main challenge was making all of that easy to browse without pretending it was the same kind of thing.',
+    bullets: [
+      'Play music releases without leaving the page',
+      'Download my Max for Live devices for free',
+      'Play Magic Gunden in the browser',
+      'Move clearly between music, tools, and games',
+    ],
+    stack: ['Max for Live', 'Game dev', 'Music', 'Static site'],
+    tags: ['Audio', 'Games'],
+    learned: 'Unrelated work can share a site if each type is easy to find.',
+    portalImage: arrangedGodlyPortal,
+    portalImageMobile: arrangedGodlyPortalMobile,
+    portalVideo: arrangedGodlyPortalVideo,
+    portalVideoMobile: arrangedGodlyPortalVideoMobile,
+    shots: [
+      { kind: 'image', key: 'hero', label: 'The home shelf' },
+      { kind: 'image', key: 'shot-2', label: 'Max for Live devices' },
+      { kind: 'image', key: 'shot-3', label: 'Magic Gunden' },
     ],
   },
 ];

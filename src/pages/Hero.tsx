@@ -20,7 +20,7 @@ export function Hero() {
   ].filter((frame): frame is { id: string; label: string; src: string } => Boolean(frame.src));
 
   return (
-    <div className="hero">
+    <div className="hero" data-motion={reduceMotion ? 'still' : 'run'}>
       <div
         className="hero-memory"
         data-motion={reduceMotion ? 'still' : 'loop'}

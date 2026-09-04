@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { AnimatePresence, m, useReducedMotion } from 'motion/react';
 
 const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined;
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 export function Contact() {
+  const reduce = useReducedMotion();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [msg, setMsg] = useState('');
@@ -77,8 +79,17 @@ export function Contact() {
       </div>
 
       <div className="formpanel glass">
-        {status === 'sent' ? (
-          <div className="formgrid" aria-live="polite">
+        <AnimatePresence mode="wait" initial={false}>
+          {status === 'sent' ? (
+          <m.div
+            key="sent"
+            className="formgrid"
+            aria-live="polite"
+            initial={reduce ? { opacity: 0.55 } : { opacity: 0, clipPath: 'inset(0 0 18% 0)' }}
+            animate={{ opacity: 1, clipPath: 'inset(0 0 0 0)' }}
+            exit={{ opacity: 0 }}
+            transition={reduce ? { duration: 0.12 } : { duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="mono block-label">Sent</span>
             <h3 className="pt sent-title">Thanks. That&rsquo;s on its way.</h3>
             <p className="prose-lead">
@@ -89,9 +100,17 @@ export function Contact() {
                 Write another
               </button>
             </div>
-          </div>
+          </m.div>
         ) : status === 'error' ? (
-          <div className="formgrid" aria-live="assertive">
+          <m.div
+            key="error"
+            className="formgrid"
+            aria-live="assertive"
+            initial={reduce ? { opacity: 0.55 } : { opacity: 0, clipPath: 'inset(0 0 18% 0)' }}
+            animate={{ opacity: 1, clipPath: 'inset(0 0 0 0)' }}
+            exit={{ opacity: 0 }}
+            transition={reduce ? { duration: 0.12 } : { duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="mono block-label">Didn&rsquo;t send</span>
             <h3 className="pt sent-title">That didn&rsquo;t reach my inbox.</h3>
             <p className="prose-lead">
@@ -105,9 +124,16 @@ export function Contact() {
                 Try again
               </button>
             </div>
-          </div>
+          </m.div>
         ) : (
-          <div className="formgrid">
+          <m.div
+            key="form"
+            className="formgrid"
+            initial={reduce ? { opacity: 0.55 } : { opacity: 0, clipPath: 'inset(14% 0 0 0)' }}
+            animate={{ opacity: 1, clipPath: 'inset(0 0 0 0)' }}
+            exit={{ opacity: 0 }}
+            transition={reduce ? { duration: 0.12 } : { duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          >
             <div className="contact-fields">
               <div className="field">
                 <label htmlFor="contact-name">Name</label>
@@ -158,8 +184,9 @@ export function Contact() {
                 {formHint}
               </span>
             </div>
-          </div>
-        )}
+          </m.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

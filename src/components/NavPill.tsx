@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { m, useReducedMotion } from 'motion/react';
+import { AnimatePresence, m, useReducedMotion } from 'motion/react';
 import { PROJECTS } from '../data/projects';
 import { VIEWS } from '../lib/nav';
 import { navKeyFor } from '../lib/deck';
@@ -71,13 +71,20 @@ export function NavPill() {
             </span>
           </button>
 
-          {menuOpen && (
-            <m.ul
-              className="navmenu"
-              initial={reduce ? undefined : { opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={reduce ? INSTANT : { duration: 0.16 }}
-            >
+          <AnimatePresence>
+            {menuOpen && (
+              <m.ul
+                className="navmenu"
+                initial={reduce ? undefined : { opacity: 0, y: -6, clipPath: 'inset(0 0 12% 0)' }}
+                animate={{ opacity: 1, y: 0, clipPath: 'inset(0 0 0 0)' }}
+                exit={reduce ? undefined : {
+                  opacity: 0,
+                  y: -3,
+                  clipPath: 'inset(0 0 8% 0)',
+                  transition: { duration: 0.12 },
+                }}
+                transition={reduce ? INSTANT : { duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              >
               {PROJECTS.map((p) => {
                 const path = `/projects/${p.id}`;
                 const current = slide.key === p.id;
@@ -108,8 +115,9 @@ export function NavPill() {
                   <span className="navmenu-title">Experiments</span>
                 </Link>
               </li>
-            </m.ul>
-          )}
+              </m.ul>
+            )}
+          </AnimatePresence>
         </div>
 
         {VIEWS.filter((v) => v.key !== 'work').map((v) => {

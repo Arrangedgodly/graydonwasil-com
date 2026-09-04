@@ -38,14 +38,16 @@ of a pair; all you do is flip the app's own theme control when it asks.
 1. `{id}-{slot}-{theme}-mobile` — narrow viewports, when that capture exists
 2. `{id}-{slot}-{theme}`
 
-Only the hero is captured for phones, so `shot-2` and `shot-3` fall through to
-their desktop file by design. When nothing matches, the canonical name is
+Most projects currently have only a phone hero. Any correctly named mobile
+capture takes priority, including `shot-2` and `shot-3`; otherwise that slot
+falls through to its desktop file. When nothing matches, the canonical name is
 returned so `Shot` renders the diagonal-hatch placeholder and the gap is
 obvious rather than silent.
 
 ## Current set
 
 31 files, ~6.1 MB: three projects with complete themed galleries, VOXCHAIN's
-three dark-interface scenes under matching light and dark keys, a phone twin
-for the first three heroes, and `about.webp`. The older animated variants are
-gone. They used 39 MB without adding useful motion.
+current still captures, a phone twin for the first three heroes, and
+`about.webp`. VOXCHAIN uses its YouTube explanation as gallery item one, then
+Simple view and Advanced view. The old Live signal chain still is no longer in
+the gallery.

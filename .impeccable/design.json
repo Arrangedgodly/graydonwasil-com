@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-04T16:42:01.176Z",
+  "title": "Design System: Graydon Wasil",
+  "extensions": {
+    "colorMeta": {
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Console Canvas",
+        "canonical": "#0a0e11",
+        "tonalRamp": ["#0a0e11", "#131a1e", "#1c262c", "#27343b", "#37474f", "#6b8089", "#b3c5cd", "#dbe7ec"]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Console Panel",
+        "canonical": "#121a20",
+        "tonalRamp": ["#0a0e11", "#121a20", "#1c262c", "#27343b", "#4d6069", "#8ea3ac", "#b3c5cd", "#e2edf1"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Console Ink",
+        "canonical": "#e2edf1",
+        "tonalRamp": ["#0a0e11", "#131a1e", "#27343b", "#4d6069", "#6b8089", "#8ea3ac", "#b3c5cd", "#e2edf1"]
+      },
+      "signal-cyan": {
+        "role": "primary",
+        "displayName": "Signal Cyan",
+        "canonical": "#2fd9ef",
+        "tonalRamp": ["#06232b", "#093542", "#0d4c5d", "#12697f", "#1a8ba5", "#22b2cf", "#2fd9ef", "#b3f3fb"]
+      },
+      "signal-cyan-hover": {
+        "role": "primary",
+        "displayName": "Signal Cyan Hover",
+        "canonical": "#71e8f7",
+        "tonalRamp": ["#06232b", "#093542", "#0d4c5d", "#12697f", "#1a8ba5", "#22b2cf", "#71e8f7", "#b3f3fb"]
+      },
+      "instrument-blue": {
+        "role": "secondary",
+        "displayName": "Instrument Blue",
+        "canonical": "#4fb8e8",
+        "tonalRamp": ["#0a1f2e", "#0e2d42", "#14405c", "#1c587b", "#2775a1", "#3697c7", "#4fb8e8", "#c2e8fa"]
+      },
+      "divider": {
+        "role": "neutral",
+        "displayName": "Circuit Divider",
+        "canonical": "color-mix(in srgb, #7ed6e8 17%, transparent)",
+        "tonalRamp": ["#0a0e11", "#131a1e", "#1c262c", "#27343b", "#4d6069", "#8ea3ac", "#b3c5cd", "#dbe7ec"]
+      },
+      "light-canvas": {
+        "role": "neutral",
+        "displayName": "Light Canvas",
+        "canonical": "#eef3f5",
+        "tonalRamp": ["#0d1619", "#1d2c33", "#35474f", "#4f636d", "#6b7f89", "#b2c0c6", "#e6ecef", "#eef3f5"]
+      },
+      "light-panel": {
+        "role": "neutral",
+        "displayName": "Light Panel",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#0d1619", "#1d2c33", "#35474f", "#6b7f89", "#8d9ea6", "#d2dbdf", "#f4f7f8", "#ffffff"]
+      },
+      "light-ink": {
+        "role": "neutral",
+        "displayName": "Light Ink",
+        "canonical": "#0d1619",
+        "tonalRamp": ["#0d1619", "#1d2c33", "#35474f", "#4f636d", "#6b7f89", "#b2c0c6", "#e6ecef", "#f4f7f8"]
+      },
+      "light-signal-cyan": {
+        "role": "primary",
+        "displayName": "Light Signal Cyan",
+        "canonical": "#097586",
+        "tonalRamp": ["#04434f", "#075f70", "#097586", "#1590aa", "#2ea8c2", "#5fc7db", "#c4eef5", "#e6f8fb"]
+      },
+      "light-signal-cyan-hover": {
+        "role": "primary",
+        "displayName": "Light Signal Cyan Hover",
+        "canonical": "#075f70",
+        "tonalRamp": ["#04434f", "#075f70", "#097586", "#1590aa", "#2ea8c2", "#5fc7db", "#c4eef5", "#e6f8fb"]
+      },
+      "light-instrument-blue": {
+        "role": "secondary",
+        "displayName": "Light Instrument Blue",
+        "canonical": "#1a6590",
+        "tonalRamp": ["#0d3a4f", "#14526f", "#1c6d99", "#2a7dae", "#3f95c8", "#6bb6e0", "#c9e6f6", "#e8f4fb"]
+      },
+      "light-divider": {
+        "role": "neutral",
+        "displayName": "Light Circuit Divider",
+        "canonical": "color-mix(in srgb, #0d4a57 18%, transparent)",
+        "tonalRamp": ["#0d1619", "#1d2c33", "#35474f", "#4f636d", "#8d9ea6", "#d2dbdf", "#e6ecef", "#f4f7f8"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Uppercase hero statements split into deliberate lines."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Major slide headings for About, Contact, and other section-level views."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Project names, detail headings, and compact component titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Readable project explanations, personal context, and form content."
+      },
+      "label": {
+        "displayName": "Label and Readout",
+        "purpose": "Counts, metadata, navigation notes, and short operating instructions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "edge-lift-dark",
+        "value": "0 1px 2px rgb(0 0 0 / 0.45)",
+        "purpose": "Small separation for compact elevated controls in dark mode."
+      },
+      {
+        "name": "chrome-lift-dark",
+        "value": "0 4px 14px rgb(0 0 0 / 0.5)",
+        "purpose": "Persistent navigation over changing dark content."
+      },
+      {
+        "name": "overlay-lift-dark",
+        "value": "0 18px 44px rgb(0 0 0 / 0.55)",
+        "purpose": "Menus and views that must read as a separate dark layer."
+      },
+      {
+        "name": "edge-lift-light",
+        "value": "0 1px 2px rgb(13 40 48 / 0.12)",
+        "purpose": "Small separation for compact elevated controls in light mode."
+      },
+      {
+        "name": "chrome-lift-light",
+        "value": "0 4px 14px rgb(13 40 48 / 0.13)",
+        "purpose": "Persistent navigation over changing light content."
+      },
+      {
+        "name": "overlay-lift-light",
+        "value": "0 18px 44px rgb(13 40 48 / 0.16)",
+        "purpose": "Menus and views that must read as a separate light layer."
+      },
+      {
+        "name": "exhibit-lift",
+        "value": "0 16px 36px color-mix(in srgb, #000 26%, transparent)",
+        "purpose": "Mounted experiment cards with their own contained visual identity."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-press",
+        "value": "120ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "One-pixel or small-scale physical feedback on press."
+      },
+      {
+        "name": "control-state",
+        "value": "180ms ease",
+        "purpose": "Color and border changes for hover, focus, and selection."
+      },
+      {
+        "name": "chrome-theme",
+        "value": "420ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Theme and experiment-palette changes across persistent chrome."
+      },
+      {
+        "name": "hero-resolve",
+        "value": "580ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Line-by-line reveal of the opening statement after the project index appears."
+      },
+      {
+        "name": "exhibit-change",
+        "value": "460ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Directional replacement of the selected experiment card."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "Near-instant component state changes when the visitor requests reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max-width",
+        "value": "760px"
+      },
+      {
+        "name": "short-viewport-max-height",
+        "value": "700px"
+      },
+      {
+        "name": "coarse-pointer",
+        "value": "(pointer: coarse)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The highest-emphasis action inside project details, forms, and experiment exhibits.",
+      "html": "<button class=\"ds-button-primary\">How I built it</button>",
+      "css": ".ds-button-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 6.8px 12.24px; cursor: pointer; background: var(--color-accent-700, #2fd9ef); color: var(--color-bg, #0a0e11); border: 1px solid var(--color-accent, #2fd9ef); border-radius: 0; font: 600 14px/1.2 var(--font-heading, 'Barlow Condensed', system-ui, sans-serif); letter-spacing: .04em; transition: background .18s ease, border-color .18s ease, color .18s ease, transform .12s cubic-bezier(.16, 1, .3, 1); } .ds-button-primary:hover { background: var(--color-accent-800, #71e8f7); } .ds-button-primary:focus-visible { outline: 2px solid var(--color-accent, #2fd9ef); outline-offset: 2px; } .ds-button-primary:active { background: var(--color-accent-900, #b3f3fb); transform: translateY(1px) scale(.985); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A lower-emphasis action that keeps the underlying surface visible.",
+      "html": "<button class=\"ds-button-secondary\">View source</button>",
+      "css": ".ds-button-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 6.8px 12.24px; cursor: pointer; background: transparent; color: var(--color-text, #e2edf1); border: 1px solid var(--color-divider, rgba(126, 214, 232, .17)); border-radius: 0; font: 600 14px/1.2 var(--font-heading, 'Barlow Condensed', system-ui, sans-serif); letter-spacing: .04em; transition: background .18s ease, border-color .18s ease, color .18s ease, transform .12s cubic-bezier(.16, 1, .3, 1); } .ds-button-secondary:hover { background: color-mix(in srgb, var(--color-accent, #2fd9ef) 12%, transparent); border-color: var(--color-accent, #2fd9ef); } .ds-button-secondary:focus-visible { outline: 2px solid var(--color-accent, #2fd9ef); outline-offset: 2px; } .ds-button-secondary:active { background: color-mix(in srgb, var(--color-accent, #2fd9ef) 20%, transparent); transform: translateY(1px) scale(.985); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "The square, opaque field used by the contact form.",
+      "html": "<label class=\"ds-field\"><span>Name</span><input class=\"ds-input\" placeholder=\"Your name\"></label>",
+      "css": ".ds-field { display: grid; gap: 5px; color: color-mix(in srgb, var(--color-text, #e2edf1) 72%, transparent); font: 400 12px/1.55 var(--font-body, Barlow, system-ui, sans-serif); } .ds-input { width: 100%; min-height: 36px; padding: 8px 11px; background: var(--color-surface, #121a20); color: var(--color-text, #e2edf1); caret-color: var(--color-accent, #2fd9ef); border: 1px solid var(--color-divider, rgba(126, 214, 232, .17)); border-radius: 0; font: 400 14px/1.55 var(--font-body, Barlow, system-ui, sans-serif); transition: border-color .18s ease; } .ds-input::placeholder { color: color-mix(in srgb, var(--color-text, #e2edf1) 42%, transparent); } .ds-input:hover { border-color: color-mix(in srgb, var(--color-text, #e2edf1) 45%, transparent); } .ds-input:focus-visible { border-color: var(--color-accent, #2fd9ef); outline: 2px solid var(--color-accent, #2fd9ef); outline-offset: 0; }"
+    },
+    {
+      "name": "Outline Tag",
+      "kind": "chip",
+      "refersTo": "tag-outline",
+      "description": "A compact project-category label with no decorative fill.",
+      "html": "<span class=\"ds-tag-outline\">Web app</span>",
+      "css": ".ds-tag-outline { display: inline-flex; align-items: center; padding: 3px 10px; background: transparent; color: var(--color-accent, #2fd9ef); border: 1px solid var(--color-accent, #2fd9ef); border-radius: 0; font: 400 11px/1.55 var(--font-body, Barlow, system-ui, sans-serif); letter-spacing: .02em; }"
+    },
+    {
+      "name": "Floating Navigation",
+      "kind": "nav",
+      "refersTo": "navigation-item",
+      "description": "The persistent glass navigation with one visible active state.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Sections\"><button class=\"ds-nav-item ds-nav-active\">Work</button><button class=\"ds-nav-item\">About</button><button class=\"ds-nav-item\">Contact</button></nav>",
+      "css": ".ds-nav { display: inline-flex; gap: 2px; padding: 4px; background: var(--glass-bg, rgba(28, 42, 51, .55)); backdrop-filter: blur(16px); border: 1px solid var(--color-divider, rgba(126, 214, 232, .17)); box-shadow: var(--shadow-md, 0 4px 14px rgba(0, 0, 0, .5)); } .ds-nav-item { position: relative; min-height: 44px; padding: 0 clamp(13px, 2vw, 19px); cursor: pointer; background: transparent; color: color-mix(in srgb, var(--color-text, #e2edf1) 72%, transparent); border: 0; border-radius: 0; font: 600 13px/1 var(--font-heading, 'Barlow Condensed', system-ui, sans-serif); letter-spacing: .11em; text-transform: uppercase; transition: color .2s ease; } .ds-nav-item:hover { color: var(--color-text, #e2edf1); } .ds-nav-item:focus-visible { outline: 2px solid var(--color-accent, #2fd9ef); outline-offset: 0; } .ds-nav-active { color: var(--color-accent-700, #2fd9ef); background: color-mix(in srgb, var(--color-accent, #2fd9ef) 16%, transparent); border: 1px solid var(--color-accent, #2fd9ef); }"
+    },
+    {
+      "name": "Glass Form Panel",
+      "kind": "card",
+      "refersTo": "bordered-card",
+      "description": "A structural glass layer for the contact form and other focused tasks.",
+      "html": "<section class=\"ds-glass-panel\"><span class=\"ds-panel-label\">Contact</span><strong>Tell me what is not working.</strong></section>",
+      "css": ".ds-glass-panel { display: grid; gap: 14px; padding: clamp(14px, 2vw, 24px); background: var(--glass-bg, rgba(28, 42, 51, .55)); color: var(--color-text, #e2edf1); backdrop-filter: blur(16px); border: 1px solid var(--color-divider, rgba(126, 214, 232, .17)); border-radius: 0; font: 400 15px/1.55 var(--font-body, Barlow, system-ui, sans-serif); } .ds-panel-label { padding-bottom: 7px; color: var(--color-accent-700, #2fd9ef); border-bottom: 1px solid var(--color-divider, rgba(126, 214, 232, .17)); font: 400 11px/1.5 var(--font-mono, 'JetBrains Mono', ui-monospace, monospace); letter-spacing: .06em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Blueprint Media Frame",
+      "kind": "custom",
+      "description": "The signature frame for screenshots and other project evidence.",
+      "html": "<figure class=\"ds-blueprint\"><div class=\"ds-corner ds-tl\"></div><div class=\"ds-corner ds-tr\"></div><div class=\"ds-evidence\">PROJECT SCREENSHOT</div><div class=\"ds-corner ds-bl\"></div><div class=\"ds-corner ds-br\"></div></figure>",
+      "css": ".ds-blueprint { position: relative; display: grid; place-items: center; min-width: 260px; min-height: 150px; margin: 8px; color: var(--color-text, #e2edf1); border: 1px solid var(--color-divider, rgba(126, 214, 232, .17)); border-radius: 0; } .ds-evidence { color: color-mix(in srgb, var(--color-text, #e2edf1) 66%, transparent); font: 400 10px/1.5 var(--font-mono, 'JetBrains Mono', ui-monospace, monospace); letter-spacing: .09em; } .ds-corner { position: absolute; width: 11px; height: 11px; color: color-mix(in srgb, var(--color-accent, #2fd9ef) 70%, transparent); } .ds-corner::before, .ds-corner::after { content: ''; position: absolute; background: currentColor; } .ds-corner::before { left: 5px; top: 0; width: 1px; height: 100%; } .ds-corner::after { top: 5px; left: 0; width: 100%; height: 1px; } .ds-tl { top: -6px; left: -6px; } .ds-tr { top: -6px; right: -6px; } .ds-bl { bottom: -6px; left: -6px; } .ds-br { right: -6px; bottom: -6px; }"
+    },
+    {
+      "name": "Experiment Exhibit",
+      "kind": "custom",
+      "description": "A contained poster-like card where one experiment may carry its own visual identity.",
+      "html": "<article class=\"ds-exhibit\"><span class=\"ds-exhibit-meta\">07 / 17 &nbsp; Browser experiment</span><div><h3>Thread Art</h3><p>A small visual system gets room to speak without changing the surrounding portfolio chrome.</p></div></article>",
+      "css": ".ds-exhibit { --ds-exhibit-bg: #15120e; --ds-exhibit-ink: #d6b56a; position: relative; isolation: isolate; display: grid; align-content: space-between; gap: 28px; min-width: 300px; min-height: 220px; padding: clamp(20px, 3vw, 38px); overflow: hidden; background: var(--ds-exhibit-bg); color: var(--ds-exhibit-ink); border: 1px solid color-mix(in srgb, var(--ds-exhibit-ink) 34%, transparent); border-radius: 0; box-shadow: 0 16px 36px color-mix(in srgb, #000 26%, transparent); transition: border-color .24s ease, box-shadow .34s cubic-bezier(.16, 1, .3, 1); } .ds-exhibit::after { content: ''; position: absolute; z-index: -1; width: 160%; height: 160%; left: -30%; top: -30%; opacity: .18; background: repeating-radial-gradient(ellipse at center, transparent 0 8px, currentColor 9px 10px, transparent 11px 19px); } .ds-exhibit:hover { border-color: color-mix(in srgb, var(--ds-exhibit-ink) 52%, transparent); box-shadow: 0 20px 44px color-mix(in srgb, #000 32%, transparent); } .ds-exhibit:focus-within { outline: 2px solid var(--ds-exhibit-ink); outline-offset: 2px; } .ds-exhibit-meta { font: 400 9px/1.5 var(--font-mono, 'JetBrains Mono', ui-monospace, monospace); letter-spacing: .12em; text-transform: uppercase; } .ds-exhibit h3 { max-width: 9ch; margin: 0; font: 400 clamp(2.1rem, 11vw, 5.2rem)/.9 Georgia, serif; letter-spacing: .02em; } .ds-exhibit p { max-width: 36ch; margin: 18px 0 0; color: color-mix(in srgb, currentColor 82%, transparent); font: 400 14px/1.45 var(--font-body, Barlow, system-ui, sans-serif); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Working Console",
+    "overview": "The portfolio behaves like a working console for inspecting real software. It is dark-first, compact, and engineered around screenshots, project facts, and direct controls. The chrome stays quiet so the work can carry the page, while cyan signals show position, selection, and the next useful action.\n\nThe system is focused, engineered, direct, and quietly personal. It borrows the clarity of audio equipment and developer tools without pretending to be a terminal. Avoid glossy agency presentation, soft generic SaaS styling, and decorative retro-computer effects that do not explain state or support an action.",
+    "keyCharacteristics": [
+      "Full-viewport deck with persistent navigation and a fixed status bar.",
+      "Dark blue-black grounds with sparse cyan and blue signals.",
+      "Condensed uppercase display type paired with plain body copy and monospaced readouts.",
+      "Square controls, fine dividers, restrained glass, and real project imagery.",
+      "Short, physical-feeling state changes with a complete reduced-motion path."
+    ],
+    "rules": [
+      {
+        "name": "The Signal Means State Rule",
+        "body": "Cyan identifies an active state, a focus target, or a useful action. Do not spread it across passive decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Evidence Keeps Its Color Rule",
+        "body": "Project screenshots stay in their original color. The surrounding interface is restrained enough to let them stand out without a duotone treatment.",
+        "section": "colors"
+      },
+      {
+        "name": "The Experiment Owns Its Exhibit Rule",
+        "body": "An experiment card may use its own background, type, and ink colors, but that palette stays inside the card. Persistent navigation and page chrome remain part of the main system.",
+        "section": "colors"
+      },
+      {
+        "name": "The Display Earns Its Size Rule",
+        "body": "Reserve oversized condensed type for the visitor's current subject. Supporting copy stays smaller and carries the detail.",
+        "section": "typography"
+      },
+      {
+        "name": "The Readout Has a Job Rule",
+        "body": "Monospaced uppercase text reports state, order, metadata, or an instruction. Do not use it as a blanket technical texture.",
+        "section": "typography"
+      },
+      {
+        "name": "The Chrome Owns Its Space Rule",
+        "body": "Size every view inside the top and bottom reserves. Do not let content disappear under fixed navigation.",
+        "section": "layout"
+      },
+      {
+        "name": "The Image Keeps Its Shape Rule",
+        "body": "Use `width: auto`, `height: auto`, and a viewport-aware `max-height` for screenshots and portraits. Never stretch or crop evidence merely to fill leftover space.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Until Layered Rule",
+        "body": "A surface stays flat unless navigation, focus, or containment requires visible depth.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Glass Marks Chrome Rule",
+        "body": "Use the `16px` backdrop blur for persistent controls and overlays. Do not apply glass to ordinary body sections or project copy.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Square Is the Default Rule",
+        "body": "New interface controls begin at `0px` radius. A rounded shape needs a content-specific reason.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Press Is Small Rule",
+        "body": "Active feedback moves a control by 1px or scales it by a few percent. Never turn a routine click into a decorative animation.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do use Signal Cyan to identify active, focused, and actionable states.",
+      "Do keep project screenshots in their original color and intrinsic proportions.",
+      "Do reserve large condensed headings for the current subject and keep explanations within `65ch`.",
+      "Do budget every slide between the fixed top and bottom chrome.",
+      "Do preserve `44px` touch targets and the reduced-motion path on every interactive control.",
+      "Do let an experiment's visual identity live inside its exhibit card while the outer chrome remains stable."
+    ],
+    "donts": [
+      "Don't soften the interface into generic rounded SaaS cards, floating pills, or oversized empty panels.",
+      "Don't imitate a terminal with decorative code, scan lines, green-on-black clichés, or controls that do not report real state.",
+      "Don't use gradients as ambient decoration. Existing gradients solve a concrete job such as image legibility, placeholder hatching, or an experiment-specific mark.",
+      "Don't add glass or shadow to ordinary content that already has enough separation from spacing and dividers.",
+      "Don't crop screenshots, hide actions under the fixed footer, or remove specific copy merely to make a layout easier.",
+      "Don't make cyan common enough that the visitor can no longer tell what is selected or clickable."
+    ]
+  }
+}

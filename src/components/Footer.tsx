@@ -27,7 +27,7 @@ export function Footer() {
             disabled={atStart || detailOpen}
             aria-label="Previous slide"
           >
-            &uarr;
+            <span className="stepbtn-glyph" aria-hidden="true">&uarr;</span>
           </button>
           <button
             type="button"
@@ -36,7 +36,7 @@ export function Footer() {
             disabled={atEnd || detailOpen}
             aria-label="Next slide"
           >
-            &darr;
+            <span className="stepbtn-glyph" aria-hidden="true">&darr;</span>
           </button>
         </div>
 

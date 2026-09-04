@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { m, useReducedMotion, type PanInfo } from 'motion/react';
+import { AnimatePresence, m, useReducedMotion, type PanInfo, type Variants } from 'motion/react';
 import { PROJECTS } from '../data/projects';
-import { Shot } from './Shot';
+import { ProjectMedia, ProjectMediaThumb } from './ProjectMedia';
 import { Lightbox } from './Lightbox';
 import { getShotImage, resolveShot, sharedShotId } from '../lib/images';
 import { detailSlug } from '../lib/deck';
@@ -11,6 +11,20 @@ import { SPRING_OPEN, INSTANT } from '../lib/motion';
 
 /** Slow enough to read the caption before it moves on. */
 const CYCLE_MS = 4200;
+
+const shotVariants: Variants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? 16 : -16,
+    clipPath: direction > 0 ? 'inset(0 0 0 14%)' : 'inset(0 14% 0 0)',
+  }),
+  center: { opacity: 1, x: 0, clipPath: 'inset(0 0 0 0)' },
+  exit: (direction: number) => ({
+    opacity: 0,
+    x: direction > 0 ? -10 : 10,
+    clipPath: direction > 0 ? 'inset(0 14% 0 0)' : 'inset(0 0 0 14%)',
+  }),
+};
 
 /* The deeper view is a layer over the deck, not another place to be. The deck
  * stays parked on this project underneath, so closing puts you back exactly
@@ -23,6 +37,7 @@ export function DetailOverlay() {
   const { theme } = useTheme();
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
+  const [shotDirection, setShotDirection] = useState<1 | -1>(1);
   const [expanded, setExpanded] = useState(false);
   // Cycling stops for good once you choose a shot yourself — an explicit pick
   // should not be overwritten a few seconds later.
@@ -53,16 +68,20 @@ export function DetailOverlay() {
     if (committed && shotCount > 1) {
       const step = info.offset.x < 0 ? 1 : -1;
       setUserPicked(true);
+      setShotDirection(step);
       setActive((i) => (i + step + shotCount) % shotCount);
     }
     axis.current = 'none';
   };
 
   useEffect(() => {
-    if (reduce || userPicked || shotCount < 2) return;
-    const id = setInterval(() => setActive((i) => (i + 1) % shotCount), CYCLE_MS);
+    if (reduce || userPicked || shotCount < 2 || project?.shots[active]?.kind === 'youtube') return;
+    const id = setInterval(() => {
+      setShotDirection(1);
+      setActive((i) => (i + 1) % shotCount);
+    }, CYCLE_MS);
     return () => clearInterval(id);
-  }, [reduce, userPicked, shotCount]);
+  }, [reduce, userPicked, shotCount, project, active]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -82,8 +101,10 @@ export function DetailOverlay() {
    * portrait — 343px wide becomes 742px tall, which cannot share a 674px stage
    * with the write-up. Landscape keeps the image small and the text readable,
    * and Expand opens it full height when you actually want to look. */
-  const heroKeyName = resolveShot(project, shot.key, theme, false);
-  const heroSrc = getShotImage(heroKeyName);
+  const heroKeyName = shot.kind === 'youtube'
+    ? `youtube-${shot.youtubeId}`
+    : resolveShot(project, shot.key, theme, false);
+  const heroSrc = shot.kind === 'image' ? getShotImage(heroKeyName) : undefined;
 
   return (
     <m.div
@@ -104,13 +125,26 @@ export function DetailOverlay() {
           <i className="corner tr" />
           <i className="corner bl" />
           <i className="corner br" />
-          <Shot
-            imageKey={heroKeyName}
-            label={`${project.title}, ${shot.label}`}
-            alt={`${project.title}, ${shot.label}`}
-            natural
-            loading="eager"
-          />
+          <AnimatePresence initial={false} custom={shotDirection}>
+            <m.div
+              key={heroKeyName}
+              className="detail-frame"
+              custom={shotDirection}
+              variants={shotVariants}
+              initial={reduce ? false : 'enter'}
+              animate="center"
+              exit={reduce ? undefined : 'exit'}
+              transition={reduce ? INSTANT : { duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <ProjectMedia
+                shot={shot}
+                imageKey={shot.kind === 'image' ? heroKeyName : undefined}
+                title={`${project.title}, ${shot.label}`}
+                alt={`${project.title}, ${shot.label}`}
+                loading="eager"
+              />
+            </m.div>
+          </AnimatePresence>
           <div className="detail-mediabar">
             <figcaption className="mono detail-caption">{shot.label}</figcaption>
 
@@ -124,6 +158,7 @@ export function DetailOverlay() {
                     aria-current={i === active ? 'true' : undefined}
                     onClick={() => {
                       setUserPicked(true);
+                      setShotDirection(i > active ? 1 : -1);
                       setActive(i);
                     }}
                   >
@@ -206,14 +241,14 @@ export function DetailOverlay() {
                 aria-current={i === active ? 'true' : undefined}
                 onClick={() => {
                   setUserPicked(true);
+                  setShotDirection(i > active ? 1 : -1);
                   setActive(i);
                 }}
               >
-                <Shot
-                  imageKey={resolveShot(project, s.key, theme, false)}
+                <ProjectMediaThumb
+                  shot={s}
+                  imageKey={s.kind === 'image' ? resolveShot(project, s.key, theme, false) : undefined}
                   label={s.label}
-                  alt=""
-                  natural
                 />
                 <span className="mono thumb-label">{s.label}</span>
               </button>

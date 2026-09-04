@@ -183,13 +183,17 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   min-width: 44px; min-height: 44px; display: grid; place-items: center; cursor: pointer;
   background: transparent; border: 1px solid var(--color-divider);
   color: var(--color-text); font-size: 15px;
-  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease, opacity 0.18s ease, transform 0.12s var(--ease-out);
 }
 .stepbtn:hover:not(:disabled) {
   border-color: var(--color-accent); color: var(--color-accent-700);
   background: color-mix(in srgb, var(--color-accent) 10%, transparent);
 }
 .stepbtn:disabled { opacity: 0.3; cursor: not-allowed; }
+.stepbtn:active:not(:disabled) { transform: scale(0.94); }
+.stepbtn-glyph { display: block; transition: transform 0.16s var(--ease-out); }
+.stepbtn:first-child:hover:not(:disabled) .stepbtn-glyph { transform: translateY(-3px); }
+.stepbtn:last-child:hover:not(:disabled) .stepbtn-glyph { transform: translateY(3px); }
 
 .footnote {
   flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
@@ -310,51 +314,273 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 
 @keyframes hero-memory-roll { to { transform: translateY(-50%); } }
 
+/* The opening assembles the portfolio like an indexed working set: the
+   archive resolves first, then the statement is uncovered line by line. */
+.hero[data-motion="run"] .hero-memory { animation: hero-memory-index .72s var(--ease-out) both; }
+.hero[data-motion="run"] .hero-title .line { animation: hero-line-resolve .58s var(--ease-out) both; }
+.hero[data-motion="run"] .hero-title .line:nth-child(2) { animation-delay: .08s; }
+.hero[data-motion="run"] .hero-title .line:nth-child(3) { animation-delay: .16s; }
+.hero[data-motion="run"] .lede { animation: hero-copy-resolve .36s .3s var(--ease-out) both; }
+.hero[data-motion="run"] .hero-cue { animation: hero-copy-resolve .32s .4s var(--ease-out) both; }
+
+@keyframes hero-memory-index {
+  from { opacity: .12; clip-path: inset(0 0 0 72%); filter: contrast(.72) brightness(.72); }
+  to { opacity: 1; clip-path: inset(0); filter: contrast(1) brightness(1); }
+}
+@keyframes hero-line-resolve {
+  from { opacity: .35; clip-path: inset(0 100% 0 0); transform: translateX(-.18em); }
+  to { opacity: 1; clip-path: inset(0); transform: translateX(0); }
+}
+@keyframes hero-copy-resolve {
+  from { opacity: 0; clip-path: inset(0 10% 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+
 /* ---------- project slide ---------- */
 
 .pslide {
-  --pslide-gap: clamp(12px, 2.4vh, 24px);
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; gap: var(--pslide-gap);
+  display: grid;
+  place-items: center;
 }
 
-/* The meta block is roughly fixed in height, so the media gets a deterministic
-   cap rather than chasing a percentage-height chain. The reserve has to cover
-   the gap between them as well — leaving it out overflowed the stage by 10px
-   at each end on a 812px-tall phone. */
-.pslide-media {
-  --meta-h: clamp(112px, 16vh, 156px);
-  position: relative; margin: 0; display: grid; max-width: 100%;
+.pslide-card {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px solid var(--color-divider);
 }
-.pslide-frame { grid-area: 1 / 1; display: grid; place-items: center; min-width: 0; }
+.pslide-card > *:not(.pslide-portal) { position: relative; z-index: 2; }
+
+.pslide-portal {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transform-origin: center;
+}
+.pslide-portal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-bg) 72%, transparent) 0%,
+    color-mix(in srgb, var(--color-bg) 32%, transparent) 36%,
+    color-mix(in srgb, var(--color-bg) 44%, transparent) 67%,
+    color-mix(in srgb, var(--color-bg) 92%, transparent) 100%
+  );
+}
+.pslide-portal :is(img, video) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .82;
+  filter: saturate(.92) contrast(1.04);
+  transform: scale(1.025);
+  transition: transform .8s var(--ease-out), filter .5s ease;
+}
+.pslide-card:is(:hover, :focus-within) .pslide-portal :is(img, video) {
+  filter: saturate(1.08) contrast(1.06);
+  transform: scale(1.045);
+}
+:root[data-theme="light"] .pslide-portal :is(img, video) {
+  opacity: .3;
+  filter: saturate(.78) contrast(.9);
+}
+:root[data-theme="light"] .pslide-card:is(:hover, :focus-within) .pslide-portal :is(img, video) {
+  filter: saturate(.9) contrast(.94);
+}
+
+.pslide-instrument {
+  min-height: 34px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: clamp(14px, 2.2vw, 28px);
+  padding: 6px 11px;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+  background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+  border-bottom: 1px solid var(--color-divider);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.pslide-instrument span:first-child { color: var(--color-accent-700); }
+
+/* The rails and title block have a fixed budget. The screenshot keeps its
+   intrinsic ratio inside the space that remains, including portrait captures. */
+.pslide-media {
+  position: relative;
+  isolation: isolate;
+  width: calc(100% - 24px);
+  margin: 12px 12px 0;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: clamp(20px, 3vh, 32px) clamp(28px, 5vw, 58px) clamp(40px, 5vh, 52px);
+  background: color-mix(in srgb, var(--color-bg) 28%, transparent);
+}
+.pslide-frame {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
 .pslide-frame img {
   display: block; width: auto; height: auto;
   max-width: 100%;
-  max-height: calc(var(--stage-h) - var(--meta-h) - var(--pslide-gap));
+  max-height: calc(var(--stage-h) - clamp(260px, 34vh, 310px));
+}
+.project-youtube {
+  width: min(100%, calc((var(--stage-h) - clamp(260px, 34vh, 310px)) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.project-youtube iframe { display: block; width: 100%; height: 100%; border: 0; }
+:root[data-theme="light"] .pslide-frame { box-shadow: var(--shadow-lg); }
+.pslide-media > .corner { z-index: 5; }
+
+.pslide-signal {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  bottom: 9px;
+  z-index: 4;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 5px 8px;
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-bg) 86%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-text) 22%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.pslide-shot-name { display: inline-flex; align-items: center; gap: 7px; min-width: 0; }
+.pslide-shot-name i {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-bg);
 }
 
-.pslide-dots { position: absolute; right: 9px; bottom: 9px; z-index: 2; display: flex; gap: 6px; }
-.pslide-dots span {
-  width: 7px; height: 7px; border: 1px solid var(--color-bg);
-  background: color-mix(in srgb, var(--color-bg) 55%, var(--color-text));
-  transition: background 0.3s ease;
+.pslide-shotstrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 12px;
+  background: color-mix(in srgb, var(--color-bg) 76%, transparent);
+  border: 1px solid var(--color-divider);
+  border-top: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
-.pslide-dots span[data-on="1"] { background: var(--color-accent); }
+.pslide-shot {
+  position: relative;
+  min-width: 0;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 10px;
+  overflow: hidden;
+  cursor: pointer;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--color-divider);
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: color .18s ease, background-color .18s ease;
+}
+.pslide-shot:last-child { border-right: 0; }
+.pslide-shot span { color: var(--color-accent-700); font-variant-numeric: tabular-nums; }
+.pslide-shot:hover { color: var(--color-text); background: color-mix(in srgb, var(--color-accent) 7%, transparent); }
+.pslide-shot[aria-pressed="true"] {
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+.pslide-shot[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 1px;
+  background: var(--color-accent);
+}
 
 .pslide-meta {
-  flex: none; width: 100%; display: flex; flex-direction: column; gap: clamp(5px, 0.9vh, 10px);
+  flex: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, .8fr);
+  grid-template-rows: auto auto;
+  gap: 10px clamp(22px, 3vw, 38px);
+  align-items: end;
+  padding: clamp(12px, 1.8vh, 18px) 12px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-bg) 88%, transparent),
+    color-mix(in srgb, var(--color-bg) 72%, transparent)
+  );
 }
-.pslide-lead { display: flex; align-items: baseline; gap: 13px; }
-.pslide-num { color: var(--color-accent-700); }
-.pslide-title { font-size: clamp(19px, min(2.2vw, 3.4vh), 30px); }
+.pslide-lead {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(12px, 1.7vw, 22px);
+}
+.pslide-num {
+  flex: none;
+  color: var(--color-accent-700);
+  font: 600 clamp(52px, min(6.6vw, 8vh), 78px)/.72 var(--font-heading);
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+.pslide-title {
+  min-width: 0;
+  margin: 0;
+  font-size: clamp(42px, min(5.8vw, 7.2vh), 68px);
+  line-height: .82;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
 .pslide-tagline {
-  margin: 0; max-width: var(--measure-text);
-  font-size: clamp(12.5px, min(1.1vw, 1.9vh), 16px);
-  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  margin: 0;
+  max-width: 44ch;
+  font-size: clamp(13px, min(1.05vw, 1.7vh), 15.5px);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
 }
 .pslide-foot {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
+.pslide-foot .tagrun { gap: 5px; }
+.pslide-foot .tag { padding-inline: 8px; }
 
 /* ---------- about slide ---------- */
 
@@ -431,6 +657,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   display: block; width: auto; height: auto;
   max-width: 100%; max-height: calc(var(--stage-h) - var(--side-h));
 }
+.detail-frame { grid-area: 1 / 1; display: grid; place-items: center; min-width: 0; }
+.detail-frame .project-youtube {
+  width: min(100%, calc((var(--stage-h) - var(--side-h)) * 16 / 9));
+}
 .detail-mediabar { display: contents; }
 .detail-dots { display: none; }
 
@@ -443,11 +673,12 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   position: absolute; right: 9px; bottom: 9px; min-height: 44px; padding: 0 13px;
   cursor: pointer; background: var(--color-bg); color: var(--color-accent-700);
   border: 1px solid var(--color-divider);
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.12s var(--ease-out);
 }
 .detail-expand:hover {
   background: var(--color-accent); border-color: var(--color-accent); color: var(--color-bg);
 }
+.detail-expand:active { transform: translateY(1px) scale(.985); }
 
 .detail-body {
   grid-column: 2; grid-row: 1 / span 2;
@@ -475,10 +706,23 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .thumb {
   display: flex; flex-direction: column; padding: 0; cursor: pointer; color: inherit;
   background: transparent; border: 1px solid var(--color-divider);
-  transition: border-color 0.18s ease;
+  transition: border-color 0.18s ease, transform 0.12s var(--ease-out);
 }
 .thumb:hover, .thumb[data-on="1"] { border-color: var(--color-accent); }
+.thumb:active { transform: translateY(1px) scale(.985); }
 .thumb img { width: 100%; height: auto; max-height: clamp(46px, 7vh, 74px); object-fit: cover; }
+.project-youtube-thumb { position: relative; display: grid; overflow: hidden; }
+.project-youtube-thumb img { grid-area: 1 / 1; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.project-youtube-play {
+  grid-area: 1 / 1;
+  place-self: center;
+  padding: 6px 9px;
+  color: var(--color-bg);
+  background: var(--color-accent-700);
+  font: 600 9px/1 var(--font-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 .thumb-label {
   padding: 6px 8px; text-align: left; border-top: 1px solid var(--color-divider);
   color: color-mix(in srgb, var(--color-text) 66%, transparent);
@@ -492,9 +736,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--color-divider); color: var(--color-text); text-decoration: none;
-  transition: border-color 0.18s ease, color 0.18s ease;
+  transition: border-color 0.18s ease, color 0.18s ease, transform 0.12s var(--ease-out);
 }
 .detail-close:hover { border-color: var(--color-accent); color: var(--color-accent-700); }
+.detail-close:active { transform: translateY(1px) scale(.985); }
 
 /* ---------- swipe peek ---------- */
 
@@ -513,8 +758,9 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiments-heading { width: min(100%, 640px); }
 .experiments-heading-row { display: flex; align-items: center; }
 .experiments-controls { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
-.experiments-sort { min-height: 32px; padding: 4px 8px; cursor: pointer; border: 1px solid var(--color-divider); background: transparent; color: color-mix(in srgb, var(--color-text) 66%, transparent); }
+.experiments-sort { min-height: 32px; padding: 4px 8px; cursor: pointer; border: 1px solid var(--color-divider); background: transparent; color: color-mix(in srgb, var(--color-text) 66%, transparent); transition: border-color .18s ease, color .18s ease, transform .12s var(--ease-out); }
 .experiments-sort:hover { border-color: var(--color-accent); color: var(--color-accent-700); }
+.experiments-sort:active { transform: translateY(1px) scale(.985); }
 .experiments-order, .experiments-picker { display: inline-flex; align-items: center; gap: 6px; color: color-mix(in srgb, var(--color-text) 66%, transparent); font-size: 9px; }
 .experiments-order select, .experiments-picker select { min-height: 32px; padding: 4px 24px 4px 7px; font: 500 10px/1 var(--font-mono); letter-spacing: .04em; text-transform: uppercase; }
 .experiments-order select { width: 120px; }
@@ -549,20 +795,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   transition: border-color .24s ease, box-shadow .34s var(--ease-out);
 }
 .experiment-card > * { position: relative; z-index: 1; }
-.experiments-showcase[data-direction="down"] { --experiment-detail-shift: 7px; }
-.experiments-showcase[data-direction="up"] { --experiment-detail-shift: -7px; }
 .experiments-showcase[data-direction="down"] .experiment-card { animation: experiment-card-forward .46s var(--ease-out) backwards; }
 .experiments-showcase[data-direction="up"] .experiment-card { animation: experiment-card-backward .4s var(--ease-out) backwards; }
-.experiments-showcase[data-direction="down"] .experiment-card::before { animation: experiment-scan-forward .5s var(--ease-out) backwards; }
-.experiments-showcase[data-direction="up"] .experiment-card::before { animation: experiment-scan-backward .44s var(--ease-out) backwards; }
-.experiments-showcase[data-direction] .experiment-card-meta { animation: experiment-detail-in .32s .04s var(--ease-out) backwards; }
-.experiments-showcase[data-direction] .experiment-card-media { animation: experiment-media-in .5s .04s var(--ease-out) backwards; }
 .experiments-showcase[data-direction] .experiment-card-media img,
-.experiments-showcase[data-direction] .experiment-card-mark { animation: experiment-image-in .56s .06s var(--ease-out) backwards; }
-.experiments-showcase[data-direction="down"] .experiment-card-title { animation: experiment-title-forward .42s .08s var(--ease-out) backwards; }
-.experiments-showcase[data-direction="up"] .experiment-card-title { animation: experiment-title-backward .38s .07s var(--ease-out) backwards; }
-.experiments-showcase[data-direction] .experiment-card-copy > p { animation: experiment-detail-in .36s .12s var(--ease-out) backwards; }
-.experiments-showcase[data-direction] .experiment-card-actions { animation: experiment-detail-in .36s .15s var(--ease-out) backwards; }
+.experiments-showcase[data-direction] .experiment-card-mark { animation: experiment-image-in .42s .03s var(--ease-out) backwards; }
 
 @keyframes experiment-card-forward {
   from { opacity: .58; clip-path: inset(9% 0 0); transform: translate3d(0, 18px, 0); }
@@ -572,37 +808,9 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   from { opacity: .58; clip-path: inset(0 0 9%); transform: translate3d(0, -18px, 0); }
   to { opacity: 1; clip-path: inset(0); transform: translate3d(0, 0, 0); }
 }
-@keyframes experiment-scan-forward {
-  0% { opacity: 0; transform: translate3d(0, -2px, 0); }
-  18% { opacity: .62; }
-  72% { opacity: .28; }
-  100% { opacity: 0; transform: translate3d(0, calc(62vh - 2px), 0); }
-}
-@keyframes experiment-scan-backward {
-  0% { opacity: 0; transform: translate3d(0, calc(62vh - 2px), 0); }
-  18% { opacity: .62; }
-  72% { opacity: .28; }
-  100% { opacity: 0; transform: translate3d(0, -2px, 0); }
-}
-@keyframes experiment-media-in {
-  from { opacity: .42; clip-path: inset(5% 4% 5% 4%); }
-  to { opacity: 1; clip-path: inset(0); }
-}
 @keyframes experiment-image-in {
   from { opacity: .48; transform: scale(1.035); }
   to { opacity: 1; transform: scale(1); }
-}
-@keyframes experiment-title-forward {
-  from { opacity: .35; clip-path: inset(0 0 88%); transform: translate3d(0, 12px, 0); }
-  to { opacity: 1; clip-path: inset(0); transform: translate3d(0, 0, 0); }
-}
-@keyframes experiment-title-backward {
-  from { opacity: .35; clip-path: inset(88% 0 0); transform: translate3d(0, -12px, 0); }
-  to { opacity: 1; clip-path: inset(0); transform: translate3d(0, 0, 0); }
-}
-@keyframes experiment-detail-in {
-  from { opacity: 0; transform: translate3d(0, var(--experiment-detail-shift), 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 .experiment-card-meta { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 18px; color: color-mix(in srgb, currentColor 78%, transparent); font-size: 9px; letter-spacing: .12em; }
@@ -618,7 +826,6 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-card-media { grid-column: 2; grid-row: 2; align-self: stretch; min-height: 0; display: grid; place-items: center; padding: clamp(10px, 1.8vw, 20px); overflow: hidden; background: color-mix(in srgb, var(--experiment-card-bg) 82%, transparent); border: 1px solid color-mix(in srgb, var(--experiment-card-ink) 28%, transparent); transition: background-color .3s var(--ease-out), border-color .24s ease; }
 .experiment-card-media img { width: auto; height: auto; max-width: 100%; max-height: min(45vh, 430px); object-fit: contain; transform: scale(1); box-shadow: 0 8px 22px color-mix(in srgb, #000 24%, transparent); transition: transform .42s var(--ease-out), box-shadow .34s var(--ease-out); }
 .experiment-card-mark { color: currentColor; font: 600 clamp(110px, 17vw, 220px)/.75 var(--font-heading); }
-.experiment-card::before { content: ""; position: absolute; z-index: 2; top: 0; left: 0; right: 0; height: 1px; opacity: 0; pointer-events: none; background: linear-gradient(90deg, transparent 0 5%, currentColor 24% 76%, transparent 95%); box-shadow: 0 0 12px color-mix(in srgb, currentColor 38%, transparent); }
 .experiment-card::after { content: ""; position: absolute; z-index: 0; opacity: .28; pointer-events: none; transition: filter .34s var(--ease-out); }
 .experiment-card:is(:hover, :focus-within) { border-color: color-mix(in srgb, var(--experiment-card-ink) 52%, transparent); box-shadow: 0 20px 44px color-mix(in srgb, #000 32%, transparent); }
 .experiment-card:is(:hover, :focus-within) .experiment-card-media { border-color: color-mix(in srgb, var(--experiment-card-ink) 42%, transparent); }
@@ -707,9 +914,10 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .lightbox-close {
   flex: none; min-height: 44px; padding: 0 14px; cursor: pointer;
   background: transparent; border: 1px solid var(--color-divider); color: var(--color-text);
-  transition: border-color 0.18s ease, color 0.18s ease;
+  transition: border-color 0.18s ease, color 0.18s ease, transform 0.12s var(--ease-out);
 }
 .lightbox-close:hover { border-color: var(--color-accent); color: var(--color-accent-700); }
+.lightbox-close:active { transform: translateY(1px) scale(.985); }
 .lightbox-scroll {
   flex: 1; min-height: 0; display: flex; overflow: auto; touch-action: pan-x pan-y pinch-zoom;
 }
@@ -723,6 +931,7 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .namemark { min-width: 44px; }
   .linkstack a { display: inline-flex; align-items: center; min-height: 44px; }
   .experiments-sort { min-height: 44px; }
+  .pslide-shot { min-height: 44px; }
 }
 
 /* ---------- narrow ---------- */
@@ -737,6 +946,39 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   /* The footer keeps previous/next navigation available here. Removing the
      side rail lets the full-width experiment card read as one exhibit. */
   .rail[data-slide="experiments"] { display: none; }
+
+  .pslide { padding-right: 14px; }
+  .pslide-card { width: 100%; }
+  .pslide-instrument {
+    min-height: 30px;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 5px 8px;
+    font-size: 9px;
+  }
+  .pslide-instrument span:first-child { display: none; }
+  .pslide-media {
+    width: calc(100% - 16px);
+    margin: 8px 8px 0;
+    padding: 14px 14px 38px;
+  }
+  .pslide-frame img { max-height: calc(var(--stage-h) - 238px); }
+  .pslide-frame .project-youtube { width: 100%; }
+  .pslide-signal { left: 6px; right: 6px; bottom: 6px; min-height: 26px; font-size: 8px; }
+  .pslide-shotstrip { margin-inline: 8px; }
+  .pslide-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 11px 8px 10px;
+  }
+  .pslide-lead { width: 100%; align-items: flex-end; gap: 10px; }
+  .pslide-num { font-size: clamp(44px, 14vw, 58px); }
+  .pslide-title { font-size: clamp(34px, 10.5vw, 48px); line-height: .84; }
+  .pslide-tagline { max-width: 48ch; font-size: 13px; line-height: 1.35; }
+  .pslide-foot { width: 100%; gap: 8px; }
+  .pslide-foot .btn { margin-left: auto; }
 
   .aslide, .cslide { grid-template-columns: 1fr; align-content: center; }
   /* Was display:none while this slot held a placeholder. There is a real
@@ -793,7 +1035,6 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .experiment-card-actions .btn { min-height: 44px; }
   .experiments-showcase[data-direction="down"] .experiment-card { animation-duration: .38s; }
   .experiments-showcase[data-direction="up"] .experiment-card { animation-duration: .34s; }
-  .experiments-showcase[data-direction] .experiment-card-media { animation-duration: .42s; }
   .experiments-showcase[data-direction] .experiment-card-media img,
   .experiments-showcase[data-direction] .experiment-card-mark { animation-duration: .46s; }
 
@@ -841,6 +1082,15 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 }
 
 @media (max-width: 760px) and (max-height: 700px) {
+  .pslide-instrument { min-height: 26px; padding-block: 3px; }
+  .pslide-media { padding: 10px 10px 34px; }
+  .pslide-frame img { max-height: calc(var(--stage-h) - 210px); }
+  .pslide-meta { gap: 6px; padding-block: 8px; }
+  .pslide-num { font-size: 40px; }
+  .pslide-title { font-size: clamp(29px, 9vw, 38px); }
+  .pslide-tagline { font-size: 12.5px; }
+  .pslide-foot .tag { padding: 2px 7px; font-size: 10px; }
+
   .experiments-slide { gap: 8px; }
   .experiments-heading p { display: none; }
   .experiment-card { min-height: 0; padding: 14px; }
@@ -860,6 +1110,11 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 :root.wiping .peek,
 :root.wiping .detail-close,
 :root.wiping .detail { background: var(--color-bg); }
+:root.wiping .pslide-instrument,
+:root.wiping .pslide-shotstrip {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 
 
 ::view-transition-old(root),
@@ -868,16 +1123,30 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 ::view-transition-new(root) { z-index: 2; }
 
 @media (prefers-reduced-motion: reduce) {
+  .pslide-portal,
+  .pslide-portal :is(img, video) {
+    clip-path: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .hero-memory-track { animation: none !important; transform: none; }
+  .hero-memory,
+  .hero-title .line,
+  .hero .lede,
+  .hero-cue { animation: none !important; clip-path: none; filter: none; transform: none; }
   .experiment-card,
-  .experiment-card::before,
-  .experiment-card-meta,
-  .experiment-card-media,
   .experiment-card-media img,
   .experiment-card-mark,
-  .experiment-card-title,
-  .experiment-card-copy > p,
   .experiment-card-actions { animation: none !important; }
   .experiment-card:is(:hover, :focus-within) .experiment-card-media img { transform: none; }
+  .btn,
+  .stepbtn,
+  .stepbtn-glyph,
+  .experiments-sort,
+  .detail-expand,
+  .thumb,
+  .detail-close,
+  .lightbox-close { transition-duration: .01ms; }
   .rail-dots button::before { transition: none; }
   ::view-transition-group(*),
   ::view-transition-old(*),

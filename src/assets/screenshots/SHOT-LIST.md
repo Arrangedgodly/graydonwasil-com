@@ -47,11 +47,11 @@ If a pair is misaligned, the transition visibly jumps and the effect is dead.
 
 ## Capture settings
 
-**Desktop — 2:1, exported at 2240 × 1120**
+**Desktop — 16:10, exported at 1600 × 1000**
 
 Chrome/Edge DevTools → device toolbar (Ctrl+Shift+M) → Responsive → set
-**1120 × 560**, DPR **2**, then the ⋮ menu → *Capture screenshot*. That gives
-you exactly 2240 × 1120 with no browser chrome in frame.
+**800 × 500**, DPR **2**, then the ⋮ menu → *Capture screenshot*. That gives
+you exactly 1600 × 1000 with no browser chrome in frame.
 
 **Mobile — exported at 780 × 1688**
 
@@ -95,7 +95,11 @@ corporate / business, and shoot those two. Tell me which you chose.
 | `arranged-godly-shot-2-{theme}.webp` | Max for Live device cards |
 | `arranged-godly-shot-3-{theme}.webp` | Magic Gunden title screen |
 | `voxchain-shot-2-{theme}.png` | Advanced view with the ordered chain and effect palette |
-| `voxchain-shot-3-{theme}.png` | Live signal chain workspace |
+
+VOXCHAIN's video explanation is gallery item one. `hero` is Simple view and
+`shot-2` is Advanced view. For matching phone captures, add
+`voxchain-hero-{theme}-mobile` and `voxchain-shot-2-{theme}-mobile` at
+780 × 1688.
 
 Skip these and each detail page shows its hero alone — it works, it's just
 thinner.
