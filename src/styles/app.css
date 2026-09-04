@@ -578,6 +578,15 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
 .experiment-stack-card[data-project="harmonograph"] { background: #f3ecd9; color: #245667; }
 .experiment-stack-card[data-project="harmonograph"] .experiment-stack-title { --stack-title-size: clamp(1.35rem, 3.2vw, 3.1rem); font-family: Georgia, serif; font-weight: 400; letter-spacing: -.03em; }
 .experiment-stack-card[data-project="harmonograph"]::after { right: -26%; bottom: -48%; width: 112%; aspect-ratio: 1; background: repeating-radial-gradient(ellipse at center, transparent 0 15px, currentColor 16px 17px, transparent 18px 30px); opacity: .18; transform: rotate(-18deg); }
+.experiment-stack-card[data-project="desktop-sim"] { background: #1b160f; color: #d4b778; }
+.experiment-stack-card[data-project="desktop-sim"] .experiment-stack-title { font-family: "Chakra Petch", var(--font-heading); font-weight: 600; letter-spacing: .08em; }
+.experiment-stack-card[data-project="desktop-sim"]::after { inset: 0; background: radial-gradient(circle at 72% 29%, currentColor 0 2px, transparent 3px), radial-gradient(circle at 82% 59%, currentColor 0 1px, transparent 2px), radial-gradient(circle at 59% 72%, currentColor 0 2px, transparent 3px), linear-gradient(13deg, transparent 0 51%, currentColor 51.2% 51.5%, transparent 51.7% 100%), linear-gradient(90deg, transparent 0 73%, currentColor 73.2% 73.5%, transparent 73.7% 100%); opacity: .42; }
+.experiment-stack-card[data-project="bitbounce"] { background: #0c0b10; color: #f0edf2; }
+.experiment-stack-card[data-project="bitbounce"] .experiment-stack-title { font-family: "Silkscreen", var(--font-mono); font-weight: 700; letter-spacing: -.025em; }
+.experiment-stack-card[data-project="bitbounce"]::after { right: 7%; bottom: 12%; width: 36%; height: 62%; background: linear-gradient(#f03b50 0 18%, transparent 18% 27%, #f2a900 27% 45%, transparent 45% 54%, #30be78 54% 72%, transparent 72% 81%, #367bd6 81% 100%); opacity: .78; }
+.experiment-stack-card[data-project="cords"] { background: #202428; color: #f1ede1; }
+.experiment-stack-card[data-project="cords"] .experiment-stack-title { font-family: "IBM Plex Mono", var(--font-mono); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.experiment-stack-card[data-project="cords"]::after { inset: 0; background: linear-gradient(90deg, transparent 0 24%, #f1443e 24% 31%, transparent 31% 43%, #f7d83b 43% 50%, transparent 50% 62%, #42c2d1 62% 69%, transparent 69% 81%, #cc4dbd 81% 88%, transparent 88% 100%), linear-gradient(0deg, transparent 0 16%, currentColor 16.3% 16.7%, transparent 17% 100%); opacity: .38; }
 .experiments-stack .experiment-stack-card .experiment-stack-title { grid-column: 1; grid-row: 2; align-self: end; max-width: min(66%, 16ch); --stack-title-size: clamp(1.1rem, 2.2vw, 2.15rem); line-height: .9; }
 
 .peek {
@@ -685,11 +694,11 @@ button.navpill-item { background: transparent; border: 0; cursor: pointer; gap: 
   .experiment-detail { min-height: 0; gap: 12px; padding: 14px; }
   .experiment-detail > img { max-height: min(32vh, 250px); }
   .experiment-detail-mark { display: none; }
-  .experiment-detail-copy h3 { font-size: clamp(31px, 9vw, 44px); }
+  .experiment-detail-copy h3 { font-size: clamp(29px, 7.4vw, 38px); }
   .experiment-detail-copy p { margin: 4px 0 9px; font-size: 13px; line-height: 1.35; }
   .experiment-detail .tagrun { gap: 4px; }
   .experiment-detail .tag { padding: 2px 7px; font-size: 10px; }
-  .experiment-detail-actions { gap: 8px; margin-top: 10px; }
+  .experiment-detail-actions { gap: 8px; margin-top: 0; }
   .experiment-detail-actions .btn { min-height: 44px; }
   .experiment-source { display: inline-flex; align-items: center; min-height: 44px; }
 

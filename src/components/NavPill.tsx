@@ -16,9 +16,9 @@ export function NavPill() {
   const [menuOpen, setMenuOpen] = useState(false);
   const slotRef = useRef<HTMLDivElement>(null);
 
-  /* Work opens a list rather than jumping to whichever project happens to be
-   * first — three projects is few enough that picking one directly beats
-   * landing on a default and stepping from there. */
+  /* Work opens a short list rather than jumping to whichever project happens
+   * to be first. Picking one directly beats landing on a default and stepping
+   * from there. */
   useEffect(() => {
     if (!menuOpen) return;
 

@@ -70,15 +70,15 @@ export function isKnownPath(pathname: string): boolean {
 export function slideNote(slide: Slide): string {
   switch (slide.kind) {
     case 'hero':
-      return 'Move with the wheel, the arrow keys, or a swipe.';
+      return 'Use the wheel, arrow keys, or a swipe to move through the site.';
     case 'project':
-      return 'Screens cycle on their own. Open the project for the write-up.';
+      return 'Screens rotate automatically. Open the project to see how it works and why I built it.';
     case 'experiments':
-      return 'Pick an experiment to preview it. Each one opens in a new tab.';
+      return 'Pick an experiment to see what it does. Live versions open in a new tab.';
     case 'about':
-      return 'The short version: I build the tool the hobby was missing.';
+      return 'Most projects start with a problem I want solved.';
     case 'contact':
-      return 'Straight to my inbox. I read everything.';
+      return 'It goes to my inbox. I read every message.';
   }
 }
 

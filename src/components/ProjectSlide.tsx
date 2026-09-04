@@ -88,8 +88,8 @@ export function ProjectSlide({ project }: { project: Project }) {
           >
             <Shot
               imageKey={key}
-              label={`${project.title} — screenshot`}
-              alt={`${project.title} — ${project.tagline}`}
+              label={`${project.title} screenshot`}
+              alt={`${project.title}. ${project.tagline}`}
               natural
               loading="eager"
             />
@@ -120,7 +120,7 @@ export function ProjectSlide({ project }: { project: Project }) {
             ))}
           </div>
           <Link className="btn btn-primary" to={detailPath(project.id)}>
-            Open project &rarr;
+            How I built it &rarr;
           </Link>
         </div>
       </div>

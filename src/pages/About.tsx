@@ -1,19 +1,19 @@
 import { Shot } from '../components/Shot';
 
 const CURRENTLY = [
-  'Improving Rhymepage',
-  'Learning what a sourdough starter actually wants',
-  'Hanging out with my son as much as possible',
-  'Waiting on Enter the Gungeon 2',
+  'Tightening the lyric-sync workflow in Rhymepage',
+  'Trying to understand what my sourdough starter wants',
+  'Spending as much time with my son as I can',
+  'Waiting, impatiently, for Enter the Gungeon 2',
 ];
 
 const TOOLS = [
-  'JavaScript',
+  'TypeScript',
   'React',
   'CSS',
   'SQL',
-  'REST',
-  'Auth',
+  'REST APIs',
+  'Authentication',
   'Max for Live',
   'Web Audio',
   'Game loops',
@@ -25,7 +25,7 @@ export function About() {
       <figure className="aslide-photo">
         <Shot
           imageKey="about"
-          label={'photo — graydon\ndrop an image here'}
+          label="Graydon Wasil portrait"
           alt="Graydon Wasil"
           natural
           /* The deck only mounts the active slide, so this photo is in view
@@ -40,20 +40,24 @@ export function About() {
 
       <div className="aslide-body">
         <h2 className="disp aslide-title">
-          <span className="line">I got here by</span>
-          <span className="line">refusing to do it</span>
-          <span className="line">by hand twice.</span>
+          <span className="line">I became a developer</span>
+          <span className="line">by solving my own</span>
+          <span className="line">problems.</span>
         </h2>
 
         <div className="prose">
           <p>
-            The first thing I ever built was a spreadsheet that got out of hand. Then a Max device,
-            because I wanted a delay that behaved a specific way. Then a whole site, because a
-            collection had outgrown a notes app. Each one taught me enough to start the next.
+            The first thing I built was a spreadsheet that had quietly become an app. Next came a
+            Max for Live device because I wanted a delay I couldn&rsquo;t find. When a collection
+            outgrew my notes app, I built the database I needed. That pattern stuck. I find the
+            part that wastes time or gets in the way, learn the system around it, and make a
+            practical fix.
           </p>
           <p>
-            By day I&rsquo;m a senior online banker &mdash; where I learned that software people
-            trust is software that&rsquo;s boring in exactly the right places.
+            I&rsquo;m a software developer who likes working on the whole application. I organize the
+            data, connect the APIs, build the screens, and test it all in the browser. I like taking
+            a fuzzy problem and making it concrete enough to try. Then I work through the awkward
+            cases until the software behaves the way a person would expect.
           </p>
         </div>
 
@@ -68,7 +72,7 @@ export function About() {
           </div>
 
           <div className="block">
-            <h3 className="mono block-label">What I work with</h3>
+            <h3 className="mono block-label">What I build with</h3>
             <div className="tagrun">
               {TOOLS.map((t) => (
                 <span key={t} className="tag tag-outline">

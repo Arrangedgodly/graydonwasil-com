@@ -23,7 +23,7 @@ export function Shell() {
 
   return (
     <div className="shell">
-      <Link to="/" state={{ dir: -1 }} className="namemark" aria-label="Graydon Wasil — start">
+      <Link to="/" state={{ dir: -1 }} className="namemark" aria-label="Graydon Wasil, start">
         <span className="namemark-full">Graydon Wasil</span>
         <span className="namemark-short" aria-hidden="true">GW</span>
       </Link>

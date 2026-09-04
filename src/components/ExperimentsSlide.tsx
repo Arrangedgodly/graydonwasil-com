@@ -135,7 +135,7 @@ export function ExperimentsSlide() {
         <div className="experiments-heading-row">
           <h2 className="disp">Experiments</h2>
         </div>
-        <p>Scroll through small interactive builds, made quickly and curiously with AI-assisted tools.</p>
+        <p>I use small AI builds to test ideas and see what breaks.</p>
       </div>
 
       <p className="sr-only" role="status" aria-live="polite">
@@ -177,7 +177,7 @@ export function ExperimentsSlide() {
             />;
           })}
           {selectedIndex === 0 && <span className="experiment-stack-boundary mono">↑ Featured projects</span>}
-          {selectedIndex === visibleExperiments.length - 1 && <span className="experiment-stack-boundary mono">↓ Continue to About</span>}
+          {selectedIndex === visibleExperiments.length - 1 && <span className="experiment-stack-boundary mono">↓ About</span>}
         </div>
 
         <section className="experiment-detail blueprint">
@@ -193,8 +193,8 @@ export function ExperimentsSlide() {
               {selected.tags.map((tag) => <span className="tag tag-outline" key={tag}>{tag}</span>)}
             </div>
             <div className="experiment-detail-actions">
-              <a className="btn btn-primary" href={selected.url} target="_blank" rel="noreferrer">Open experiment ↗</a>
-              {selected.sourceUrl && <a className="experiment-source mono" href={selected.sourceUrl} target="_blank" rel="noreferrer">Source ↗</a>}
+              <a className="btn btn-primary" href={selected.url} target="_blank" rel="noreferrer">Try it ↗</a>
+              {selected.sourceUrl && <a className="experiment-source mono" href={selected.sourceUrl} target="_blank" rel="noreferrer">Browse source ↗</a>}
             </div>
           </div>
         </section>

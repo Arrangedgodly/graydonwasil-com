@@ -106,8 +106,8 @@ export function DetailOverlay() {
           <i className="corner br" />
           <Shot
             imageKey={heroKeyName}
-            label={`${project.title} — ${shot.label}`}
-            alt={`${project.title} — ${shot.label}`}
+            label={`${project.title}, ${shot.label}`}
+            alt={`${project.title}, ${shot.label}`}
             natural
             loading="eager"
           />
@@ -135,7 +135,7 @@ export function DetailOverlay() {
 
             {heroSrc && (
               <button type="button" className="mono detail-expand" onClick={() => setExpanded(true)}>
-                Expand
+                View full size
               </button>
             )}
           </div>
@@ -172,15 +172,25 @@ export function DetailOverlay() {
               target="_blank"
               rel="noreferrer"
             >
-              Visit {project.url}
+              Open {project.url}
             </a>
+            {project.demoUrl && (
+              <a
+                className="btn btn-secondary"
+                href={project.demoUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {project.demoLabel ?? 'Watch demo'}
+              </a>
+            )}
             <a
               className="btn btn-secondary"
               href={project.sourceUrl ?? 'https://github.com/graydonwasil'}
               target="_blank"
               rel="noreferrer"
             >
-              See the code
+              Browse source
             </a>
           </div>
         </div>
@@ -219,8 +229,8 @@ export function DetailOverlay() {
       {expanded && heroSrc && (
         <Lightbox
           src={heroSrc}
-          alt={`${project.title} — ${shot.label}`}
-          caption={`${project.title} — ${shot.label}`}
+          alt={`${project.title}, ${shot.label}`}
+          caption={`${project.title}, ${shot.label}`}
           onClose={() => setExpanded(false)}
         />
       )}

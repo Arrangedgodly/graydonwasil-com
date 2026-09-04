@@ -40,16 +40,17 @@ export function Hero() {
         </div>
       </div>
       <h1 className="disp hero-title">
-        <span className="line">I build software</span>
-        <span className="line">for the things I&rsquo;m</span>
-        <span className="line">already into.</span>
+        <span className="line">I solve</span>
+        <span className="line">problems</span>
+        <span className="line">in code.</span>
       </h1>
       <p className="lede">
-        Lyrics, records, die-cast cars, video games. I take an ordinary week&rsquo;s obsessions and
-        build the tool each one was missing &mdash; then put it on the internet and keep it running.
+        I build the tools I wish already existed. That has meant keeping lyrics in time with a
+        song, making a large collection easy to search, and turning live audio into something I can
+        see and control.
       </p>
       <span className="mono hero-cue" aria-hidden="true">
-        Scroll, swipe or press &darr;
+        Scroll, swipe, or press &darr;
       </span>
     </div>
   );

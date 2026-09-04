@@ -12,12 +12,12 @@ export function Contact() {
   const [status, setStatus] = useState<Status>('idle');
 
   const ready = name.trim().length > 0 && /.+@.+\..+/.test(email) && msg.trim().length > 3;
-  const formHint = touched && !ready ? 'Name, a real email, and a sentence.' : 'Goes straight to my inbox.';
+  const formHint = touched && !ready ? 'Add your name, email, and a short message.' : 'Sent directly to my inbox.';
 
   /** Same message as a mailto, so a failed send never costs someone their words. */
   const mailtoHref = `mailto:hello@graydonwasil.com?subject=${encodeURIComponent(
     `Message from ${name || 'the website'}`,
-  )}&body=${encodeURIComponent(`${msg}\n\n— ${name} (${email})`)}`;
+  )}&body=${encodeURIComponent(`${msg}\n\nFrom: ${name} (${email})`)}`;
 
   const send = async () => {
     if (!ready) {
@@ -61,12 +61,12 @@ export function Contact() {
     <div className="cslide">
       <div className="cslide-lead">
         <h2 className="disp cslide-title">
-          <span className="line">Say</span>
-          <span className="line">something.</span>
+          <span className="line">Let&rsquo;s talk</span>
+          <span className="line">through it.</span>
         </h2>
         <p className="prose-lead">
-          Questions, ideas, or an argument about which casting is the rarest &mdash; it all lands in
-          the same inbox, and I answer everything.
+          Tell me what you&rsquo;re building, what isn&rsquo;t working, or which Cars casting I
+          catalogued wrong. I read every message.
         </p>
         <div className="linkstack mono">
           <a href="mailto:hello@graydonwasil.com">hello@graydonwasil.com</a>
@@ -80,10 +80,9 @@ export function Contact() {
         {status === 'sent' ? (
           <div className="formgrid" aria-live="polite">
             <span className="mono block-label">Sent</span>
-            <h3 className="pt sent-title">Thanks &mdash; that&rsquo;s on its way.</h3>
+            <h3 className="pt sent-title">Thanks. That&rsquo;s on its way.</h3>
             <p className="prose-lead">
-              I read everything, usually within a day. If it&rsquo;s about a casting, expect a long
-              reply.
+              I usually reply within a day. If it&rsquo;s about a casting, expect a long answer.
             </p>
             <div>
               <button type="button" className="btn btn-secondary" onClick={reset}>
@@ -94,14 +93,13 @@ export function Contact() {
         ) : status === 'error' ? (
           <div className="formgrid" aria-live="assertive">
             <span className="mono block-label">Didn&rsquo;t send</span>
-            <h3 className="pt sent-title">That one didn&rsquo;t get through.</h3>
+            <h3 className="pt sent-title">That didn&rsquo;t reach my inbox.</h3>
             <p className="prose-lead">
-              Something went wrong on the way to my inbox. Your message is still in the form &mdash;
-              send it straight to me instead, or try again.
+              Your message is still here. Try again, or open it in your email app.
             </p>
             <div className="formfoot">
               <a className="btn btn-primary" href={mailtoHref}>
-                Email it instead
+                Open in email
               </a>
               <button type="button" className="btn btn-secondary" onClick={() => setStatus('idle')}>
                 Try again

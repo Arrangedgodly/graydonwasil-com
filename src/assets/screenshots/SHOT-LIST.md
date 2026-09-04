@@ -1,6 +1,6 @@
 # Shot list — redesign capture session
 
-Everything the rebuilt site needs, in one sitting. **13 required files, 12
+Everything the rebuilt site needs, in one sitting. **15 required files, 16
 recommended, 1 photo.** Drop them in this folder; they're picked up on the
 next build.
 
@@ -77,6 +77,7 @@ catalog, a real collection. Nothing that says "Lorem" or sits at zero.
 | `collectible-cars-hero-{theme}-mobile.webp` | Same screen, phone width |
 | `arranged-godly-hero-{theme}.webp` | Home shelf, album cards fanned out |
 | `arranged-godly-hero-{theme}-mobile.webp` | Same screen, phone width |
+| `voxchain-hero-{theme}.png` | Simple view with a selected sound and effect summary |
 | `about.webp` | You — see below |
 
 **Rhymepage has six themes, not two.** Pick your best-looking light theme and
@@ -93,6 +94,8 @@ corporate / business, and shoot those two. Tell me which you chose.
 | `collectible-cars-shot-3-{theme}.webp` | The shelf — your own collection |
 | `arranged-godly-shot-2-{theme}.webp` | Max for Live device cards |
 | `arranged-godly-shot-3-{theme}.webp` | Magic Gunden title screen |
+| `voxchain-shot-2-{theme}.png` | Advanced view with the ordered chain and effect palette |
+| `voxchain-shot-3-{theme}.png` | Live signal chain workspace |
 
 Skip these and each detail page shows its hero alone — it works, it's just
 thinner.
@@ -121,7 +124,7 @@ project. Spend your time there.
 about.webp
 ```
 
-Slugs are `rhymepage`, `collectible-cars`, `arranged-godly` — these match the
+Slugs are `rhymepage`, `collectible-cars`, `arranged-godly`, and `voxchain` — these match the
 new URLs (`/projects/collectible-cars`) and are the filename prefix, so they
 have to match exactly.
 

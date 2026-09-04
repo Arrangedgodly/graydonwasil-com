@@ -45,6 +45,7 @@ obvious rather than silent.
 
 ## Current set
 
-25 files, ~5.7 MB: three projects × three slots × two themes, plus a phone twin
-for each hero, plus `about.webp`. The `*-variant-*` / `*-action-*` GIFs that
-predated this scheme are gone — they were 39 MB carrying almost no motion.
+31 files, ~6.1 MB: three projects with complete themed galleries, VOXCHAIN's
+three dark-interface scenes under matching light and dark keys, a phone twin
+for the first three heroes, and `about.webp`. The older animated variants are
+gone. They used 39 MB without adding useful motion.
