@@ -181,7 +181,7 @@ function ArrangedGodlyScene({ reducedMotion }: { reducedMotion: boolean }) {
                 <m.i
                   key={index}
                   animate={reducedMotion ? { opacity: index % (row + 3) === 0 ? 0.9 : 0.28 } : {
-                    opacity: [0.2, index % (row + 3) === 0 ? 0.95 : 0.5, 0.2],
+                    opacity: [0.48, index % (row + 3) === 0 ? 1 : 0.72, 0.48],
                     scaleY: [0.6, index % (row + 3) === 0 ? 1 : 0.78, 0.6],
                   }}
                   transition={reducedMotion ? { duration: 0 } : {
@@ -216,10 +216,19 @@ export function ProjectScene({ projectId, reducedMotion }: ProjectSceneProps) {
       transition={reducedMotion ? { duration: 0 } : { duration: 0.72, ease: EASE_OUT }}
     >
       <div className="project-scene-grid" />
-      {projectId === 'voxchain' && <VoxchainScene reducedMotion={reducedMotion} />}
-      {projectId === 'rhymepage' && <RhymepageScene reducedMotion={reducedMotion} />}
-      {projectId === 'collectible-cars' && <CarsDbScene reducedMotion={reducedMotion} />}
-      {projectId === 'arranged-godly' && <ArrangedGodlyScene reducedMotion={reducedMotion} />}
+      <m.div
+        className="scene-crossing"
+        animate={reducedMotion ? { x: '440%', opacity: 0.4 } : { x: ['-100%', '1000%'], opacity: [0, 0.7, 0.7, 0] }}
+        transition={reducedMotion ? { duration: 0 } : { duration: 5.2, repeat: Infinity, ease: 'linear' }}
+      />
+      {['left', 'right'].map((edge) => (
+        <div className={`scene-edge scene-edge-${edge}`} key={edge}>
+          {projectId === 'voxchain' && <VoxchainScene reducedMotion={reducedMotion} />}
+          {projectId === 'rhymepage' && <RhymepageScene reducedMotion={reducedMotion} />}
+          {projectId === 'collectible-cars' && <CarsDbScene reducedMotion={reducedMotion} />}
+          {projectId === 'arranged-godly' && <ArrangedGodlyScene reducedMotion={reducedMotion} />}
+        </div>
+      ))}
     </m.div>
   );
 }
