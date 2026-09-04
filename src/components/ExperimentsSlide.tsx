@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent, type RefObject } from 'react';
 import { EXPERIMENTS, type Experiment } from '../data/projects';
+import { applyExperimentPalette, clearExperimentPalette, setExperimentPaletteEngaged } from '../lib/experimentPalette';
 import { useDeck } from '../lib/useDeck';
+import { useTheme } from '../lib/useTheme';
 
 type ExperimentOrder = 'curated' | 'alphabetical' | 'newest';
 
@@ -10,27 +12,52 @@ const ORDER_LABELS: Record<ExperimentOrder, string> = {
   newest: 'Newest',
 };
 
-function StackCard({ experiment, index, count, depth, onSelect }: {
+function ExperimentCard({ experiment, index, count, cardRef }: {
   experiment: Experiment;
   index: number;
   count: number;
-  depth: 0 | 1 | 2;
-  onSelect: () => void;
+  cardRef: RefObject<HTMLElement | null>;
 }) {
+  const titleId = `experiment-${experiment.id}-title`;
+
   return (
-    <button
-      type="button"
-      className="experiment-stack-card"
-      data-depth={depth}
+    <article
+      ref={cardRef}
+      className="experiment-card"
       data-project={experiment.id}
-      onClick={onSelect}
-      aria-current={depth === 0 ? 'true' : undefined}
-      aria-label={`Experiment ${index + 1} of ${count}: ${experiment.title}${depth === 0 ? ', current' : ''}`}
+      aria-labelledby={titleId}
+      tabIndex={0}
+      onPointerEnter={() => setExperimentPaletteEngaged(true)}
+      onPointerLeave={() => setExperimentPaletteEngaged(false)}
+      onFocusCapture={() => setExperimentPaletteEngaged(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setExperimentPaletteEngaged(false);
+        }
+      }}
     >
-      <span className="experiment-stack-kicker mono">{experiment.tags.join(' / ')}</span>
-      <span className="experiment-stack-title disp">{experiment.title}</span>
-      <span className="experiment-stack-index mono">{String(index + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}</span>
-    </button>
+      <div className="experiment-card-meta mono">
+        <span className="experiment-card-kicker">{experiment.tags.join(' / ')}</span>
+        <span className="experiment-card-index">{String(index + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}</span>
+      </div>
+
+      <div className="experiment-card-copy">
+        <h3 className="experiment-card-title disp" id={titleId}>{experiment.title}</h3>
+        <p>{experiment.description}</p>
+        <div className="experiment-card-actions">
+          <a className="btn btn-primary" href={experiment.url} target="_blank" rel="noreferrer">Try it ↗</a>
+          {experiment.sourceUrl && <a className="experiment-card-source mono" href={experiment.sourceUrl} target="_blank" rel="noreferrer">Browse source ↗</a>}
+        </div>
+      </div>
+
+      <div className="experiment-card-media" aria-hidden="true">
+        {experiment.thumbnail ? (
+          <img src={experiment.thumbnail} alt="" />
+        ) : (
+          <div className="experiment-card-mark">{experiment.title.slice(0, 1)}</div>
+        )}
+      </div>
+    </article>
   );
 }
 
@@ -42,7 +69,9 @@ export function ExperimentsSlide() {
   const wheelAccumulation = useRef(0);
   const wheelLocked = useRef(false);
   const touchStartY = useRef<number | null>(null);
+  const cardRef = useRef<HTMLElement>(null);
   const { go } = useDeck();
+  const { theme } = useTheme();
   const visibleExperiments = useMemo(() => {
     if (order === 'curated') return EXPERIMENTS;
     return [...EXPERIMENTS].sort((a, b) => (
@@ -53,6 +82,13 @@ export function ExperimentsSlide() {
   }, [order]);
   const selectedIndex = Math.max(0, visibleExperiments.findIndex((experiment) => experiment.id === selectedId));
   const selected = visibleExperiments[selectedIndex] ?? visibleExperiments[0];
+
+  useLayoutEffect(() => {
+    const card = cardRef.current;
+    if (!card) return undefined;
+    applyExperimentPalette(card, theme);
+    return clearExperimentPalette;
+  }, [selected.id, theme]);
 
   const selectIndex = useCallback((index: number) => {
     const next = visibleExperiments[index];
@@ -81,7 +117,7 @@ export function ExperimentsSlide() {
       event.preventDefault();
       if (wheelLocked.current) return;
       wheelAccumulation.current += event.deltaY;
-      // The stack is a denser browse surface than the page deck, so it gets a
+      // The card browser is denser than the page deck, so it gets a
       // shorter momentum hold after each committed card change.
       if (Math.abs(wheelAccumulation.current) < 60) return;
 
@@ -124,7 +160,7 @@ export function ExperimentsSlide() {
 
   return (
     <div
-      className="experiments-slide experiments-stack-slide"
+      className="experiments-slide experiments-showcase-slide"
       ref={surfaceRef}
       onPointerDownCapture={ownTouchStart}
       onPointerMoveCapture={ownTouchMove}
@@ -142,7 +178,7 @@ export function ExperimentsSlide() {
         Experiment {selectedIndex + 1} of {visibleExperiments.length}: {selected.title}
       </p>
 
-      <div className="experiments-stack-layout" data-direction={direction > 0 ? 'down' : 'up'}>
+      <div className="experiments-showcase" data-direction={direction > 0 ? 'down' : 'up'}>
         <div className="experiments-controls">
           <label className="experiments-order mono">
             <span>Order</span>
@@ -163,41 +199,13 @@ export function ExperimentsSlide() {
             </select>
           </label>
         </div>
-        <div className="experiments-stack" key={selected.id} aria-label="Experiment stack">
-          {([0, 1, 2] as const).map((depth) => {
-            const index = selectedIndex + depth;
-            const experiment = visibleExperiments[index];
-            return experiment && <StackCard
-              key={experiment.id}
-              experiment={experiment}
-              index={index}
-              count={visibleExperiments.length}
-              depth={depth}
-              onSelect={() => selectIndex(index)}
-            />;
-          })}
-          {selectedIndex === 0 && <span className="experiment-stack-boundary mono">↑ Featured projects</span>}
-          {selectedIndex === visibleExperiments.length - 1 && <span className="experiment-stack-boundary mono">↓ About</span>}
-        </div>
-
-        <section className="experiment-detail blueprint">
-          {selected.thumbnail ? (
-            <img src={selected.thumbnail} alt="" />
-          ) : (
-            <div className="experiment-detail-mark" aria-hidden="true">{selected.title.slice(0, 1)}</div>
-          )}
-          <div className="experiment-detail-copy">
-            <h3 className="disp">{selected.title}</h3>
-            <p>{selected.description}</p>
-            <div className="tagrun">
-              {selected.tags.map((tag) => <span className="tag tag-outline" key={tag}>{tag}</span>)}
-            </div>
-            <div className="experiment-detail-actions">
-              <a className="btn btn-primary" href={selected.url} target="_blank" rel="noreferrer">Try it ↗</a>
-              {selected.sourceUrl && <a className="experiment-source mono" href={selected.sourceUrl} target="_blank" rel="noreferrer">Browse source ↗</a>}
-            </div>
-          </div>
-        </section>
+        <ExperimentCard
+          key={selected.id}
+          experiment={selected}
+          index={selectedIndex}
+          count={visibleExperiments.length}
+          cardRef={cardRef}
+        />
       </div>
     </div>
   );
